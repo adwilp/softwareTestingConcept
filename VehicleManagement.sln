@@ -1,24 +1,34 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Backend", "VehicleManagement.Backend\VehicleManagement.Backend.csproj", "{C3550F67-1E63-465B-925E-682BA1313A88}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Backend", "VehicleManagement.Backend\VehicleManagement.Backend.csproj", "{C3550F67-1E63-465B-925E-682BA1313A88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Core", "VehicleManagement.Core\VehicleManagement.Core.csproj", "{05E01892-7E68-4322-BECB-D44CE99CEFC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Core", "VehicleManagement.Core\VehicleManagement.Core.csproj", "{05E01892-7E68-4322-BECB-D44CE99CEFC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.DataContracts", "VehicleManagement.DataContracts\VehicleManagement.DataContracts.csproj", "{75228C59-CECA-4DFF-A814-D3E53FBAB9EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.DataContracts", "VehicleManagement.DataContracts\VehicleManagement.DataContracts.csproj", "{75228C59-CECA-4DFF-A814-D3E53FBAB9EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.DBAccess", "VehicleManagement.DBAccess\VehicleManagement.DBAccess.csproj", "{51A33F13-1BF3-46AF-90E5-2217F5123BB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.DBAccess", "VehicleManagement.DBAccess\VehicleManagement.DBAccess.csproj", "{51A33F13-1BF3-46AF-90E5-2217F5123BB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Backend.UnitTests", "VehicleManagement.Backend.UnitTests\VehicleManagement.Backend.UnitTests.csproj", "{246C65B9-0909-4D81-B32F-D1599959E54D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Backend.UnitTests", "VehicleManagement.Backend.UnitTests\VehicleManagement.Backend.UnitTests.csproj", "{246C65B9-0909-4D81-B32F-D1599959E54D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Core.UnitTests", "VehicleManagement.Core.UnitTests\VehicleManagement.Core.UnitTests.csproj", "{2C745BFB-40C2-40F1-A3DA-451FAEB47F12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Core.UnitTests", "VehicleManagement.Core.UnitTests\VehicleManagement.Core.UnitTests.csproj", "{2C745BFB-40C2-40F1-A3DA-451FAEB47F12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.DBAccess.UnitTests", "VehicleManagement.DBAccess.UnitTests\VehicleManagement.DBAccess.UnitTests.csproj", "{5D520870-0B17-415B-832F-CF15A8C949CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.DBAccess.UnitTests", "VehicleManagement.DBAccess.UnitTests\VehicleManagement.DBAccess.UnitTests.csproj", "{5D520870-0B17-415B-832F-CF15A8C949CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Core.IntegrationTests", "VehicleManagement.Core.IntegrationTests\VehicleManagement.Core.IntegrationTests.csproj", "{531915D4-1857-4520-B7AF-BFA83E1F2E38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Core.IntegrationTests", "VehicleManagement.Core.IntegrationTests\VehicleManagement.Core.IntegrationTests.csproj", "{531915D4-1857-4520-B7AF-BFA83E1F2E38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.Backend.IntegrationTests", "VehicleManagement.Backend.IntegrationTests\VehicleManagement.Backend.IntegrationTests.csproj", "{BA619B27-4A34-42EF-A405-EF84DCCFB4A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Backend.IntegrationTests", "VehicleManagement.Backend.IntegrationTests\VehicleManagement.Backend.IntegrationTests.csproj", "{BA619B27-4A34-42EF-A405-EF84DCCFB4A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleManagement.DBAccess.IntegrationTests", "VehicleManagement.DBAccess.IntegrationTests\VehicleManagement.DBAccess.IntegrationTests.csproj", "{503E1323-0603-42C8-99D7-57C6FF871EFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.DBAccess.IntegrationTests", "VehicleManagement.DBAccess.IntegrationTests\VehicleManagement.DBAccess.IntegrationTests.csproj", "{503E1323-0603-42C8-99D7-57C6FF871EFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13539960-6987-47A4-992F-A7D75938F8AE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		CodeCoverage.runsettings = CodeCoverage.runsettings
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,5 +76,11 @@ Global
 		{503E1323-0603-42C8-99D7-57C6FF871EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{503E1323-0603-42C8-99D7-57C6FF871EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{503E1323-0603-42C8-99D7-57C6FF871EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17E34DB9-AEC8-4D28-B862-3F27811B61B4}
 	EndGlobalSection
 EndGlobal
