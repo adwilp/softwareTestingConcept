@@ -93,5 +93,26 @@ namespace VehicleManagement.DBAccess.UnitTests.TestData
                 }
             };
         }
+
+        public static IEnumerable<object[]> GetVehicleTransactionTestData()
+        {
+            yield return new object[]
+            {
+                new List<Vehicle>()
+                {
+                    new Vehicle()
+                    {
+
+                    }
+                },
+                new List<FlatVehicle>()
+                {
+                    new FlatVehicle()
+                    {
+
+                    }
+                }
+            };
+        }
     }
 }
