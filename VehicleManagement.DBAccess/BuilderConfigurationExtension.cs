@@ -34,6 +34,7 @@ namespace VehicleManagement.DBAccess
         private static void AddFactories(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IVehicleFactory, VehicleFactory>();
+            builder.Services.AddScoped<IManufacturerFactory, ManufacturerFactory>();
         }
 
         private static void AddDBContext(this WebApplicationBuilder builder, string connectionName)

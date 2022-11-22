@@ -1,8 +1,8 @@
 ﻿using VehicleManagement.DataContracts.DataModels;
 
-namespace VehicleManagement.DBAccess.Transcations
+namespace VehicleManagement.Core.Services
 {
-    public interface IVehicleTransaction
+    public interface IVehicleService
     {
         Task<IEnumerable<FlatVehicle>> GetAllAsync(CancellationToken cancellationToken);
     }

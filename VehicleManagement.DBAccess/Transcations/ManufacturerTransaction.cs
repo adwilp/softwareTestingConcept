@@ -6,20 +6,20 @@ namespace VehicleManagement.DBAccess.Transcations
 {
     public class ManufacturerTransaction : IManufacturerTransaction
     {
-        private readonly IVehicleFactory _vehicleFactory;
-        private readonly IVehicleRepository _vehicleRepository;
+        private readonly IManufacturerFactory _manufacturerFactory;
+        private readonly IManufacturerRepository _manufacturerRepository;
 
-        public ManufacturerTransaction(IVehicleFactory vehicleFactory, IVehicleRepository vehicleRepository)
+        public ManufacturerTransaction(IManufacturerFactory manufacturerFactory, IManufacturerRepository manufacturerRepository)
         {
-            _vehicleFactory = vehicleFactory;
-            _vehicleRepository = vehicleRepository;
+            _manufacturerFactory = manufacturerFactory;
+            _manufacturerRepository = manufacturerRepository;
         }
 
-        public async Task<IEnumerable<FlatVehicle>> GetFlatVehiclesAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Manufacturer>> GetAllAsync(CancellationToken cancellation)
         {
-            var vehicles = await _vehicleRepository.GetAllAsync(cancellationToken, asNoTracking: true, includedPaths: "Manufacturer");
+            var manufacturers = await _manufacturerRepository.GetAllAsync(cancellation);
 
-            return vehicles.Select(v => _vehicleFactory.Create(v));
+            return manufacturers.Select(m => _manufacturerFactory.Create(m));
         }
     }
 }
