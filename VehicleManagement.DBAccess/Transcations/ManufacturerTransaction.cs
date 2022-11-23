@@ -19,7 +19,7 @@ namespace VehicleManagement.DBAccess.Transcations
         {
             var manufacturers = await _manufacturerRepository.GetAllAsync(cancellation);
 
-            return manufacturers.Select(m => _manufacturerFactory.Create(m));
+            return _manufacturerFactory.Create(manufacturers);
         }
     }
 }

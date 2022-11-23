@@ -27,5 +27,15 @@ namespace VehicleManagement.DBAccess.Factories
 
             return flatVehicle;
         }
+
+        public IEnumerable<FlatVehicle> Create(IEnumerable<Vehicle> vehicles)
+        {
+            if (vehicles == null)
+            {
+                throw new DataConversionException(Messages.NullObject, nameof(vehicles));
+            }
+
+            return vehicles.Select(v => Create(v));
+        }
     }
 }

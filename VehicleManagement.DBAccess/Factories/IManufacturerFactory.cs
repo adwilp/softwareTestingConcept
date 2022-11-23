@@ -7,5 +7,6 @@ namespace VehicleManagement.DBAccess.Factories
     public interface IManufacturerFactory
     {
         Manufacturer Create(entities.Manufacturer manufacturer);
+        IEnumerable<Manufacturer> Create(IEnumerable<entities.Manufacturer> manufacturers);
     }
 }

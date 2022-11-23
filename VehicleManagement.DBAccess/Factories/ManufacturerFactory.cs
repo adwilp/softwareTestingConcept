@@ -20,5 +20,15 @@ namespace VehicleManagement.DBAccess.Factories
                 Name = manufacturer.Name,
             };
         }
+
+        public IEnumerable<Manufacturer> Create(IEnumerable<entities.Manufacturer> manufacturers)
+        {
+            if (manufacturers == null)
+            {
+                throw new DataConversionException(Messages.NullObject, nameof(manufacturers));
+            }
+
+            return manufacturers.Select(m => Create(m));
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using VehicleManagement.DataContracts.DataModels;
+﻿using FluentAssertions;
+
+using VehicleManagement.DataContracts.DataModels;
 using VehicleManagement.DataContracts.Exceptions;
 using VehicleManagement.DBAccess.Entities;
 using VehicleManagement.DBAccess.Factories;
@@ -16,7 +18,7 @@ namespace VehicleManagement.DBAccess.UnitTests.Factories
         }
 
         [Theory]
-        [MemberData(nameof(VehicleTestData.GetVehicleFactoryTestData), MemberType = typeof(VehicleTestData))]
+        [MemberData(nameof(VehicleTestData.GetSingleVehicleTestData), MemberType = typeof(VehicleTestData))]
         public void Create_Should_Create_FlatVehicle(Vehicle entity, FlatVehicle model)
         {
             // ACT
@@ -33,8 +35,32 @@ namespace VehicleManagement.DBAccess.UnitTests.Factories
         [Fact]
         public void Create_Should_Throw_Exception_For_Null()
         {
+            // ARRANGE
+            Vehicle? entity = null;
+
+            // ASSERT & ACT
+            Assert.Throws<DataConversionException>(() => _vehicleFactory.Create(entity));
+        }
+
+        [Theory]
+        [MemberData(nameof(VehicleTestData.GetVehiclesTestData), MemberType = typeof(VehicleTestData))]
+        public void Create_Should_Create_FlatVehicle_Enumerable(List<Vehicle> entity, List<FlatVehicle> model)
+        {
+            // ACT
+            var result = _vehicleFactory.Create(entity);
+
             // ASSERT
-            Assert.Throws<DataConversionException>(() => _vehicleFactory.Create(null));
+            result.Should().BeEquivalentTo(model);
+        }
+
+        [Fact]
+        public void Create_Should_Throw_Exception_For_Null_Enumerable()
+        {
+            // ARRANGE
+            List<Vehicle>? entities = null;
+
+            // ASSERT & ACT
+            Assert.Throws<DataConversionException>(() => _vehicleFactory.Create(entities));
         }
     }
 }
