@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Core.Unit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.DBAccess.UnitTests", "VehicleManagement.DBAccess.UnitTests\VehicleManagement.DBAccess.UnitTests.csproj", "{5D520870-0B17-415B-832F-CF15A8C949CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Core.IntegrationTests", "VehicleManagement.Core.IntegrationTests\VehicleManagement.Core.IntegrationTests.csproj", "{531915D4-1857-4520-B7AF-BFA83E1F2E38}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.Backend.IntegrationTests", "VehicleManagement.Backend.IntegrationTests\VehicleManagement.Backend.IntegrationTests.csproj", "{BA619B27-4A34-42EF-A405-EF84DCCFB4A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleManagement.DBAccess.IntegrationTests", "VehicleManagement.DBAccess.IntegrationTests\VehicleManagement.DBAccess.IntegrationTests.csproj", "{503E1323-0603-42C8-99D7-57C6FF871EFC}"
@@ -64,10 +62,6 @@ Global
 		{5D520870-0B17-415B-832F-CF15A8C949CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D520870-0B17-415B-832F-CF15A8C949CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D520870-0B17-415B-832F-CF15A8C949CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{531915D4-1857-4520-B7AF-BFA83E1F2E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{531915D4-1857-4520-B7AF-BFA83E1F2E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{531915D4-1857-4520-B7AF-BFA83E1F2E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{531915D4-1857-4520-B7AF-BFA83E1F2E38}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA619B27-4A34-42EF-A405-EF84DCCFB4A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA619B27-4A34-42EF-A405-EF84DCCFB4A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA619B27-4A34-42EF-A405-EF84DCCFB4A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
