@@ -27,7 +27,7 @@ namespace VehicleManagement.Backend.Exceptions
 
                 switch (error)
                 {
-                    case DataConversionException e:
+                    case DataConversionException:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
                     default:

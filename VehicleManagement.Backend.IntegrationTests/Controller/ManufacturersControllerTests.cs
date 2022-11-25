@@ -13,34 +13,34 @@ using VehicleManagement.DataContracts.Exceptions;
 
 namespace VehicleManagement.Backend.IntegrationTests.Controller
 {
-    public class VehiclesControllerTests : IClassFixture<VehicleManagementTestServer>
+    public class ManufacturersControllerTests : IClassFixture<VehicleManagementTestServer>
     {
-        private const string _baseUrl = "api/Vehicles";
+        private const string _baseUrl = "api/Manufacturers";
 
-        private readonly Mock<IVehicleDomain> _vehicleDomainMock;
+        private readonly Mock<IManufacturerDomain> _manufacturerDomainMock;
         private readonly HttpClient _httpClient;
 
-        public VehiclesControllerTests(VehicleManagementTestServer factory)
+        public ManufacturersControllerTests(VehicleManagementTestServer factory)
         {
-            _vehicleDomainMock = new Mock<IVehicleDomain>();
+            _manufacturerDomainMock = new Mock<IManufacturerDomain>();
             _httpClient = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureTestServices(services =>
                 {
-                    services.AddScoped(provider => _vehicleDomainMock.Object);
+                    services.AddScoped(provider => _manufacturerDomainMock.Object);
                 });
             })
             .CreateClient();
         }
 
         [Theory]
-        [MemberData(nameof(VehicleTestData.GetVehiclesTestData), MemberType = typeof(VehicleTestData))]
-        public async Task GetAll_Should_Return_Ok_Result(List<FlatVehicle> vehicles)
+        [MemberData(nameof(ManufacturerTestData.GetManufacturersTestData), MemberType = typeof(ManufacturerTestData))]
+        public async Task GetAll_Should_Return_Ok_Result(List<Manufacturer> manufacturers)
         {
             // ARRANGE
-            _vehicleDomainMock
+            _manufacturerDomainMock
                 .Setup(vd => vd.GetAllAsync(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(vehicles);
+                .ReturnsAsync(manufacturers);
 
             // ACT
             var response = await _httpClient.GetAsync(_baseUrl);
@@ -48,18 +48,18 @@ namespace VehicleManagement.Backend.IntegrationTests.Controller
             // ASSERT
             HttpAssertions.AssertSuccess(response);
 
-            var body = await response.GetBodyAs<IEnumerable<FlatVehicle>>();
+            var body = await response.GetBodyAs<IEnumerable<Manufacturer>>();
 
             Assert.NotNull(body);
-            body.Should().BeEquivalentTo(vehicles);
-            Assert.Equal(vehicles.Count, body.Count());
+            body.Should().BeEquivalentTo(manufacturers);
+            Assert.Equal(manufacturers.Count, body.Count());
         }
 
         [Fact]
         public async Task GetAll_With_DataConversionException_Should_Return_BadRequest()
         {
             // ARRANGE
-            _vehicleDomainMock
+            _manufacturerDomainMock
                 .Setup(vd => vd.GetAllAsync(It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new DataConversionException(It.IsAny<string>(), It.IsAny<string>()));
 
