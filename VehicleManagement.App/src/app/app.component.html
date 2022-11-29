@@ -1,5 +1,13 @@
-<mat-toolbar>
+<mat-toolbar role="heading">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
   <span>{{ 'global.headline' | translate }}</span>
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>Start</mat-sidenav>
+  <mat-sidenav-content class="full-height">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,11 +1,15 @@
 // ANGULAR
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 // ANGULAR MATERIAL
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 // NGRX
 import { EffectsModule } from '@ngrx/effects';
@@ -30,6 +34,7 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [AppComponent, DashboardComponent, VehicleOverviewComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     EffectsModule.forRoot([VehiclEffects]),
     StoreModule.forRoot(fromApp.AppReducer),
@@ -42,7 +47,10 @@ export function createTranslateLoader(http: HttpClient) {
       },
     }),
     MatToolbarModule,
+    MatIconModule,
     HttpClientModule,
+    MatButtonModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
