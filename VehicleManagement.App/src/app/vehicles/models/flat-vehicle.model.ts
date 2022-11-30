@@ -1,5 +1,5 @@
 export class FlatVehicle {
-  fIn: string;
+  fin: string;
   licensePlate: string;
   color: string;
   mileage: number;
