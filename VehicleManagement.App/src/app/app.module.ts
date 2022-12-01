@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 // NGRX
 import { EffectsModule } from '@ngrx/effects';
@@ -57,6 +58,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatTableModule,
     MatDividerModule,
     MatListModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
