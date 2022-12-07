@@ -16,7 +16,7 @@ describe('VehicleOverviewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('creates the VehicleOverviewComponent', () => {
     expect(component).toBeTruthy();
   });
 });

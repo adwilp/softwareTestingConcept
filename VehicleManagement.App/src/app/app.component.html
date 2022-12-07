@@ -8,12 +8,20 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
     <mat-list>
-      <mat-list-item role="listitem" (click)="navigateToHome()">
+      <mat-list-item
+        data-testid="home-button"
+        role="listitem"
+        (click)="navigateToHome()"
+      >
         <mat-icon matListItemIcon>home</mat-icon>
         {{ 'global.menu.home' | translate }}</mat-list-item
       >
       <mat-divider></mat-divider>
-      <mat-list-item role="listitem" (click)="navigateToVehicles()">
+      <mat-list-item
+        data-testid="vehicle-button"
+        role="listitem"
+        (click)="navigateToVehicles()"
+      >
         <mat-icon matListItemIcon>car</mat-icon>
         {{ 'global.menu.vehicles' | translate }}</mat-list-item
       >

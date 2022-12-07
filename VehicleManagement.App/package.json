@@ -1,12 +1,12 @@
 {
   "name": "vehicle-management-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --code-coverage",
     "lint": "ng lint --fix",
     "format": "npx prettier --write"
   },
@@ -27,6 +27,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "immer": "^9.0.16",
+    "ng-mocks": "^14.4.0",
     "ngrx-immer": "^2.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
@@ -41,6 +42,7 @@
     "@angular-eslint/template-parser": "^14.2.0",
     "@angular/cli": "~14.2.9",
     "@angular/compiler-cli": "^14.2.0",
+    "@ngneat/spectator": "^12.2.0",
     "@types/jasmine": "~4.0.0",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
