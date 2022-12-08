@@ -1,22 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { createComponentFactory, Spectator, SpectatorFactory } from '@ngneat/spectator';
 import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+  let spectator: Spectator<DashboardComponent>;
+
+  const createDashboardComponent: SpectatorFactory<DashboardComponent> =
+    createComponentFactory({
+      component: DashboardComponent,
+      shallow: true,
+    });
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DashboardComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(DashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createDashboardComponent();
   });
 
   it('creates the DashboardComponent', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

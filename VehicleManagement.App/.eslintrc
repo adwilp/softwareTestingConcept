@@ -24,7 +24,7 @@
           }
         ],
         "@typescript-eslint/no-inferrable-types": [
-          "error", {
+          "warning", {
             "ignoreParameters": true,
             "ignoreProperties": true
           }

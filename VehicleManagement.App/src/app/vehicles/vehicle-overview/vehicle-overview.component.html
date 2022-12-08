@@ -40,7 +40,7 @@
   </table>
 
   <mat-paginator
-    [length]="(vehicles$ | async).length"
+    [length]="(vehicles$ | async)?.length"
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons
     aria-label="Select page of periodic elements"
