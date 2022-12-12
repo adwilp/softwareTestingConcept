@@ -5,12 +5,10 @@ import { VehicleEffects } from "./vehicle.effects";
 import { vehicleReducer } from "./vehicle.reducers";
 import { VehicleService } from "../vehicle.service";
 import { MockProviders } from "ng-mocks";
-import { FlatVehicle } from "../models/flat-vehicle.model";
 import * as VehicleActions from './vehicle.actions';
-import { TypedAction } from "@ngrx/store/src/models";
 import Spy = jasmine.Spy;
 import { HttpErrorResponse } from "@angular/common/http";
-import { AnyMap } from "immer/dist/internal";
+import { flatVehicles } from "./vehicle.test-data";
 
 describe('VehicleEffects', () => {
   let actionsMock$: Observable<any>;
@@ -101,11 +99,3 @@ describe('VehicleEffects', () => {
     });
   });
 });
-
-const flatVehicles: FlatVehicle[] = [{
-  fin: 'GRB1234567890',
-  color: 'black',
-  licensePlate: 'VEC-GR-123',
-  manufacturer: 'GRIMME',
-  mileage: 12.4
-}];

@@ -1,7 +1,7 @@
 import { Action } from "@ngrx/store";
 import { createVehicleInitialState, vehicleReducer, VehicleState } from "./vehicle.reducers";
 import * as VehiclesActions from './vehicle.actions';
-import { FlatVehicle } from "../models/flat-vehicle.model";
+import { flatVehicles } from "./vehicle.test-data";
 
 describe('VehicleReducer', () => {
   let initState: VehicleState;
@@ -43,7 +43,7 @@ describe('VehicleReducer', () => {
     it('returns', () => {
       // ARRANGE
       const expectedState: VehicleState = structuredClone(initState);
-      expectedState.vehicles = flatVehicles
+      expectedState.vehicles = flatVehicles;
 
       const action = VehiclesActions.getVehiclesSuccess({ vehicles: flatVehicles });
 
@@ -55,11 +55,3 @@ describe('VehicleReducer', () => {
     });
   });
 });
-
-const flatVehicles: FlatVehicle[] = [{
-  fin: 'GRB1234567890',
-  color: 'black',
-  licensePlate: 'VEC-GR-123',
-  manufacturer: 'GRIMME',
-  mileage: 12.4
-}];
