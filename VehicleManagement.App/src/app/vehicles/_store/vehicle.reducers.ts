@@ -11,7 +11,7 @@ export type VehicleState = {
   vehiclesLoading: boolean;
 };
 
-function createVehicleInitialState(): VehicleState {
+export function createVehicleInitialState(): VehicleState {
   return {
     vehicles: [],
     vehiclesLoading: false,
