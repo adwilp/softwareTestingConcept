@@ -7,9 +7,9 @@ import { FlatVehicle } from '../models/flat-vehicle.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
-export class VehiclEffects {
+export class VehicleEffects {
   // eslint-disable-next-line @typescript-eslint/typedef
-  getEmployees$ = createEffect(() => {
+  getVehicles$ = createEffect(() => {
     return this.action$.pipe(
       ofType(VehicleActions.getVehicles),
       switchMap(() => {
@@ -21,7 +21,9 @@ export class VehiclEffects {
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             //TODO AK: Replace with correct action
-            return of(VehicleActions.getVehiclesSuccess(null));
+            return of(VehicleActions.getVehiclesSuccess({
+              vehicles: null
+            }));
           })
         );
       })

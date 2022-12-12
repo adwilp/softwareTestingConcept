@@ -18,7 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 // NGRX
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { VehiclEffects } from './vehicles/_store/vehicle.effects';
+import { VehicleEffects } from './vehicles/_store/vehicle.effects';
 import * as fromApp from './_store/app.reducer';
 
 // TRANSLATION
@@ -40,7 +40,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    EffectsModule.forRoot([VehiclEffects]),
+    EffectsModule.forRoot([VehicleEffects]),
     StoreModule.forRoot(fromApp.AppReducer),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
