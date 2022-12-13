@@ -21,21 +21,10 @@ steps:
       testResultsFiles: "out/*TestResults/*.trx"
       failTaskOnFailedTests: true
 
-  # - task: PublishCodeCoverageResults@1
-  #   inputs:
-  #     codeCoverageTool: 'Cobertura'
-  #     summaryFileLocation: 'out/*TestResults/**/coverage.cobertura.xml'
-
-  - task: CopyFiles@2
+  - task: PublishCodeCoverageResults@1
     inputs:
-      SourceFolder: "out"
-      Contents: "**/coverage.cobertura.xml"
-      TargetFolder: codeCoverages
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      ArtifactName: 'codeCoverage'
-      PathtoPublish: "codeCoverages"
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: 'out/*TestResults/**/coverage.cobertura.xml'
 
   - script: |
       IMAGETAG='$(packageVersion)-${{ parameters.environment }}'

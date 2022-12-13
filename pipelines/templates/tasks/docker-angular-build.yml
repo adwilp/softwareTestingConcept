@@ -17,11 +17,7 @@ steps:
       testResultsFiles: '${{ parameters.frontendAppFolder }}/out/testresults/unit-test-result.xml'
       failTaskOnFailedTests: true
 
-  - task: PublishBuildArtifacts@1
+  - task: PublishCodeCoverageResults@1
     inputs:
-      ArtifactName: 'codeCoverage'
-      PathtoPublish: '${{ parameters.frontendAppFolder }}/out/testresults/cobertura-coverage.xml'
-  # - task: PublishCodeCoverageResults@1
-  #   inputs:
-  #     codeCoverageTool: 'Cobertura'
-  #     summaryFileLocation: '${{ parameters.frontendAppFolder }}/out/testresults/cobertura-coverage.xml'
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '${{ parameters.frontendAppFolder }}/out/testresults/cobertura-coverage.xml'
