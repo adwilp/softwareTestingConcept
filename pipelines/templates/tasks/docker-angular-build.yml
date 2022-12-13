@@ -1,0 +1,23 @@
+parameters:
+  - name: environment
+    type: string
+    default: "tst"
+  - name: frontendAppFolder
+    type: string
+  - name: target
+    type: string
+
+steps:
+  - script: DOCKER_BUILDKIT=1 docker build --target ${{ parameters.target }} --build-arg ENV=${{ parameters.environment }} -o out .
+    workingDirectory: ${{ parameters.frontendAppFolder }}
+
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '${{ parameters.frontendAppFolder }}/out/testresults/unit-test-result.xml'
+      failTaskOnFailedTests: true
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '${{ parameters.frontendAppFolder }}/out/testresults/cobertura-coverage.xml'

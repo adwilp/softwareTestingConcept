@@ -1,6 +1,3 @@
-// Karma configuration file, see link for more information
-// https://karma-runner.github.io/1.0/config/configuration-file.html
-
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -10,34 +7,65 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-junit-reporter')
     ],
     client: {
       jasmine: {
-        // you can add configuration options for Jasmine here
-        // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
-        // for example, you can disable the random execution with `random: false`
-        // or set a specific seed with `seed: 4321`
+        failSpecWithNoExpectations: true,
       },
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false
     },
     jasmineHtmlReporter: {
-      suppressAll: true // removes the duplicated traces
+      suppressAll: true
     },
     coverageReporter: {
+      include: [
+        // Specify include pattern(s) first
+        'src/**/*.(ts|js)',
+        // Then specify "do not touch" patterns
+        '!src/main.(ts|js)',
+        '!src/**/*.spec.(ts|js)',
+        '!src/**/*.mock.(ts|js)',
+        '!src/**/*.module.(ts|js)',
+        '!src/**/environment*.(ts|js)',
+        '!src/**/*.interface*.(ts|js)',
+        '!src/**/*.enum*.(ts|js)',
+        '!test/**/*.(ts|js)',
+      ],
       dir: require('path').join(__dirname, './coverage/vehicle-management-app'),
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'text-summary' },
+        { type: 'cobertura' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    junitReporter: {
+      outputDir: 'testresults/junit',
+      outputFile: 'unit-test-result.xml',
+      useBrowserName: false
+    },
+    reporters: ['progress', 'kjhtml', 'coverage', 'junit'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "Chrome",
+        flags: [
+          "--no-sandbox",
+          "--headless",
+          "--user-data-dir=/tmp/chrome-test-profile",
+          "--disable-web-security",
+          "--remote-debugging-address=0.0.0.0",
+          "--remote-debugging-port=9222",
+        ],
+        debug: true,
+      },
+    },
     singleRun: false,
     restartOnFileChange: true
   });

@@ -1,0 +1,11 @@
+.angular
+.vscode
+coverage
+e2e
+node_modules
+.dockerignore
+.editorconfig
+.gitignore
+Dockerfile
+README.md
+dist

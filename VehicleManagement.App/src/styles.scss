@@ -1,1 +1,78 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$my-grey-palette: (
+  50: #f3fcff,
+  100: #eef7fa,
+  200: #e8f1f4,
+  300: #dbe4e7,
+  400: #b9c1c4,
+  500: #9aa2a5,
+  600: #71797c,
+  700: #5d6567,
+  800: #3e4548,
+  900: #1d2426,
+  contrast: (
+    50: rgba(#f3fcff, 0.87),
+    100: rgba(#eef7fa, 0.87),
+    200: rgba(#e8f1f4, 0.87),
+    300: rgba(#dbe4e7, 0.87),
+    400: rgba(#b9c1c4, 0.87),
+    500: rgba(#9aa2a5, 0.87),
+    600: rgba(#71797c, 0.87),
+    700: rgba(#5d6567, 0.87),
+    800: rgba(#3e4548, 0.87),
+    900: rgba(#1d2426, 0.87),
+  ),
+);
+
+$my-red-palette: (
+  50: #ffeaee,
+  100: #fecbd1,
+  200: #ed9698,
+  300: #e36d70,
+  400: #ec4b4d,
+  500: #e22d31,
+  600: #e03131,
+  700: #d02224,
+  800: #c31924,
+  900: #b40518,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$my-primary: mat.define-palette($my-grey-palette, 500);
+$my-accent: mat.define-palette($my-red-palette, 800);
+
+// The "warn" palette is optional and defaults to red if not specified.
+$my-warn: mat.define-palette(mat.$red-palette);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn,
+    ),
+    // background: mat.get-color-from-palette($my-grey-palette, 500),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+@include mat.all-component-themes($my-theme);
+
+body {
+  margin: unset;
+}

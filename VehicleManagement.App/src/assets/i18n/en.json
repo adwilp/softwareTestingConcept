@@ -1,0 +1,18 @@
+{
+  "global": {
+    "headline": "Vehicle management",
+    "menu": {
+      "home": "Home",
+      "vehicles": "Vehicle overview"
+    }
+  },
+  "vehicle": {
+    "overview": {
+      "fin": "VIN",
+      "licensePlate": "License plate",
+      "color": "Color",
+      "mileage": "Mileage",
+      "manufacturer": "Manufacturer"
+    }
+  }
+}
