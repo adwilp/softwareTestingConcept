@@ -59,9 +59,10 @@ module.exports = function (config) {
     browsers: ['Chrome', 'ChromeHeadlessNoSandbox'],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
-        base: "ChromeHeadless",
+        base: "Chrome",
         flags: [
           "--no-sandbox",
+          "--headless",
           "--user-data-dir=/tmp/chrome-test-profile",
           "--disable-web-security",
           "--remote-debugging-address=0.0.0.0",
