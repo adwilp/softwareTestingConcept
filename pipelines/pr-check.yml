@@ -32,4 +32,16 @@ stages:
             parameters:
               frontendAppFolder: "./VehicleManagement.App"
               target: "export-test"
+
+  - stage: codeCoverage
+    displayName: "Publish Code Coverage report"
+    jobs:
+      - job:
+        displayName: "Publish Code Coverage report"
+        steps:
+          - task: reportgenerator@5
+            displayName: ReportGenerator
+            inputs:
+              reports: $(Pipeline.Workspace)/codeCoverage/cobertura-coverage.xml;$(Pipeline.Workspace)/codeCoverage/**/coverage.cobertura.xml
+              targetdir: coveragereport
               
