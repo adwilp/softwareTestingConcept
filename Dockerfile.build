@@ -1,0 +1,48 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+
+WORKDIR /app
+
+# copy csproj and restore as distinct layers
+COPY *.sln ./
+
+# Backend
+COPY VehicleManagement.Backend/VehicleManagement.Backend.csproj VehicleManagement.Backend/
+COPY VehicleManagement.Backend.IntegrationTests/VehicleManagement.Backend.IntegrationTests.csproj VehicleManagement.Backend.IntegrationTests/
+COPY VehicleManagement.Backend.UnitTests/VehicleManagement.Backend.UnitTests.csproj VehicleManagement.Backend.UnitTests/
+# Core
+COPY VehicleManagement.Core/VehicleManagement.Core.csproj VehicleManagement.Core/
+COPY VehicleManagement.Core.IntegrationTests/VehicleManagement.Core.IntegrationTests.csproj VehicleManagement.Core.IntegrationTests/
+COPY VehicleManagement.Core.UnitTests/VehicleManagement.Core.UnitTests.csproj VehicleManagement.Core.UnitTests/
+# DataContracts
+COPY VehicleManagement.DataContracts/VehicleManagement.DataContracts.csproj VehicleManagement.DataContracts/
+# DBAccess
+COPY VehicleManagement.DBAccess/VehicleManagement.DBAccess.csproj VehicleManagement.DBAccess/
+COPY VehicleManagement.DBAccess.IntegrationTests/VehicleManagement.DBAccess.IntegrationTests.csproj VehicleManagement.DBAccess.IntegrationTests/
+COPY VehicleManagement.DBAccess.UnitTests/VehicleManagement.DBAccess.UnitTests.csproj VehicleManagement.DBAccess.UnitTests/
+# restore
+RUN dotnet restore
+# copy full solution over
+COPY . .
+
+# run the unit & integration tests
+FROM build-env AS test-env
+WORKDIR /app
+# RUN dotnet test --> UNIT
+RUN dotnet test --configuration Release -l:"trx;" --collect "Code coverage" -s CodeCoverage.runsettings -r /app/UnitTestResults --filter FullyQualifiedName\~UnitTests
+# RUN dotnet test --> INTEGRATION
+RUN dotnet test --configuration Release -l:"trx;" --collect "Code coverage" -s CodeCoverage.runsettings -r /app/IntegrationTestResults --filter FullyQualifiedName\~IntegrationTests
+
+# create a new layer from the build later
+FROM build-env AS publish-env
+WORKDIR /app
+# publish the Backend 
+RUN dotnet publish VehicleManagement.Backend/VehicleManagement.Backend.csproj --os linux -c Release -o /app/out/Backend
+
+# Export Layer test
+FROM scratch AS export-test
+COPY --from=test-env /app/UnitTestResults /UnitTestResults
+COPY --from=test-env /app/IntegrationTestResults /IntegrationTestResults
+
+# Export Layer build
+FROM scratch AS export-backend
+COPY --from=publish-env /app/out/Backend /Backend

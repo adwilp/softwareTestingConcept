@@ -1,7 +1,12 @@
-import { Action } from "@ngrx/store";
-import { createVehicleInitialState, vehicleReducer, VehicleState } from "./vehicle.reducers";
+import { Action } from '@ngrx/store';
+import {
+  createVehicleInitialState,
+  vehicleReducer,
+  VehicleState,
+} from './vehicle.reducers';
 import * as VehiclesActions from './vehicle.actions';
-import { flatVehicles } from "./vehicle.test-data";
+import { flatVehicles } from './vehicle.test-data';
+import { TypedAction } from '@ngrx/store/src/models';
 
 describe('VehicleReducer', () => {
   let initState: VehicleState;
@@ -16,7 +21,7 @@ describe('VehicleReducer', () => {
       const action: Action = {} as Action;
 
       // ACT
-      const state = vehicleReducer(undefined, action);
+      const state: VehicleState = vehicleReducer(undefined, action);
 
       // ASSERT
       expect(state).toEqual(initState);
@@ -29,10 +34,11 @@ describe('VehicleReducer', () => {
       const expectedState: VehicleState = structuredClone(initState);
       expectedState.vehiclesLoading = true;
 
-      const action = VehiclesActions.getVehicles();
+      const action: TypedAction<'[Vehicles] Get vehicles'> =
+        VehiclesActions.getVehicles();
 
       // ACT
-      const state = vehicleReducer(initState, action);
+      const state: VehicleState = vehicleReducer(initState, action);
 
       // ASSERT
       expect(state).toEqual(expectedState);
@@ -45,10 +51,14 @@ describe('VehicleReducer', () => {
       const expectedState: VehicleState = structuredClone(initState);
       expectedState.vehicles = flatVehicles;
 
-      const action = VehiclesActions.getVehiclesSuccess({ vehicles: flatVehicles });
+      const action: VehiclesActions.getVehiclesSuccess &
+        TypedAction<'[Vehicles] Get vehicles - Success'> =
+        VehiclesActions.getVehiclesSuccess({
+          vehicles: flatVehicles,
+        });
 
       // ACT
-      const state = vehicleReducer(initState, action);
+      const state: VehicleState = vehicleReducer(initState, action);
 
       // ASSERT
       expect(state).toEqual(expectedState);

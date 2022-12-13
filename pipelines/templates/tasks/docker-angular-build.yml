@@ -1,0 +1,12 @@
+parameters:
+  - name: environment
+    type: string
+    default: "tst"
+  - name: frontendAppFolder
+    type: string
+  - name: frontendAppFolder
+    type: string
+
+steps:
+  - script: DOCKER_BUILDKIT=1 docker build --target {{ parameters.target }} --build-arg ENV=${{ parameters.environment }} -o out .
+    workingDirectory: ${{ parameters.frontendAppFolder }}

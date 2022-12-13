@@ -4,7 +4,6 @@ import { VehicleService } from '../vehicle.service';
 import { catchError, map, of, switchMap } from 'rxjs';
 import * as VehicleActions from './vehicle.actions';
 import { FlatVehicle } from '../models/flat-vehicle.model';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class VehicleEffects {
@@ -19,11 +18,13 @@ export class VehicleEffects {
               vehicles: vehicles,
             });
           }),
-          catchError((errorResponse: HttpErrorResponse) => {
+          catchError(() => {
             //TODO AK: Replace with correct action
-            return of(VehicleActions.getVehiclesSuccess({
-              vehicles: null
-            }));
+            return of(
+              VehicleActions.getVehiclesSuccess({
+                vehicles: null,
+              })
+            );
           })
         );
       })

@@ -7,7 +7,12 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --code-coverage",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox --source-map=false --code-coverage",
+    "build-tst": "ng build --configuration=tst --output-path=\"dist/tst\"",
+    "build-int": "ng build --configuration=int --output-path=\"dist/int\"",
+    "build-prd": "ng build --configuration=prd --output-path=\"dist/prd\"",
     "lint": "ng lint --fix",
+    "lint:ci": "ng lint --max-warnings 0",
     "format": "npx prettier --write"
   },
   "private": true,
@@ -57,6 +62,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "karma-junit-reporter": "^2.0.1",
     "prettier": "^2.7.1",
     "prettier-eslint": "^15.0.1",
     "typescript": "~4.7.2"

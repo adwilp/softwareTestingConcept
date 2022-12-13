@@ -1,4 +1,8 @@
-import { createComponentFactory, Spectator, SpectatorFactory } from '@ngneat/spectator';
+import {
+  createComponentFactory,
+  Spectator,
+  SpectatorFactory,
+} from '@ngneat/spectator';
 import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {

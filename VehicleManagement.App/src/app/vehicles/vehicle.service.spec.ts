@@ -35,7 +35,7 @@ describe('VehicleService', () => {
     // ACT
     const request: TestRequest = controller.expectOne({
       method: 'GET',
-      url: `${baseUrl}Vehicles`
+      url: `${baseUrl}Vehicles`,
     });
     request.flush(flatVehicles);
     controller.verify();
@@ -65,11 +65,11 @@ describe('VehicleService', () => {
     );
 
     // ACT
-    const request = controller.expectOne({
+    const request: TestRequest = controller.expectOne({
       method: 'GET',
-      url: `${baseUrl}Vehicles`
+      url: `${baseUrl}Vehicles`,
     });
-    request.error(progressEvent, {status, statusText});
+    request.error(progressEvent, { status, statusText });
 
     // ASSERT
     if (!currentError) {

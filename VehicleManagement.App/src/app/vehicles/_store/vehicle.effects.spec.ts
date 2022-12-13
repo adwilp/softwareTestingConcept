@@ -1,16 +1,21 @@
-import { TestBed } from "@angular/core/testing";
-import { Observable, of, throwError } from "rxjs";
+import { TestBed } from '@angular/core/testing';
+import { Observable, of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { VehicleEffects } from "./vehicle.effects";
-import { vehicleReducer } from "./vehicle.reducers";
-import { VehicleService } from "../vehicle.service";
-import { MockProviders } from "ng-mocks";
+import { VehicleEffects } from './vehicle.effects';
+import { vehicleReducer } from './vehicle.reducers';
+import { VehicleService } from '../vehicle.service';
+import { MockProviders } from 'ng-mocks';
 import * as VehicleActions from './vehicle.actions';
 import Spy = jasmine.Spy;
-import { HttpErrorResponse } from "@angular/common/http";
-import { flatVehicles } from "./vehicle.test-data";
+import { HttpErrorResponse } from '@angular/common/http';
+import { flatVehicles } from './vehicle.test-data';
+import { TypedAction } from '@ngrx/store/src/models';
 
 describe('VehicleEffects', () => {
+  type getVehiclesSuccessAction = VehicleActions.getVehiclesSuccess &
+    TypedAction<'[Vehicles] Get vehicles - Success'>;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let actionsMock$: Observable<any>;
   let effects: VehicleEffects;
   let vehicleService: VehicleService;
@@ -20,8 +25,8 @@ describe('VehicleEffects', () => {
       providers: [
         provideMockActions(() => actionsMock$),
         VehicleEffects,
-        MockProviders(vehicleReducer, VehicleService)
-      ]
+        MockProviders(vehicleReducer, VehicleService),
+      ],
     });
 
     vehicleService = TestBed.inject(VehicleService);
@@ -38,9 +43,7 @@ describe('VehicleEffects', () => {
 
     it('calls getVehicles once', () => {
       // ARRANGE
-      vehicleSpy.and.returnValue(
-        of(flatVehicles)
-      );
+      vehicleSpy.and.returnValue(of(flatVehicles));
 
       // ACT
       effects.getVehicles$.subscribe();
@@ -51,14 +54,15 @@ describe('VehicleEffects', () => {
 
     it('returns a stream with FlatVehicle', () => {
       // ARRANGE
-      let currentOutcome: any | undefined;
-      const outcome = VehicleActions.getVehiclesSuccess({ vehicles: flatVehicles });
-      vehicleSpy.and.returnValue(
-        of(flatVehicles)
-      );
+      let currentOutcome: getVehiclesSuccessAction | undefined;
+      const outcome: getVehiclesSuccessAction =
+        VehicleActions.getVehiclesSuccess({
+          vehicles: flatVehicles,
+        });
+      vehicleSpy.and.returnValue(of(flatVehicles));
 
       // ACT
-      effects.getVehicles$.subscribe(action => {
+      effects.getVehicles$.subscribe((action: getVehiclesSuccessAction) => {
         currentOutcome = action;
       });
 
@@ -69,21 +73,22 @@ describe('VehicleEffects', () => {
 
       expect(currentOutcome).toEqual({
         type: outcome.type,
-        vehicles: outcome.vehicles
+        vehicles: outcome.vehicles,
       });
     });
 
     it('returns a stream with null on http error', () => {
       // ARRANGE
-      let currentOutcome: any | undefined;
+      let currentOutcome: getVehiclesSuccessAction | undefined;
       const error: HttpErrorResponse = new HttpErrorResponse({});
-      const outcome = VehicleActions.getVehiclesSuccess({ vehicles: null });
+      const outcome: getVehiclesSuccessAction =
+        VehicleActions.getVehiclesSuccess({ vehicles: null });
       vehicleSpy.and.callFake(() => {
         return throwError(() => error);
-      })
+      });
 
       // ACT
-      effects.getVehicles$.subscribe(action => {
+      effects.getVehicles$.subscribe((action: getVehiclesSuccessAction) => {
         currentOutcome = action;
       });
 
@@ -94,7 +99,7 @@ describe('VehicleEffects', () => {
 
       expect(currentOutcome).toEqual({
         type: outcome.type,
-        vehicles: outcome.vehicles
+        vehicles: outcome.vehicles,
       });
     });
   });

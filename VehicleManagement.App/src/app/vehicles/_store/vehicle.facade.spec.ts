@@ -1,38 +1,36 @@
-import { AppState } from "src/app/_store/app.reducer";
+import { AppState } from 'src/app/_store/app.reducer';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { TestBed } from "@angular/core/testing";
-import { Store } from "@ngrx/store";
-import { flatVehicles } from "./vehicle.test-data";
-import { VehicleFacade } from "./vehicle.facade";
-import { first } from "rxjs";
-import { FlatVehicle } from "../models/flat-vehicle.model";
+import { TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { flatVehicles } from './vehicle.test-data';
+import { VehicleFacade } from './vehicle.facade';
+import { first } from 'rxjs';
+import { FlatVehicle } from '../models/flat-vehicle.model';
 import * as VehicleActions from './vehicle.actions';
+import { TypedAction } from '@ngrx/store/src/models';
 
 describe('VehicleFacade', () => {
   let facade: VehicleFacade;
-  let store: MockStore<AppState>
-  const initialState = {};
+  let store: MockStore<AppState>;
+  const initialState: unknown = {};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers:[
-        VehicleFacade,
-        provideMockStore({ initialState })
-      ]
+      providers: [VehicleFacade, provideMockStore({ initialState })],
     });
 
     facade = TestBed.inject(VehicleFacade);
     store = TestBed.inject<Store>(Store) as MockStore<AppState>;
   });
 
-  it('returns all vehicles', (done) => {
+  it('returns all vehicles', (done: DoneFn) => {
     // ARRANGE
     let currentVehicles: FlatVehicle[] | undefined;
     store.setState({
       vehicle: {
         vehicles: flatVehicles,
-        vehiclesLoading: false
-      }
+        vehiclesLoading: false,
+      },
     });
 
     // ACT
@@ -49,21 +47,23 @@ describe('VehicleFacade', () => {
     expect(currentVehicles).toEqual(flatVehicles);
   });
 
-  it('returns vehicles loading', (done) => {
+  it('returns vehicles loading', (done: DoneFn) => {
     // ARRANGE
     let currentVehiclesLoading: boolean | undefined;
     store.setState({
       vehicle: {
         vehicles: flatVehicles,
-        vehiclesLoading: true
-      }
+        vehiclesLoading: true,
+      },
     });
 
     // ACT
-    facade.vehiclesLoading$.pipe(first()).subscribe((vehiclesLoading: boolean) => {
-      currentVehiclesLoading = vehiclesLoading;
-      done();
-    });
+    facade.vehiclesLoading$
+      .pipe(first())
+      .subscribe((vehiclesLoading: boolean) => {
+        currentVehiclesLoading = vehiclesLoading;
+        done();
+      });
 
     // ASSERT
     if (!currentVehiclesLoading) {
@@ -75,7 +75,8 @@ describe('VehicleFacade', () => {
 
   it('should dispatch getVehicles action', () => {
     // ARRANGE
-    const expectedAction = VehicleActions.getVehicles();
+    const expectedAction: TypedAction<'[Vehicles] Get vehicles'> =
+      VehicleActions.getVehicles();
     spyOn(store, 'dispatch');
 
     // ACT

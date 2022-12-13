@@ -5,10 +5,12 @@ import {
   mockProvider,
   Spectator,
   SpectatorFactory,
+  SpyObject,
 } from '@ngneat/spectator';
 import { Router } from '@angular/router';
 import { MockPipe } from 'ng-mocks';
 import { TranslatePipe } from '@ngx-translate/core';
+import Spy = jasmine.Spy;
 
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
@@ -17,9 +19,7 @@ describe('AppComponent', () => {
     createComponentFactory({
       component: AppComponent,
       shallow: true,
-      declarations: [
-        MockPipe(TranslatePipe),
-      ],
+      declarations: [MockPipe(TranslatePipe)],
       providers: [mockProvider(Router)],
     });
 
@@ -39,10 +39,10 @@ describe('AppComponent', () => {
 
   it('calls navigateToHome on home button click', () => {
     // ARRANGE
-    const navigateToHome = spyOn(spectator.component, 'navigateToHome');
+    const navigateToHome: Spy = spyOn(spectator.component, 'navigateToHome');
 
     // ACT
-    spectator.click(byTestId('home-button'))
+    spectator.click(byTestId('home-button'));
     spectator.detectChanges();
 
     // ASSERT
@@ -51,10 +51,13 @@ describe('AppComponent', () => {
 
   it('calls navigateToVehicles on vehicle button click', () => {
     // ARRANGE
-    const navigateToVehicles = spyOn(spectator.component, 'navigateToVehicles');
+    const navigateToVehicles: Spy = spyOn(
+      spectator.component,
+      'navigateToVehicles'
+    );
 
     // ACT
-    spectator.click(byTestId('vehicle-button'))
+    spectator.click(byTestId('vehicle-button'));
     spectator.detectChanges();
 
     // ASSERT
@@ -63,7 +66,7 @@ describe('AppComponent', () => {
 
   it('calls router navigate on navigateToHome', () => {
     // ARRANGE
-    const router = spectator.inject(Router);
+    const router: SpyObject<Router> = spectator.inject(Router);
 
     // ACT
     spectator.component.navigateToHome();
@@ -74,7 +77,7 @@ describe('AppComponent', () => {
 
   it('calls router navigate on navigateToVehicles', () => {
     // ARRANGE
-    const router = spectator.inject(Router);
+    const router: SpyObject<Router> = spectator.inject(Router);
 
     // ACT
     spectator.component.navigateToVehicles();
