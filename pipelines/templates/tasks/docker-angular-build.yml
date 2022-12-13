@@ -14,10 +14,10 @@ steps:
   - task: PublishTestResults@2
     inputs:
       testRunner: JUnit
-      testResultsFiles: '${{ parameters.frontendAppFolder }}/testresults/junit/unit-test-result.xml'
+      testResultsFiles: '${{ parameters.frontendAppFolder }}/out/testresults/unit-test-result.xml'
       failTaskOnFailedTests: true
 
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: 'Cobertura'
-      summaryFileLocation: '${{ parameters.frontendAppFolder }}/testresults/coverage/code-coberage.xml'
+      summaryFileLocation: '${{ parameters.frontendAppFolder }}/out/testresults/code-coverage.xml'
