@@ -28,7 +28,7 @@ stages:
       - job:
         displayName: "Test Frontend"
         steps:
-          - template: teplates/tasks/docker-angular-build.yml
+          - template: templates/tasks/docker-angular-build.yml
             parameters:
               frontendAppFolder: "./VehicleManagement.App"
               target: "export-test"
