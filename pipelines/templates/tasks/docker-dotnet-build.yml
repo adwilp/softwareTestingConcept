@@ -12,7 +12,7 @@ parameters:
     type: string
 
 steps:
-  - script: DOCKER_BUILDKIT=1 docker build -f Dockerfile.build --target {{ parameters.target }} --build-arg PAT=$(GRIMMEBASICSPAT) -o out .
+  - script: DOCKER_BUILDKIT=1 docker build -f Dockerfile.build --target ${{ parameters.target }} -o out .
     displayName: "build docker image (sdk)"
 
   - task: PublishTestResults@2
