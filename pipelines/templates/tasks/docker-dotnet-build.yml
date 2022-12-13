@@ -1,0 +1,44 @@
+parameters:
+  - name: environment
+    type: string
+    default: "tst"
+  - name: repositoryName
+    type: string
+    default: "empty"
+  - name: buildRuntimeImage
+    type: boolean
+    default: true
+  - name: target
+    type: string
+
+steps:
+  - script: DOCKER_BUILDKIT=1 docker build -f Dockerfile.build --target {{ parameters.target }} --build-arg PAT=$(GRIMMEBASICSPAT) -o out .
+    displayName: "build docker image (sdk)"
+
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: "out/*TestResults/*.trx"
+      failTaskOnFailedTests: true
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: 'out/*TestResults/**/coverage.cobertura.xml'
+
+  - script: |
+      IMAGETAG='$(packageVersion)-${{ parameters.environment }}'
+      echo "##vso[task.setvariable variable=imageInternalTag]$IMAGETAG"
+
+      IMAGENAME='${{parameters.repositoryName}}:'$IMAGETAG
+      echo "##vso[task.setvariable variable=imageName]$IMAGENAME"
+      echo "##vso[task.setvariable variable=imageTempTag]$IMAGETAG"
+      echo "##vso[task.setvariable variable=imageTag;isOutput=true]$IMAGETAG"
+    condition: eq(${{parameters.buildRuntimeImage}}, true)
+    displayName: "generate image name"
+    name: "generateImageName"
+
+  - script: |
+      docker build -f Dockerfile -t $(imageName) .
+    condition: eq(${{parameters.buildRuntimeImage}}, true)
+    displayName: "build docker image (runtime)"

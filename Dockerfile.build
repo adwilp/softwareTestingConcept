@@ -28,9 +28,9 @@ COPY . .
 FROM build-env AS test-env
 WORKDIR /app
 # RUN dotnet test --> UNIT
-RUN dotnet test --configuration Release -l:"trx;" --collect "Code coverage" -s CodeCoverage.runsettings -r /app/UnitTestResults --filter FullyQualifiedName\~UnitTests
+RUN dotnet test --configuration Release -l:"trx;" --collect:"XPlat Code Coverage" -s CodeCoverage.runsettings -r /app/UnitTestResults --filter FullyQualifiedName\~UnitTests
 # RUN dotnet test --> INTEGRATION
-RUN dotnet test --configuration Release -l:"trx;" --collect "Code coverage" -s CodeCoverage.runsettings -r /app/IntegrationTestResults --filter FullyQualifiedName\~IntegrationTests
+RUN dotnet test --configuration Release -l:"trx;" --collect:"XPlat Code Coverage" -s CodeCoverage.runsettings -r /app/IntegrationTestResults --filter FullyQualifiedName\~IntegrationTests
 
 # create a new layer from the build later
 FROM build-env AS publish-env

@@ -1,0 +1,35 @@
+trigger: none
+
+pool:
+  name: GRIMME-Development-Docker-Build
+
+variables:
+  - name: packageVersion
+    value: ""
+  - name: imageNotExist
+    value: 1
+  - name: imageName
+    value: ""
+  - name: imageTag
+    value: ""
+
+stages:
+  - stage: PRCheck
+    displayName: "Check build Vehicle Management images"
+    jobs:
+      - job:
+        displayName: "Test Backend"
+        steps:
+          - template: templates/tasks/docker-dotnet-build.yml
+            parameters:
+              buildRuntimeImage: false
+              target: "export-test"
+
+      - job:
+        displayName: "Test Frontend"
+        steps:
+          - template: teplates/tasks/docker-angular-build.yml
+            parameters:
+              frontendAppFolder: "./VehicleManagement.App"
+              target: "export-test"
+              
