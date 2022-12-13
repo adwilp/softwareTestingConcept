@@ -29,7 +29,7 @@ steps:
   - task: CopyFiles@2
     inputs:
       SourceFolder: "out"
-      Contents: "out/*TestResults/**/coverage.cobertura.xml"
+      Contents: "out/**/coverage.cobertura.xml"
       TargetFolder: codeCoverages
       flattenFolders: true
 
