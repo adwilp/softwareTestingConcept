@@ -31,7 +31,6 @@ steps:
       SourceFolder: "out"
       Contents: "**/coverage.cobertura.xml"
       TargetFolder: codeCoverages
-      flattenFolders: true
 
   - task: PublishBuildArtifacts@1
     inputs:
