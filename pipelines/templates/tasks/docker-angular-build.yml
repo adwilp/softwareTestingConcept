@@ -10,3 +10,14 @@ parameters:
 steps:
   - script: DOCKER_BUILDKIT=1 docker build --target ${{ parameters.target }} --build-arg ENV=${{ parameters.environment }} -o out .
     workingDirectory: ${{ parameters.frontendAppFolder }}
+
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '${{ parameters.frontendAppFolder }}/testresults/junit/unit-test-result.xml'
+      failTaskOnFailedTests: true
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '${{ parameters.frontendAppFolder }}/testresults/coverage/code-coberage.xml'
