@@ -20,4 +20,4 @@ steps:
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: 'Cobertura'
-      summaryFileLocation: '${{ parameters.frontendAppFolder }}/out/testresults/code-coverage.xml'
+      summaryFileLocation: '${{ parameters.frontendAppFolder }}/out/testresults/cobertura-coverage.xml'

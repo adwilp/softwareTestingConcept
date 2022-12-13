@@ -20,19 +20,6 @@ module.exports = function (config) {
       suppressAll: true
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/vehicle-management-app'),
-      subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
-      ]
-    },
-    junitReporter: {
-      outputDir: 'testresults/junit',
-      outputFile: 'unit-test-result.xml',
-      useBrowserName: false
-    },
-    coverageReporter: {
       include: [
         // Specify include pattern(s) first
         'src/**/*.(ts|js)',
@@ -46,10 +33,18 @@ module.exports = function (config) {
         '!src/**/*.enum*.(ts|js)',
         '!test/**/*.(ts|js)',
       ],
-      type : 'cobertura',
-      dir : 'testresults',
-      subdir:'coverage',
-      file: 'code-coverage.xml'
+      dir: require('path').join(__dirname, './coverage/vehicle-management-app'),
+      subdir: '.',
+      reporters: [
+        { type: 'html' },
+        { type: 'text-summary' },
+        { type: 'cobertura' }
+      ]
+    },
+    junitReporter: {
+      outputDir: 'testresults/junit',
+      outputFile: 'unit-test-result.xml',
+      useBrowserName: false
     },
     reporters: ['progress', 'kjhtml', 'coverage', 'junit'],
     port: 9876,

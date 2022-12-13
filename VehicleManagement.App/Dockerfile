@@ -19,7 +19,7 @@ RUN npm run build-$ENV
 
 FROM scratch AS export-test
 COPY --from=test /usr/src/app/testresults/junit/unit-test-result.xml /testresults/unit-test-result.xml
-COPY --from=test /usr/src/app/testresults/coverage/code-coverage.xml /testresults/code-coverage.xml
+COPY --from=test /usr/src/app/coverage/vehicle-management-app/cobertura-coverage.xml /testresults/cobertura-coverage.xml
 
 FROM scratch AS export-app
 ARG ENV
