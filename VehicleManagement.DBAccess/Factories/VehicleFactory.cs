@@ -8,17 +8,18 @@ namespace VehicleManagement.DBAccess.Factories
     {
         public FlatVehicle Create(Vehicle vehicle)
         {
-            var flatVehicle = new FlatVehicle();
-
             if (vehicle == null)
             {
                 throw new DataConversionException(Messages.NullObject, nameof(vehicle));
             }
 
-            flatVehicle.FIN = vehicle.FIN;
-            flatVehicle.LicensePlate = vehicle.LicensePlate;
-            flatVehicle.Mileage = vehicle.Mileage;
-            flatVehicle.Color = vehicle.Color;
+            var flatVehicle = new FlatVehicle()
+            {
+                FIN = vehicle.FIN,
+                LicensePlate = vehicle.LicensePlate,
+                Mileage = vehicle.Mileage,
+                Color = vehicle.Color
+            };
 
             if (vehicle.Manufacturer != null)
             {

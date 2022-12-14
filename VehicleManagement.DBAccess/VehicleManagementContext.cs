@@ -10,6 +10,8 @@ namespace VehicleManagement.DBAccess
 
         public DbSet<Vehicle> Vehicles { get; set; }
 
+        public DbSet<Booking> Bookings { get; set; }
+
         public VehicleManagementContext(DbContextOptions options) : base(options) { }
     }
 }
