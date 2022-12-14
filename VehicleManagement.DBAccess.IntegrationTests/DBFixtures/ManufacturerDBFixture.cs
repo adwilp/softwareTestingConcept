@@ -4,8 +4,14 @@
     {
         protected override void InitializeData()
         {
-            InsertData(nameof(VehicleManagementContext.Manufacturer), "'WMI', 'Audi'");
-            InsertData(nameof(VehicleManagementContext.Manufacturer), "'W0L', 'Opel'");
+            InsertData(
+                nameof(VehicleManagementContext.Manufacturer),
+                _manufacturerColumns,
+                "'WMI', 'Audi'");
+            InsertData(
+                nameof(VehicleManagementContext.Manufacturer),
+                _manufacturerColumns,
+                "'W0L', 'Opel'");
         }
     }
 }
