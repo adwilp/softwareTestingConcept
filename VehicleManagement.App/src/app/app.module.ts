@@ -29,13 +29,15 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { VehicleOverviewComponent } from './vehicles/vehicle-overview/vehicle-overview.component';
+import { BookingOverviewComponent } from './bookings/booking-overview/booking-overview.component';
+import { TileComponent } from './shared/tile/tile.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, VehicleOverviewComponent],
+  declarations: [AppComponent, DashboardComponent, VehicleOverviewComponent, BookingOverviewComponent, TileComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
