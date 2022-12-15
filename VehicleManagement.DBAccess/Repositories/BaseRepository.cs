@@ -61,17 +61,21 @@ namespace VehicleManagement.DBAccess.Repositories
             return createdEntity;
         }
 
-        /// <summary>
-        /// Reloads all referenceces.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        public void ReloadAllReferenceces(TEntity entity)
+        public async Task ReloadReferences(TEntity entity, params string[] properties)
+        {
+            foreach (string property in properties)
+            {
+                await Context.Entry(entity).Reference(property).LoadAsync();
+            }
+        }
+
+        public async Task ReloadAllReferenceces(TEntity entity)
         {
             foreach (var reference in Context.Entry(entity).References)
             {
                 if (reference.CurrentValue == null)
                 {
-                    reference.Load();
+                    await reference.LoadAsync();
                 }
             }
         }
