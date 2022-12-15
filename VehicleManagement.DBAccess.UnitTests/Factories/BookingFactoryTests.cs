@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 
-using VehicleManagement.DataContracts.DataModels;
 using VehicleManagement.DataContracts.Exceptions;
 using VehicleManagement.DBAccess.Entities;
 using VehicleManagement.DBAccess.Factories;
 using VehicleManagement.DBAccess.UnitTests.TestData;
+
+using models = VehicleManagement.DataContracts.DataModels;
 
 namespace VehicleManagement.DBAccess.UnitTests.Factories
 {
@@ -19,7 +20,7 @@ namespace VehicleManagement.DBAccess.UnitTests.Factories
 
         [Theory]
         [MemberData(nameof(BookingTestData.GetSingleBookingTestData), MemberType = typeof(BookingTestData))]
-        public void Create_Should_Create_FlatBooking(Booking entity, FlatBooking model)
+        public void Create_Should_Create_FlatBooking(Booking entity, models.FlatBooking model)
         {
             // ACT
             var result = _bookingFactory.Create(entity);
@@ -45,7 +46,7 @@ namespace VehicleManagement.DBAccess.UnitTests.Factories
 
         [Theory]
         [MemberData(nameof(BookingTestData.GetBookingsTestData), MemberType = typeof(BookingTestData))]
-        public void Create_Should_Create_FlatVehicle_Enumerable(List<Booking> entity, List<FlatBooking> model)
+        public void Create_Should_Create_FlatVehicle_Enumerable(List<Booking> entity, List<models.FlatBooking> model)
         {
             // ACT
             var result = _bookingFactory.Create(entity);
@@ -62,6 +63,30 @@ namespace VehicleManagement.DBAccess.UnitTests.Factories
 
             // ASSERT & ACT
             Assert.Throws<DataConversionException>(() => _bookingFactory.Create(entities));
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetSingleBookingModelTestData), MemberType = typeof(BookingTestData))]
+        public void Create_Should_Create_Entity_Booking(models.Booking model, Booking entity)
+        {
+            // ACT
+            var result = _bookingFactory.Create(model);
+
+            // ASSERT
+            Assert.Equal(entity.Start, result.Start);
+            Assert.Equal(entity.Start, result.Start);
+            Assert.Equal(entity.EmployeeNumber, result.EmployeeNumber);
+            Assert.Equal(entity.FIN, result.FIN);
+        }
+
+        [Fact]
+        public void Create_Should_Throw_Exception_For_Null_Model()
+        {
+            // ARRANGE
+            models.Booking? model = null;
+
+            // ASSERT & ACT
+            Assert.Throws<DataConversionException>(() => _bookingFactory.Create(model));
         }
     }
 }
