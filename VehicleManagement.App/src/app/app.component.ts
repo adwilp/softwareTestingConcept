@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  @ViewChild('sidenav') sidenav: MatSidenav;
+
   constructor(private router: Router) {}
 
   navigateToHome(): void {
@@ -15,5 +18,9 @@ export class AppComponent {
 
   navigateToVehicles(): void {
     this.router.navigate(['vehicles']);
+  }
+
+  navigateToBookings(): void {
+    this.router.navigate(['bookings']);
   }
 }

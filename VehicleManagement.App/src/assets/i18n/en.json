@@ -3,7 +3,8 @@
     "headline": "Vehicle management",
     "menu": {
       "home": "Home",
-      "vehicles": "Vehicle overview"
+      "vehicles": "Vehicle overview",
+      "bookings": "Booking overview"
     }
   },
   "vehicle": {
