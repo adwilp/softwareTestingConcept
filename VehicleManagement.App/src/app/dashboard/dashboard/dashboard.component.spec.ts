@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import {
+  byTestId,
   createComponentFactory,
   mockProvider,
   Spectator,
@@ -7,6 +8,7 @@ import {
   SpyObject,
 } from '@ngneat/spectator';
 import { DashboardComponent } from './dashboard.component';
+import Spy = jasmine.Spy;
 
 describe('DashboardComponent', () => {
   let spectator: Spectator<DashboardComponent>;
@@ -29,6 +31,38 @@ describe('DashboardComponent', () => {
   it('renders two app tiles', () => {
     // ASSERT
     expect(spectator.queryAll('app-tile').length).toBe(2);
+  });
+
+  describe('UI interactions', () => {
+    it('calls navigateToBookings on booking tile click', () => {
+      // ARRANGE
+      const navigateToBookings: Spy = spyOn(
+        spectator.component,
+        'navigateToBookings'
+      );
+
+      // ACT
+      spectator.click(byTestId('booking-tile'));
+      spectator.detectChanges();
+
+      // ASSERT
+      expect(navigateToBookings).toHaveBeenCalled();
+    });
+
+    it('calls navigateToVehicles on vehicle tile click', () => {
+      // ARRANGE
+      const navigateToVehicles: Spy = spyOn(
+        spectator.component,
+        'navigateToVehicles'
+      );
+
+      // ACT
+      spectator.click(byTestId('vehicle-tile'));
+      spectator.detectChanges();
+
+      // ASSERT
+      expect(navigateToVehicles).toHaveBeenCalled();
+    });
   });
 
   describe('router actions', () => {

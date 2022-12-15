@@ -1,5 +1,13 @@
 <div class="tile-container">
-  <app-tile title="Buchungen" (click)="navigateToBookings()"></app-tile>
+  <app-tile
+    data-testid="booking-tile"
+    title="Buchungen"
+    (click)="navigateToBookings()"
+  ></app-tile>
 
-  <app-tile title="Fahrzeuge" (click)="navigateToVehicles()"></app-tile>
+  <app-tile
+    data-testid="vehicle-tile"
+    title="Fahrzeuge"
+    (click)="navigateToVehicles()"
+  ></app-tile>
 </div>
