@@ -22,8 +22,17 @@
         role="listitem"
         (click)="navigateToVehicles()"
       >
-        <mat-icon matListItemIcon>car</mat-icon>
+        <mat-icon matListItemIcon>directions_car</mat-icon>
         {{ 'global.menu.vehicles' | translate }}</mat-list-item
+      >
+      <mat-divider></mat-divider>
+      <mat-list-item
+        data-testid="booking-button"
+        role="listitem"
+        (click)="navigateToBookings()"
+      >
+        <mat-icon matListItemIcon>calendar_month</mat-icon>
+        {{ 'global.menu.bookings' | translate }}</mat-list-item
       >
     </mat-list>
   </mat-sidenav>

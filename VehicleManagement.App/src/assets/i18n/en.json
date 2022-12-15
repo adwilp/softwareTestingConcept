@@ -3,16 +3,29 @@
     "headline": "Vehicle management",
     "menu": {
       "home": "Home",
-      "vehicles": "Vehicle overview"
+      "vehicles": "Vehicle overview",
+      "bookings": "Booking overview"
     }
   },
   "vehicle": {
     "overview": {
+      "headline": "Vehicle overview",
       "fin": "VIN",
       "licensePlate": "License plate",
       "color": "Color",
       "mileage": "Mileage",
       "manufacturer": "Manufacturer"
+    }
+  },
+  "booking": {
+    "overview": {
+      "headline": "Booking overview",
+      "id": "Id",
+      "start": "Start",
+      "end": "End",
+      "employeeNumber": "Employee number",
+      "fin": "VIN",
+      "licensePlate": "License plate"
     }
   }
 }

@@ -14,12 +14,14 @@ namespace VehicleManagement.Core
 
             builder.Services.AddScoped<IVehicleDomain, VehicleDomain>();
             builder.Services.AddScoped<IManufacturerDomain, ManufacturerDomain>();
+            builder.Services.AddScoped<IBookingDomain, BookingDomain>();
         }
 
         private static void AddService(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IVehicleService, VehicleService>();
             builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
+            builder.Services.AddScoped<IBookingService, BookingService>();
         }
     }
 }

@@ -23,18 +23,21 @@ namespace VehicleManagement.DBAccess
         {
             builder.Services.AddScoped<IManufacturerTransaction, ManufacturerTransaction>();
             builder.Services.AddScoped<IVehicleTransaction, VehicleTransaction>();
+            builder.Services.AddScoped<IBookingTransaction, BookingTransaction>();
         }
 
         private static void AddRepositories(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
             builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
         }
 
         private static void AddFactories(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IVehicleFactory, VehicleFactory>();
             builder.Services.AddScoped<IManufacturerFactory, ManufacturerFactory>();
+            builder.Services.AddScoped<IBookingFactory, BookingFactory>();
         }
 
         private static void AddDBContext(this WebApplicationBuilder builder, string connectionName)

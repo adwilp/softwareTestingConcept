@@ -13,12 +13,12 @@ using VehicleManagement.DataContracts.DataModels;
 
 namespace VehicleManagement.Backend.UnitTests.Controller
 {
-    public class VehicleControllerTests
+    public class VehiclesControllerTests
     {
         private readonly Mock<IVehicleDomain> _vehicleDomainMock;
         private readonly VehiclesController _vehiclesController;
 
-        public VehicleControllerTests()
+        public VehiclesControllerTests()
         {
             _vehicleDomainMock = new Mock<IVehicleDomain>();
             _vehiclesController = new VehiclesController(_vehicleDomainMock.Object);

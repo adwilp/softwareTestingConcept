@@ -8,9 +8,10 @@ import {
   SpyObject,
 } from '@ngneat/spectator';
 import { Router } from '@angular/router';
-import { MockPipe } from 'ng-mocks';
+import { MockComponents, MockPipe } from 'ng-mocks';
 import { TranslatePipe } from '@ngx-translate/core';
 import Spy = jasmine.Spy;
+import { MatSidenav } from '@angular/material/sidenav';
 
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
@@ -19,7 +20,7 @@ describe('AppComponent', () => {
     createComponentFactory({
       component: AppComponent,
       shallow: true,
-      declarations: [MockPipe(TranslatePipe)],
+      declarations: [MockPipe(TranslatePipe), MockComponents(MatSidenav)],
       providers: [mockProvider(Router)],
     });
 
@@ -37,52 +38,79 @@ describe('AppComponent', () => {
     expect(spectator.query('router-outlet')).toBeTruthy();
   });
 
-  it('calls navigateToHome on home button click', () => {
-    // ARRANGE
-    const navigateToHome: Spy = spyOn(spectator.component, 'navigateToHome');
+  describe('UI interactions', () => {
+    it('calls navigateToHome on home button click', () => {
+      // ARRANGE
+      const navigateToHome: Spy = spyOn(spectator.component, 'navigateToHome');
 
-    // ACT
-    spectator.click(byTestId('home-button'));
-    spectator.detectChanges();
+      // ACT
+      spectator.click(byTestId('home-button'));
+      spectator.detectChanges();
 
-    // ASSERT
-    expect(navigateToHome).toHaveBeenCalled();
+      // ASSERT
+      expect(navigateToHome).toHaveBeenCalled();
+    });
+
+    it('calls navigateToVehicles on vehicle button click', () => {
+      // ARRANGE
+      const navigateToVehicles: Spy = spyOn(
+        spectator.component,
+        'navigateToVehicles'
+      );
+
+      // ACT
+      spectator.click(byTestId('vehicle-button'));
+      spectator.detectChanges();
+
+      // ASSERT
+      expect(navigateToVehicles).toHaveBeenCalled();
+    });
+
+    it('calls navigateToBookings on booking button click', () => {
+      // ARRANGE
+      const navigateToBookings: Spy = spyOn(
+        spectator.component,
+        'navigateToBookings'
+      );
+
+      // ACT
+      spectator.click(byTestId('booking-button'));
+      spectator.detectChanges();
+
+      // ASSERT
+      expect(navigateToBookings).toHaveBeenCalled();
+    });
   });
 
-  it('calls navigateToVehicles on vehicle button click', () => {
-    // ARRANGE
-    const navigateToVehicles: Spy = spyOn(
-      spectator.component,
-      'navigateToVehicles'
-    );
+  describe('router actions', () => {
+    let router: SpyObject<Router>;
 
-    // ACT
-    spectator.click(byTestId('vehicle-button'));
-    spectator.detectChanges();
+    beforeEach(() => {
+      router = spectator.inject(Router);
+    });
 
-    // ASSERT
-    expect(navigateToVehicles).toHaveBeenCalled();
-  });
+    it('calls router navigate on navigateToHome', () => {
+      // ACT
+      spectator.component.navigateToHome();
 
-  it('calls router navigate on navigateToHome', () => {
-    // ARRANGE
-    const router: SpyObject<Router> = spectator.inject(Router);
+      // ASSERT
+      expect(router.navigate).toHaveBeenCalledWith(['']);
+    });
 
-    // ACT
-    spectator.component.navigateToHome();
+    it('calls router navigate on navigateToVehicles', () => {
+      // ACT
+      spectator.component.navigateToVehicles();
 
-    // ASSERT
-    expect(router.navigate).toHaveBeenCalledWith(['']);
-  });
+      // ASSERT
+      expect(router.navigate).toHaveBeenCalledWith(['vehicles']);
+    });
 
-  it('calls router navigate on navigateToVehicles', () => {
-    // ARRANGE
-    const router: SpyObject<Router> = spectator.inject(Router);
+    it('calls router navigate on navigateToVehicles', () => {
+      // ACT
+      spectator.component.navigateToBookings();
 
-    // ACT
-    spectator.component.navigateToVehicles();
-
-    // ASSERT
-    expect(router.navigate).toHaveBeenCalledWith(['vehicles']);
+      // ASSERT
+      expect(router.navigate).toHaveBeenCalledWith(['bookings']);
+    });
   });
 });
