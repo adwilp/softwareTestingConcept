@@ -13,14 +13,19 @@ export class AppComponent {
   constructor(private router: Router) {}
 
   navigateToHome(): void {
-    this.router.navigate(['']);
+    this.navigate(['']);
   }
 
   navigateToVehicles(): void {
-    this.router.navigate(['vehicles']);
+    this.navigate(['vehicles']);
   }
 
   navigateToBookings(): void {
-    this.router.navigate(['bookings']);
+    this.navigate(['bookings']);
+  }
+
+  private navigate(path: string[]): void {
+    this.sidenav.close();
+    this.router.navigate(path);
   }
 }

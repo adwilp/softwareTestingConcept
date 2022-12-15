@@ -15,5 +15,15 @@
       "mileage": "Mileage",
       "manufacturer": "Manufacturer"
     }
+  },
+  "booking": {
+    "overview": {
+      "id": "Id",
+      "start": "Start",
+      "end": "End",
+      "employeeNumber": "Employee number",
+      "fin": "VIN",
+      "licensePlate": "License plate"
+    }
   }
 }

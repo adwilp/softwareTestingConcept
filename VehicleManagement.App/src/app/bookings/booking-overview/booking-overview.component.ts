@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class BookingOverviewComponent implements OnInit {
   get displayedColumns(): string[] {
-    return ['fIN', 'licensePlate', 'color', 'mileage', 'manufacturer'];
+    return ['id', 'start', 'end', 'employeeNumber', 'fin', 'licensePlate'];
   }
 
   get vehicles$(): Observable<FlatBooking[]> {
