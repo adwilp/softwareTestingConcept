@@ -8,9 +8,10 @@ import {
   SpyObject,
 } from '@ngneat/spectator';
 import { Router } from '@angular/router';
-import { MockPipe } from 'ng-mocks';
+import { MockComponents, MockPipe } from 'ng-mocks';
 import { TranslatePipe } from '@ngx-translate/core';
 import Spy = jasmine.Spy;
+import { MatSidenav } from '@angular/material/sidenav';
 
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
@@ -19,7 +20,7 @@ describe('AppComponent', () => {
     createComponentFactory({
       component: AppComponent,
       shallow: true,
-      declarations: [MockPipe(TranslatePipe)],
+      declarations: [MockPipe(TranslatePipe), MockComponents(MatSidenav)],
       providers: [mockProvider(Router)],
     });
 
