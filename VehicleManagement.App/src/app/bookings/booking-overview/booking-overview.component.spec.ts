@@ -1,8 +1,10 @@
 import {
   createComponentFactory,
+  mockProvider,
   Spectator,
   SpectatorFactory,
 } from '@ngneat/spectator';
+import { BookingFacade } from '../_store/booking.facade';
 import { BookingOverviewComponent } from './booking-overview.component';
 
 describe('BookingOverviewComponent', () => {
@@ -12,6 +14,7 @@ describe('BookingOverviewComponent', () => {
     createComponentFactory({
       component: BookingOverviewComponent,
       shallow: true,
+      providers: [mockProvider(BookingFacade)],
     });
 
   beforeEach(async () => {

@@ -8,6 +8,7 @@ import { first } from 'rxjs';
 import { FlatVehicle } from '../models/flat-vehicle.model';
 import * as VehicleActions from './vehicle.actions';
 import { TypedAction } from '@ngrx/store/src/models';
+import { flatBookings } from 'src/app/bookings/_store/booking.test-data';
 
 describe('VehicleFacade', () => {
   let facade: VehicleFacade;
@@ -30,6 +31,10 @@ describe('VehicleFacade', () => {
       vehicle: {
         vehicles: flatVehicles,
         vehiclesLoading: false,
+      },
+      booking: {
+        bookings: flatBookings,
+        bookingsLoading: false,
       },
     });
 
@@ -54,6 +59,10 @@ describe('VehicleFacade', () => {
       vehicle: {
         vehicles: flatVehicles,
         vehiclesLoading: true,
+      },
+      booking: {
+        bookings: flatBookings,
+        bookingsLoading: false,
       },
     });
 

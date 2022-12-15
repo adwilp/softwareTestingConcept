@@ -31,18 +31,25 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { VehicleOverviewComponent } from './vehicles/vehicle-overview/vehicle-overview.component';
 import { BookingOverviewComponent } from './bookings/booking-overview/booking-overview.component';
 import { TileComponent } from './shared/tile/tile.component';
+import { BookingEffects } from './bookings/_store/booking.effects';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, VehicleOverviewComponent, BookingOverviewComponent, TileComponent],
+  declarations: [
+    AppComponent,
+    DashboardComponent,
+    VehicleOverviewComponent,
+    BookingOverviewComponent,
+    TileComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    EffectsModule.forRoot([VehicleEffects]),
+    EffectsModule.forRoot([VehicleEffects, BookingEffects]),
     StoreModule.forRoot(fromApp.AppReducer),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
