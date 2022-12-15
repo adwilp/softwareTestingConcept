@@ -3,7 +3,9 @@ using System.Threading;
 
 using Moq;
 
+using VehicleManagement.DBAccess.Entities;
 using VehicleManagement.DBAccess.IntegrationTests.DBFixtures;
+using VehicleManagement.DBAccess.IntegrationTests.TestData;
 using VehicleManagement.DBAccess.Repositories;
 
 namespace VehicleManagement.DBAccess.IntegrationTests.Repositories
@@ -57,6 +59,32 @@ namespace VehicleManagement.DBAccess.IntegrationTests.Repositories
             Assert.Equal("654789", resultList[3].EmployeeNumber);
             Assert.Equal("SB189ABN1PE034986", resultList[3].FIN);
             Assert.Equal("VEC-KL-234", resultList[3].Vehicle.LicensePlate);
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetAddTestData), MemberType = typeof(BookingTestData))]
+        public async Task AddAsync_Should_Add_And_Return(Booking booking, Booking newBooking)
+        {
+            // ACT
+            var result = await _repository.AddAsync(booking, It.IsAny<CancellationToken>());
+            await _repository.SaveAsync(It.IsAny<CancellationToken>());
+
+            var resultList = await _repository.GetAllAsync(It.IsAny<CancellationToken>());
+            var bookings = resultList.ToList();
+
+            // ASSERT
+            Assert.Equal(newBooking.Id, result.Id);
+            Assert.Equal(newBooking.Start, result.Start);
+            Assert.Equal(newBooking.End, result.End);
+            Assert.Equal(newBooking.EmployeeNumber, result.EmployeeNumber);
+            Assert.Equal(newBooking.FIN, result.FIN);
+
+            Assert.Equal(5, bookings.Count);
+            Assert.Equal(newBooking.Id, bookings[4].Id);
+            Assert.Equal(newBooking.Start, bookings[4].Start);
+            Assert.Equal(newBooking.End, bookings[4].End);
+            Assert.Equal(newBooking.EmployeeNumber, bookings[4].EmployeeNumber);
+            Assert.Equal(newBooking.FIN, bookings[4].FIN);
         }
     }
 }
