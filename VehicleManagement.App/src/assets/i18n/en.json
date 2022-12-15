@@ -9,6 +9,7 @@
   },
   "vehicle": {
     "overview": {
+      "headline": "Vehicle overview",
       "fin": "VIN",
       "licensePlate": "License plate",
       "color": "Color",
@@ -18,6 +19,7 @@
   },
   "booking": {
     "overview": {
+      "headline": "Booking overview",
       "id": "Id",
       "start": "Start",
       "end": "End",
