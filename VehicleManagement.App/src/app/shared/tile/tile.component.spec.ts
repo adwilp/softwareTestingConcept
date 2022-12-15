@@ -1,22 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  byTestId,
+  createComponentFactory,
+  Spectator,
+  SpectatorFactory,
+} from '@ngneat/spectator';
 
 import { TileComponent } from './tile.component';
 
 describe('TileComponent', () => {
-  let component: TileComponent;
-  let fixture: ComponentFixture<TileComponent>;
+  let spectator: Spectator<TileComponent>;
+  const title: string = 'I am a tester';
+
+  const createTileComponent: SpectatorFactory<TileComponent> =
+    createComponentFactory({
+      component: TileComponent,
+      shallow: true,
+    });
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TileComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TileComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createTileComponent({ props: { title: title } });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates the tile component', () => {
+    expect(spectator.component).toBeTruthy();
+  });
+
+  it('renders the title', () => {
+    expect(spectator.query(byTestId('title'))).toHaveText(title);
   });
 });

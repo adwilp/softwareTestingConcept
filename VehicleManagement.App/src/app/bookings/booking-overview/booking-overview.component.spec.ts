@@ -1,23 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {
+  createComponentFactory,
+  Spectator,
+  SpectatorFactory,
+} from '@ngneat/spectator';
 import { BookingOverviewComponent } from './booking-overview.component';
 
 describe('BookingOverviewComponent', () => {
-  let component: BookingOverviewComponent;
-  let fixture: ComponentFixture<BookingOverviewComponent>;
+  let spectator: Spectator<BookingOverviewComponent>;
+
+  const createBokingOverviewComponent: SpectatorFactory<BookingOverviewComponent> =
+    createComponentFactory({
+      component: BookingOverviewComponent,
+      shallow: true,
+    });
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ BookingOverviewComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(BookingOverviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createBokingOverviewComponent();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates booking overview component', () => {
+    expect(spectator.component).toBeTruthy();
   });
 });

@@ -64,6 +64,21 @@ describe('AppComponent', () => {
     expect(navigateToVehicles).toHaveBeenCalled();
   });
 
+  it('calls navigateToBookings on booking button click', () => {
+    // ARRANGE
+    const navigateToBookings: Spy = spyOn(
+      spectator.component,
+      'navigateToBookings'
+    );
+
+    // ACT
+    spectator.click(byTestId('booking-button'));
+    spectator.detectChanges();
+
+    // ASSERT
+    expect(navigateToBookings).toHaveBeenCalled();
+  });
+
   it('calls router navigate on navigateToHome', () => {
     // ARRANGE
     const router: SpyObject<Router> = spectator.inject(Router);
@@ -84,5 +99,16 @@ describe('AppComponent', () => {
 
     // ASSERT
     expect(router.navigate).toHaveBeenCalledWith(['vehicles']);
+  });
+
+  it('calls router navigate on navigateToVehicles', () => {
+    // ARRANGE
+    const router: SpyObject<Router> = spectator.inject(Router);
+
+    // ACT
+    spectator.component.navigateToBookings();
+
+    // ASSERT
+    expect(router.navigate).toHaveBeenCalledWith(['bookings']);
   });
 });
