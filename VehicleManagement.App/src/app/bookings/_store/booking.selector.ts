@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/typedef */
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { bookingFeatureKey, BookingState } from './booking.reducer';
+import { bookingFeatureKey, BookingState } from './booking.reducers';
 
 const selectBookingState =
   createFeatureSelector<BookingState>(bookingFeatureKey);

@@ -3,7 +3,7 @@ import {
   bookingFeatureKey,
   bookingReducer,
   BookingState,
-} from '../bookings/_store/booking.reducer';
+} from '../bookings/_store/booking.reducers';
 import {
   vehicleFeatureKey,
   vehicleReducer,
