@@ -3,6 +3,7 @@ import {
   mockProvider,
   Spectator,
   SpectatorFactory,
+  SpyObject,
 } from '@ngneat/spectator';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MockPipe } from 'ng-mocks';
@@ -12,7 +13,7 @@ import { BookingOverviewComponent } from './booking-overview.component';
 describe('BookingOverviewComponent', () => {
   let spectator: Spectator<BookingOverviewComponent>;
 
-  const createBokingOverviewComponent: SpectatorFactory<BookingOverviewComponent> =
+  const createVehicleOverviewComponent: SpectatorFactory<BookingOverviewComponent> =
     createComponentFactory({
       component: BookingOverviewComponent,
       shallow: true,
@@ -21,10 +22,16 @@ describe('BookingOverviewComponent', () => {
     });
 
   beforeEach(async () => {
-    spectator = createBokingOverviewComponent();
+    spectator = createVehicleOverviewComponent();
   });
 
-  it('creates booking overview component', () => {
+  it('creates the BookingOverviewComponent', () => {
     expect(spectator.component).toBeTruthy();
+  });
+
+  it('loads all bookings on init', () => {
+    const facade: SpyObject<BookingFacade> = spectator.inject(BookingFacade);
+
+    expect(facade.getBookings).toHaveBeenCalled();
   });
 });
