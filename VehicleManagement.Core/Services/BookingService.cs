@@ -12,6 +12,11 @@ namespace VehicleManagement.Core.Services
             _bookingTransaction = bookingTransaction;
         }
 
+        public async Task<FlatBooking> AddAsync(Booking booking, CancellationToken cancellationToken)
+        {
+            return await _bookingTransaction.AddAsync(booking, cancellationToken);
+        }
+
         public async Task<IEnumerable<FlatBooking>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _bookingTransaction.GetAllAsync(cancellationToken);
