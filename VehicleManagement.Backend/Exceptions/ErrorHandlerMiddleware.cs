@@ -1,5 +1,6 @@
 ﻿using System.Net;
-using System.Text.Json;
+
+using Newtonsoft.Json;
 
 using VehicleManagement.DataContracts.Exceptions;
 
@@ -40,7 +41,13 @@ namespace VehicleManagement.Backend.Exceptions
                         break;
                 }
 
-                var result = JsonSerializer.Serialize(new ErrorResponse(error.Message, data));
+                var result = JsonConvert.SerializeObject(
+                    new ErrorResponse(error.Message, data),
+                    new JsonSerializerSettings()
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        MissingMemberHandling = MissingMemberHandling.Ignore,
+                    });
                 await response.WriteAsync(result);
             }
         }
