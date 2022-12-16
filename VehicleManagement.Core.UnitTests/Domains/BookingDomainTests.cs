@@ -27,7 +27,7 @@ namespace VehicleManagement.Core.UnitTests.Domains
         {
             // ARRANGE
             _bookingServiceMock
-                .Setup(vs => vs.GetAllAsync(It.IsAny<CancellationToken>()))
+                .Setup(bs => bs.GetAllAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(bookings);
 
             // ACT
@@ -44,7 +44,41 @@ namespace VehicleManagement.Core.UnitTests.Domains
             await _bookingDomain.GetAllAsync(It.IsAny<CancellationToken>());
 
             // ASSERT
-            _bookingServiceMock.Verify(vs => vs.GetAllAsync(It.IsAny<CancellationToken>()), Times.Once());
+            _bookingServiceMock.Verify(bs => bs.GetAllAsync(It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetAddBookingTestData), MemberType = typeof(BookingTestData))]
+        public async Task AddAsync_Should_Get_New(Booking booking, FlatBooking newBooking)
+        {
+            // ARRANGE
+            _bookingServiceMock
+                .Setup(bt => bt.AddAsync(booking, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(newBooking);
+
+            // ACT
+            var result = await _bookingDomain.AddAsync(booking, It.IsAny<CancellationToken>());
+
+            // ASSERT
+            Assert.Equal(newBooking.Start, result.Start);
+            Assert.Equal(newBooking.End, result.End);
+            Assert.Equal(newBooking.EmployeeNumber, result.EmployeeNumber);
+            Assert.Equal(newBooking.FIN, result.FIN);
+
+            Assert.Equal(booking.Start, result.Start);
+            Assert.Equal(booking.End, result.End);
+            Assert.Equal(booking.EmployeeNumber, result.EmployeeNumber);
+            Assert.Equal(booking.FIN, result.FIN);
+        }
+
+        [Fact]
+        public async Task AddAsync_Should_Call_Transaction_Once()
+        {
+            // ACT
+            await _bookingDomain.AddAsync(It.IsAny<Booking>(), It.IsAny<CancellationToken>());
+
+            // ASSERT
+            _bookingServiceMock.Verify(bs => bs.AddAsync(It.IsAny<Booking>(), It.IsAny<CancellationToken>()), Times.Once());
         }
     }
 }
