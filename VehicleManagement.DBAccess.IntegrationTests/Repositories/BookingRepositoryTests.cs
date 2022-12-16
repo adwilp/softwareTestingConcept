@@ -86,5 +86,23 @@ namespace VehicleManagement.DBAccess.IntegrationTests.Repositories
             Assert.Equal(newBooking.EmployeeNumber, bookings[4].EmployeeNumber);
             Assert.Equal(newBooking.FIN, bookings[4].FIN);
         }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetReloadReferencesTestData), MemberType = typeof(BookingTestData))]
+        public async Task ReloadReferences_Should_Load_References(Booking booking)
+        {
+            // ACT
+            var result = await _repository.GetAsync(It.IsAny<CancellationToken>(), b => b.Id == booking.Id);
+            await _repository.ReloadReferences(result, "Vehicle");
+
+            // ASSERT
+            Assert.NotNull(result.Vehicle);
+
+            Assert.Equal(booking.Vehicle.FIN, result.Vehicle.FIN);
+            Assert.Equal(booking.Vehicle.LicensePlate, result.Vehicle.LicensePlate);
+            Assert.Equal(booking.Vehicle.Color, result.Vehicle.Color);
+            Assert.Equal(booking.Vehicle.Mileage, result.Vehicle.Mileage);
+            Assert.Equal(booking.Vehicle.ManufacturerId, result.Vehicle.ManufacturerId);
+        }
     }
 }

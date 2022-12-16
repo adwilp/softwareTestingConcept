@@ -27,5 +27,28 @@ namespace VehicleManagement.DBAccess.IntegrationTests.TestData
                 },
             };
         }
+
+        public static IEnumerable<object[]> GetReloadReferencesTestData()
+        {
+            yield return new object[]
+            {
+                new Booking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 14, 10, 50, 12),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "SB164ABN1PE082986",
+                    Vehicle = new Vehicle()
+                    {
+                        FIN = "SB164ABN1PE082986",
+                        LicensePlate = "MI-XY-666",
+                        Color = "black",
+                        Mileage = 12345.89,
+                        ManufacturerId = "WMI"
+                    }
+                },
+            };
+        }
     }
 }
