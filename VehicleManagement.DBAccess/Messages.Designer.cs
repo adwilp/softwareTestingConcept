@@ -61,6 +61,15 @@ namespace VehicleManagement.DBAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The passed data cannot be saved in the database!.
+        /// </summary>
+        internal static string InvalidData {
+            get {
+                return ResourceManager.GetString("InvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The passed object value is null!.
         /// </summary>
         internal static string NullObject {

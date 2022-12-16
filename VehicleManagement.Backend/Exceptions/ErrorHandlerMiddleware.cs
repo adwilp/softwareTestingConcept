@@ -22,6 +22,7 @@ namespace VehicleManagement.Backend.Exceptions
             }
             catch (Exception error)
             {
+                IEnumerable<object>? data = null;
                 var response = context.Response;
                 response.ContentType = "application/json";
 
@@ -30,12 +31,16 @@ namespace VehicleManagement.Backend.Exceptions
                     case DataConversionException:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
+                    case SaveDataException:
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        data = ((SaveDataException)error).InvalidData;
+                        break;
                     default:
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }
 
-                var result = JsonSerializer.Serialize(new { message = error?.Message });
+                var result = JsonSerializer.Serialize(new ErrorResponse(error.Message, data));
                 await response.WriteAsync(result);
             }
         }
