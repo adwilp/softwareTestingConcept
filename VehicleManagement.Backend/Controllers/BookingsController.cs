@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+
+using Microsoft.AspNetCore.Mvc;
 
 using VehicleManagement.Core.Domains;
 using VehicleManagement.DataContracts.DataModels;
@@ -23,7 +25,9 @@ namespace VehicleManagement.Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] Booking booking, CancellationToken cancellationToken)
         {
-            return Ok(await _bookingDomain.AddAsync(booking, cancellationToken));
+            var newBooking = await _bookingDomain.AddAsync(booking, cancellationToken);
+
+            return StatusCode((int)HttpStatusCode.Created, newBooking);
         }
     }
 }
