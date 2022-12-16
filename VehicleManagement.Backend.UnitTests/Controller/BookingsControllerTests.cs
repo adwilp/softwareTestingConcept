@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 
 using FluentAssertions;
@@ -59,7 +60,10 @@ namespace VehicleManagement.Backend.UnitTests.Controller
             var result = await _bookingsController.Add(booking, It.IsAny<CancellationToken>());
 
             // ASSERT
-            var response = Assert.IsType<OkObjectResult>(result);
+            var response = Assert.IsType<ObjectResult>(result);
+
+            Assert.Equal((int)HttpStatusCode.Created, response.StatusCode);
+
             var body = Assert.IsAssignableFrom<FlatBooking>(response.Value);
 
             Assert.Equal(newBooking.Start, body.Start);

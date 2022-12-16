@@ -3,6 +3,7 @@ using System.Threading;
 
 using Moq;
 
+using VehicleManagement.DataContracts.Exceptions;
 using VehicleManagement.DBAccess.Entities;
 using VehicleManagement.DBAccess.IntegrationTests.DBFixtures;
 using VehicleManagement.DBAccess.IntegrationTests.TestData;
@@ -85,6 +86,25 @@ namespace VehicleManagement.DBAccess.IntegrationTests.Repositories
             Assert.Equal(newBooking.End, bookings[4].End);
             Assert.Equal(newBooking.EmployeeNumber, bookings[4].EmployeeNumber);
             Assert.Equal(newBooking.FIN, bookings[4].FIN);
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetFailAddTestData), MemberType = typeof(BookingTestData))]
+        public async Task AddAsync_Should_Throw_SaveDataException_On_Save_Error(Booking booking)
+        {
+            // ACT
+            await _repository.AddAsync(booking, It.IsAny<CancellationToken>());
+
+            // ACT & ASSERT
+            var exception = await Assert.ThrowsAsync<SaveDataException>(() => _repository.SaveAsync(It.IsAny<CancellationToken>()));
+
+            Booking invalidBooking = (Booking)exception.InvalidData.First();
+
+            Assert.NotNull(invalidBooking);
+            Assert.Equal(booking.Start, invalidBooking.Start);
+            Assert.Equal(booking.End, invalidBooking.End);
+            Assert.Equal(booking.EmployeeNumber, invalidBooking.EmployeeNumber);
+            Assert.Equal(booking.FIN, invalidBooking.FIN);
         }
 
         [Theory]

@@ -14,6 +14,7 @@ namespace VehicleManagement.Backend.Exceptions
             Message = message;
         }
 
+        [JsonConstructor]
         public ErrorResponse(string? message, IEnumerable<object>? data) : this(message)
         {
             Data = data;
