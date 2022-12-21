@@ -1,7 +1,11 @@
 <div class="header-row">
   <h1>{{ 'booking.overview.headline' | translate }}</h1>
 
-  <button mat-fab (click)="navigateToAddBooking()">
+  <button
+    mat-fab
+    data-testid="add-booking-button"
+    (click)="navigateToAddBooking()"
+  >
     <mat-icon>add</mat-icon>
   </button>
 </div>
