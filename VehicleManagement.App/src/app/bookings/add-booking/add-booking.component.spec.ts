@@ -1,23 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import {
+  createComponentFactory,
+  Spectator,
+  SpectatorFactory,
+} from '@ngneat/spectator';
+import { TranslatePipe } from '@ngx-translate/core';
+import { MockPipe, MockProviders } from 'ng-mocks';
+import { BookingFacade } from '../_store/booking.facade';
 
 import { AddBookingComponent } from './add-booking.component';
 
 describe('AddBookingComponent', () => {
-  let component: AddBookingComponent;
-  let fixture: ComponentFixture<AddBookingComponent>;
+  let spectator: Spectator<AddBookingComponent>;
+
+  const createAddBookingComponent: SpectatorFactory<AddBookingComponent> =
+    createComponentFactory({
+      component: AddBookingComponent,
+      shallow: true,
+      declarations: [MockPipe(TranslatePipe)],
+      providers: [MockProviders(BookingFacade, Router)],
+    });
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AddBookingComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(AddBookingComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createAddBookingComponent();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates component', () => {
+    expect(spectator.component).toBeTruthy();
   });
 });
