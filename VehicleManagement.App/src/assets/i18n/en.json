@@ -18,6 +18,9 @@
     }
   },
   "booking": {
+    "add": {
+      "headline": "Add booking"
+    },
     "overview": {
       "headline": "Booking overview",
       "id": "Id",

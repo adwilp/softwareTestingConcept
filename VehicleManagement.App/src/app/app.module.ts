@@ -32,6 +32,7 @@ import { VehicleOverviewComponent } from './vehicles/vehicle-overview/vehicle-ov
 import { BookingOverviewComponent } from './bookings/booking-overview/booking-overview.component';
 import { TileComponent } from './shared/tile/tile.component';
 import { BookingEffects } from './bookings/_store/booking.effects';
+import { AddBookingComponent } from './bookings/add-booking/add-booking.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -44,6 +45,7 @@ export function createTranslateLoader(http: HttpClient) {
     VehicleOverviewComponent,
     BookingOverviewComponent,
     TileComponent,
+    AddBookingComponent,
   ],
   imports: [
     BrowserModule,
