@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { FlatBooking } from '../models/flat-booking.model';
 import * as BookingActions from './booking.actions';
-import { BookingQuery } from './booking.selector';
+import { BookingQuery } from './booking.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class BookingFacade {
