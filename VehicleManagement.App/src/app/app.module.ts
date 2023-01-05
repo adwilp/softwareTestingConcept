@@ -14,6 +14,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 
 // NGRX
 import { EffectsModule } from '@ngrx/effects';
@@ -70,6 +74,10 @@ export function createTranslateLoader(http: HttpClient) {
     MatDividerModule,
     MatListModule,
     MatPaginatorModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -19,6 +19,12 @@
   },
   "booking": {
     "add": {
+      "form": {
+        "start": "Start",
+        "end": "End",
+        "employeeNumber": "Employee number",
+        "vehicle": "Vehicle"
+      },
       "headline": "Add booking"
     },
     "overview": {
