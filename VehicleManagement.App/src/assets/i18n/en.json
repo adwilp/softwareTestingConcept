@@ -20,8 +20,7 @@
   "booking": {
     "add": {
       "form": {
-        "start": "Start",
-        "end": "End",
+        "date": "Please choose a range",
         "employeeNumber": "Employee number",
         "vehicle": "Vehicle"
       },

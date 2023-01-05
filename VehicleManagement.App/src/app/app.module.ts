@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // ANGULAR MATERIAL
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -18,10 +19,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 // NGRX
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { LetModule } from '@ngrx/component';
 import { VehicleEffects } from './vehicles/_store/vehicle.effects';
 import * as fromApp from './_store/app.reducer';
 
@@ -57,6 +60,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     EffectsModule.forRoot([VehicleEffects, BookingEffects]),
     StoreModule.forRoot(fromApp.AppReducer),
+    LetModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
@@ -65,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
+    ReactiveFormsModule,
     MatToolbarModule,
     MatIconModule,
     HttpClientModule,
@@ -78,6 +83,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatNativeDateModule,
     MatDatepickerModule,
     MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

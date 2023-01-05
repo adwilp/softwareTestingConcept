@@ -2,12 +2,30 @@
   <h1>{{ 'booking.add.headline' | translate }}</h1>
 </div>
 
-<form>
+<form [formGroup]="bookingForm">
   <mat-form-field appearance="fill">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" />
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+    <mat-label>{{ 'booking.add.form.date' | translate }}</mat-label>
+    <mat-date-range-input formGroupName="range" [rangePicker]="picker">
+      <input matStartDate formControlName="start" />
+      <input matEndDate formControlName="end" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'booking.add.form.employeeNumber' | translate }}</mat-label>
+    <input matInput formControlName="employeeNumber" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'booking.add.form.vehicle' | translate }}</mat-label>
+    <mat-select formControlName="fin">
+      <ng-container *ngrxLet="vehicles$ as vehicles">
+        <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.fin"
+          >{{ vehicle.manufacturer }} - {{ vehicle.licensePlate }}</mat-option
+        >
+      </ng-container>
+    </mat-select>
   </mat-form-field>
 </form>
