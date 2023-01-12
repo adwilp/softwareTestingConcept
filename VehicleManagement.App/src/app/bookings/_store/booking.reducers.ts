@@ -40,7 +40,20 @@ const reducer: ActionReducer<BookingState> = createImmerReducer(
   on(BookingActions.addBooking, (state: BookingState) => {
     state.newBookingProcessing = true;
     return state;
-  })
+  }),
+
+  on(
+    BookingActions.addBookingSuccess,
+    (state: BookingState, { booking }: BookingActions.addBookingSuccess) => {
+      state.newBookingProcessing = false;
+
+      const bookings: FlatBooking[] = state.bookings;
+      bookings.push(booking);
+
+      state.bookings = bookings;
+      return state;
+    }
+  )
 );
 
 export function bookingReducer(
