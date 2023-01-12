@@ -23,7 +23,13 @@
         "date": "Please choose a range",
         "employeeNumber": "Employee number",
         "vehicle": "Vehicle",
-        "submit": "Book"
+        "submit": "Book",
+        "errors": {
+          "rangeStartRequired": "You have to enter a start date for your booking!",
+          "rangeEndRequired": "You have to enter a end date for your booking!",
+          "employeeNumberRequired": "You have to enter your employee number!",
+          "carRequired": "You have to choose a car!"
+        }
       },
       "headline": "Add booking"
     },

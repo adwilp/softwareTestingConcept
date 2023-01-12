@@ -30,6 +30,14 @@ export class AddBookingComponent implements OnInit {
     this.vehicleFacade.getVehicles();
   }
 
+  isError(field: string, error: string): boolean {
+    return (
+      this.bookingForm?.get(field)?.errors != null &&
+      this.bookingForm?.get(field)?.errors[error] &&
+      this.bookingForm?.get(field)?.touched
+    );
+  }
+
   bookingSubmited(): void {
     if (this.bookingForm.valid) {
       const booking: Booking = {
