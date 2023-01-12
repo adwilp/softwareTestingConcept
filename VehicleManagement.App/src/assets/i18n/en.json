@@ -22,7 +22,8 @@
       "form": {
         "date": "Please choose a range",
         "employeeNumber": "Employee number",
-        "vehicle": "Vehicle"
+        "vehicle": "Vehicle",
+        "submit": "Book"
       },
       "headline": "Add booking"
     },

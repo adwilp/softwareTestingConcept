@@ -2,7 +2,7 @@
   <h1>{{ 'booking.add.headline' | translate }}</h1>
 </div>
 
-<form [formGroup]="bookingForm">
+<form [formGroup]="bookingForm" (submit)="bookingSubmited()">
   <mat-form-field appearance="fill">
     <mat-label>{{ 'booking.add.form.date' | translate }}</mat-label>
     <mat-date-range-input formGroupName="range" [rangePicker]="picker">
@@ -28,4 +28,8 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
+
+  <button mat-raised-button color="accent" type="submit">
+    {{ 'booking.add.form.submit' | translate }}
+  </button>
 </form>
