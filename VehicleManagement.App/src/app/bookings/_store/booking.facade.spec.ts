@@ -1,7 +1,7 @@
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { flatBookings } from './booking.test-data';
+import { booking, flatBookings } from './booking.test-data';
 import { BookingFacade } from './booking.facade';
 import { first } from 'rxjs';
 import { FlatBooking } from '../models/flat-booking.model';
@@ -78,6 +78,19 @@ describe('BookingFacade', () => {
 
     // ACT
     facade.getBookings();
+
+    // ASSERT
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch addBooking action', () => {
+    // ARRANGE
+    const expectedAction: TypedAction<'[Bookings] Add booking'> =
+      BookingActions.addBooking({ booking: booking });
+    spyOn(store, 'dispatch');
+
+    // ACT
+    facade.addBooking(booking);
 
     // ASSERT
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
