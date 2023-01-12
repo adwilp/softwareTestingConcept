@@ -16,12 +16,6 @@ export class ValidationService {
         control.markAsTouched({ onlySelf: true });
       } else if (control instanceof UntypedFormGroup) {
         this.markFormControlsAsTouched(control);
-      } else if (control instanceof UntypedFormArray) {
-        for (let i: number = 0; i < control.length; i++) {
-          this.markFormControlsAsTouched(<UntypedFormGroup>control.controls[i]);
-        }
-
-        control.markAsTouched({ onlySelf: true });
       }
     });
   }
