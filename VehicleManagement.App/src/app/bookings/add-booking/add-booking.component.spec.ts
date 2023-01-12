@@ -6,6 +6,7 @@ import {
 } from '@ngneat/spectator';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MockPipe, MockProviders } from 'ng-mocks';
+import { VehicleFacade } from 'src/app/vehicles/_store/vehicle.facade';
 import { BookingFacade } from '../_store/booking.facade';
 
 import { AddBookingComponent } from './add-booking.component';
@@ -18,7 +19,7 @@ describe('AddBookingComponent', () => {
       component: AddBookingComponent,
       shallow: true,
       declarations: [MockPipe(TranslatePipe)],
-      providers: [MockProviders(BookingFacade, Router)],
+      providers: [MockProviders(BookingFacade, Router, VehicleFacade)],
     });
 
   beforeEach(async () => {

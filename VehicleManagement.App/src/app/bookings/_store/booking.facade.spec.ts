@@ -8,7 +8,7 @@ import { FlatBooking } from '../models/flat-booking.model';
 import * as BookingActions from './booking.actions';
 import { TypedAction } from '@ngrx/store/src/models';
 import { AppState } from 'src/app/_store/app.reducer';
-import { flatVehicles } from 'src/app/vehicles/_store/vehicle.test-data';
+import { testState } from 'src/app/_store/state.test-data';
 
 describe('BookingFacade', () => {
   let facade: BookingFacade;
@@ -27,16 +27,10 @@ describe('BookingFacade', () => {
   it('returns all bookings', (done: DoneFn) => {
     // ARRANGE
     let currentBookings: FlatBooking[] | undefined;
-    store.setState({
-      vehicle: {
-        vehicles: flatVehicles,
-        vehiclesLoading: false,
-      },
-      booking: {
-        bookings: flatBookings,
-        bookingsLoading: false,
-      },
-    });
+
+    const state: AppState = testState;
+    state.booking.bookings = flatBookings;
+    store.setState(state);
 
     // ACT
     facade.bookings$.pipe(first()).subscribe((vehicles: FlatBooking[]) => {
@@ -55,16 +49,10 @@ describe('BookingFacade', () => {
   it('returns bookings loading', (done: DoneFn) => {
     // ARRANGE
     let currentBookingsLoading: boolean | undefined;
-    store.setState({
-      vehicle: {
-        vehicles: flatVehicles,
-        vehiclesLoading: false,
-      },
-      booking: {
-        bookings: flatBookings,
-        bookingsLoading: true,
-      },
-    });
+
+    const state: AppState = testState;
+    state.booking.bookingsLoading = true;
+    store.setState(state);
 
     // ACT
     facade.bookingsLoading$
