@@ -122,10 +122,4 @@ describe('AddBookingComponent', () => {
     // ASSERT
     expect(bookingFacade.addBooking).toHaveBeenCalledOnceWith(booking);
   });
-
-  // describe('UI interactions', () => {
-  //   it('', () => {
-
-  //   })
-  // });
 });
