@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="InvalidData" xml:space="preserve">
+    <value>The passed data cannot be saved in the database!</value>
+  </data>
   <data name="NullObject" xml:space="preserve">
     <value>The passed object value is null!</value>
   </data>

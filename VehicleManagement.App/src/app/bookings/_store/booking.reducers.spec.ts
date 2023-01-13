@@ -5,7 +5,7 @@ import {
   BookingState,
 } from './booking.reducers';
 import * as BookingsActions from './booking.actions';
-import { flatBookings } from './booking.test-data';
+import { booking, flatBookings } from './booking.test-data';
 import { TypedAction } from '@ngrx/store/src/models';
 
 describe('VehicleReducer', () => {
@@ -55,6 +55,43 @@ describe('VehicleReducer', () => {
         TypedAction<'[Bookings] Get bookings - Success'> =
         BookingsActions.getBookingsSuccess({
           bookings: flatBookings,
+        });
+
+      // ACT
+      const state: BookingState = bookingReducer(initState, action);
+
+      // ASSERT
+      expect(state).toEqual(expectedState);
+    });
+  });
+
+  describe('addBooking action', () => {
+    it('returns the addBooking state', () => {
+      // ARRANGE
+      const expectedState: BookingState = structuredClone(initState);
+      expectedState.newBookingProcessing = true;
+
+      const action: TypedAction<'[Bookings] Add booking'> =
+        BookingsActions.addBooking({ booking: booking });
+
+      // ACT
+      const state: BookingState = bookingReducer(initState, action);
+
+      // ASSERT
+      expect(state).toEqual(expectedState);
+    });
+  });
+
+  describe('addBookingSuccess action', () => {
+    it('returns the new flat booking', () => {
+      // ARRANGE
+      const expectedState: BookingState = structuredClone(initState);
+      expectedState.bookings = flatBookings;
+
+      const action: BookingsActions.addBookingSuccess &
+        TypedAction<'[Bookings] Add booking - Success'> =
+        BookingsActions.addBookingSuccess({
+          booking: flatBookings[0],
         });
 
       // ACT

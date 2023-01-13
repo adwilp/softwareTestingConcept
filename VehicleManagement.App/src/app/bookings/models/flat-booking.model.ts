@@ -1,8 +1,6 @@
-export class FlatBooking {
+import { Booking } from './booking.model';
+
+export class FlatBooking extends Booking {
   id: number;
-  start: Date;
-  end: Date;
-  employeeNumber: string;
-  fin: string;
   licensePlate: string;
 }

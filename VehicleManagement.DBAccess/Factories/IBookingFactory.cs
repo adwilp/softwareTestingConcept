@@ -1,12 +1,15 @@
-﻿using VehicleManagement.DataContracts.DataModels;
-using VehicleManagement.DBAccess.Entities;
+﻿using VehicleManagement.DBAccess.Entities;
+
+using models = VehicleManagement.DataContracts.DataModels;
 
 namespace VehicleManagement.DBAccess.Factories
 {
     public interface IBookingFactory
     {
-        FlatBooking Create(Booking booking);
+        models.FlatBooking Create(Booking booking);
 
-        IEnumerable<FlatBooking> Create(IEnumerable<Booking> bookings);
+        IEnumerable<models.FlatBooking> Create(IEnumerable<Booking> bookings);
+
+        Booking Create(models.Booking booking);
     }
 }

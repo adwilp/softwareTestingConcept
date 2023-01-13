@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Booking } from '../models/booking.model';
 import { FlatBooking } from '../models/flat-booking.model';
 import * as BookingActions from './booking.actions';
-import { BookingQuery } from './booking.selector';
+import { BookingQuery } from './booking.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class BookingFacade {
@@ -19,5 +20,9 @@ export class BookingFacade {
 
   getBookings(): void {
     this.store.dispatch(BookingActions.getBookings());
+  }
+
+  addBooking(booking: Booking): void {
+    this.store.dispatch(BookingActions.addBooking({ booking: booking }));
   }
 }

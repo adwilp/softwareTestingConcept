@@ -8,29 +8,35 @@ import { MockProviders } from 'ng-mocks';
 import * as BookingActions from './booking.actions';
 import Spy = jasmine.Spy;
 import { HttpErrorResponse } from '@angular/common/http';
-import { flatBookings } from './booking.test-data';
+import { flatBookings, booking } from './booking.test-data';
 import { TypedAction } from '@ngrx/store/src/models';
+import { Router } from '@angular/router';
 
 describe('BookingEffects', () => {
   type getBookingsSuccessAction = BookingActions.getBookingsSuccess &
     TypedAction<'[Bookings] Get bookings - Success'>;
 
+  type addBookingSuccessAction = BookingActions.addBookingSuccess &
+    TypedAction<'[Bookings] Add booking - Success'>;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let actionsMock$: Observable<any>;
   let effects: BookingEffects;
   let bookingService: BookingService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actionsMock$),
         BookingEffects,
-        MockProviders(bookingReducer, BookingService),
+        MockProviders(bookingReducer, BookingService, Router),
       ],
     });
 
     bookingService = TestBed.inject(BookingService);
     effects = TestBed.inject(BookingEffects);
+    router = TestBed.inject(Router);
   });
 
   describe('getBookings$', () => {
@@ -101,6 +107,98 @@ describe('BookingEffects', () => {
         type: outcome.type,
         bookings: outcome.bookings,
       });
+    });
+  });
+
+  describe('addBooking$', () => {
+    let bookingServiceSpy: Spy;
+
+    beforeEach(() => {
+      actionsMock$ = of(BookingActions.addBooking({ booking: booking }));
+      bookingServiceSpy = spyOn(bookingService, 'addBooking');
+    });
+
+    it('calls addBooking once', () => {
+      // ARRANGE
+      bookingServiceSpy.and.returnValue(of(flatBookings[0]));
+
+      // ACT
+      effects.addBooking$.subscribe();
+
+      // ASSERT
+      expect(bookingServiceSpy).toHaveBeenCalledOnceWith(booking);
+    });
+
+    it('returns a stream with FlatBooking', () => {
+      // ARRANGE
+      let currentOutcome: addBookingSuccessAction | undefined;
+      const outcome: addBookingSuccessAction = BookingActions.addBookingSuccess(
+        {
+          booking: flatBookings[0],
+        }
+      );
+      bookingServiceSpy.and.returnValue(of(flatBookings[0]));
+
+      // ACT
+      effects.addBooking$.subscribe((action: addBookingSuccessAction) => {
+        currentOutcome = action;
+      });
+
+      // ASSERT
+      if (!currentOutcome) {
+        fail('currentOutcome must not be undefined!');
+      }
+
+      expect(currentOutcome).toEqual({
+        type: outcome.type,
+        booking: outcome.booking,
+      });
+    });
+
+    it('returns a stream with null on http error', () => {
+      // ARRANGE
+      let currentOutcome: addBookingSuccessAction | undefined;
+      const error: HttpErrorResponse = new HttpErrorResponse({});
+      const outcome: addBookingSuccessAction = BookingActions.addBookingSuccess(
+        { booking: null }
+      );
+      bookingServiceSpy.and.callFake(() => {
+        return throwError(() => error);
+      });
+
+      // ACT
+      effects.addBooking$.subscribe((action: addBookingSuccessAction) => {
+        currentOutcome = action;
+      });
+
+      // ASSERT
+      if (!currentOutcome) {
+        fail('currentOutcome must not be undefined!');
+      }
+
+      expect(currentOutcome).toEqual({
+        type: outcome.type,
+        booking: outcome.booking,
+      });
+    });
+  });
+
+  describe('addBookingSuccess$', () => {
+    let routerSpy: Spy;
+
+    beforeEach(() => {
+      actionsMock$ = of(
+        BookingActions.addBookingSuccess({ booking: flatBookings[0] })
+      );
+      routerSpy = spyOn(router, 'navigate');
+    });
+
+    it('calls navigate on success', () => {
+      // ACT
+      effects.addBookingSuccess$.subscribe();
+
+      // ASSERT
+      expect(routerSpy).toHaveBeenCalledOnceWith(['bookings']);
     });
   });
 });

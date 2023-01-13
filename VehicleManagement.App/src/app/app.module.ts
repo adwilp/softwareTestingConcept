@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // ANGULAR MATERIAL
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -14,10 +15,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 // NGRX
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { LetModule } from '@ngrx/component';
 import { VehicleEffects } from './vehicles/_store/vehicle.effects';
 import * as fromApp from './_store/app.reducer';
 
@@ -32,6 +39,7 @@ import { VehicleOverviewComponent } from './vehicles/vehicle-overview/vehicle-ov
 import { BookingOverviewComponent } from './bookings/booking-overview/booking-overview.component';
 import { TileComponent } from './shared/tile/tile.component';
 import { BookingEffects } from './bookings/_store/booking.effects';
+import { AddBookingComponent } from './bookings/add-booking/add-booking.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -44,6 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
     VehicleOverviewComponent,
     BookingOverviewComponent,
     TileComponent,
+    AddBookingComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +60,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     EffectsModule.forRoot([VehicleEffects, BookingEffects]),
     StoreModule.forRoot(fromApp.AppReducer),
+    LetModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
@@ -59,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
+    ReactiveFormsModule,
     MatToolbarModule,
     MatIconModule,
     HttpClientModule,
@@ -68,6 +79,11 @@ export function createTranslateLoader(http: HttpClient) {
     MatDividerModule,
     MatListModule,
     MatPaginatorModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

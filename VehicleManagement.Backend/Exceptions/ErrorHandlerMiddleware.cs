@@ -1,5 +1,6 @@
 ﻿using System.Net;
-using System.Text.Json;
+
+using Newtonsoft.Json;
 
 using VehicleManagement.DataContracts.Exceptions;
 
@@ -22,6 +23,7 @@ namespace VehicleManagement.Backend.Exceptions
             }
             catch (Exception error)
             {
+                IEnumerable<object>? data = null;
                 var response = context.Response;
                 response.ContentType = "application/json";
 
@@ -30,12 +32,22 @@ namespace VehicleManagement.Backend.Exceptions
                     case DataConversionException:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
+                    case SaveDataException:
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        data = ((SaveDataException)error).InvalidData;
+                        break;
                     default:
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }
 
-                var result = JsonSerializer.Serialize(new { message = error?.Message });
+                var result = JsonConvert.SerializeObject(
+                    new ErrorResponse(error.Message, data),
+                    new JsonSerializerSettings()
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        MissingMemberHandling = MissingMemberHandling.Ignore,
+                    });
                 await response.WriteAsync(result);
             }
         }

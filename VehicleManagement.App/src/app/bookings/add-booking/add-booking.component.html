@@ -1,0 +1,47 @@
+<div class="header-row">
+  <h1>{{ 'booking.add.headline' | translate }}</h1>
+</div>
+
+<form [formGroup]="bookingForm" (submit)="bookingSubmited()">
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'booking.add.form.date' | translate }}</mat-label>
+    <mat-date-range-input formGroupName="range" [rangePicker]="picker">
+      <input matStartDate formControlName="start" />
+      <input matEndDate formControlName="end" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+    <mat-error *ngIf="isError('range.start', 'required')">{{
+      'booking.add.form.errors.rangeStartRequired' | translate
+    }}</mat-error>
+    <mat-error *ngIf="isError('range.end', 'required')">{{
+      'booking.add.form.errors.rangeEndRequired' | translate
+    }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'booking.add.form.employeeNumber' | translate }}</mat-label>
+    <input matInput formControlName="employeeNumber" />
+    <mat-error *ngIf="isError('employeeNumber', 'required')">{{
+      'booking.add.form.errors.employeeNumberRequired' | translate
+    }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'booking.add.form.vehicle' | translate }}</mat-label>
+    <mat-select formControlName="fin">
+      <ng-container *ngrxLet="vehicles$ as vehicles">
+        <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.fin"
+          >{{ vehicle.manufacturer }} - {{ vehicle.licensePlate }}</mat-option
+        >
+      </ng-container>
+    </mat-select>
+    <mat-error *ngIf="isError('fin', 'required')">{{
+      'booking.add.form.errors.carRequired' | translate
+    }}</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="accent" type="submit">
+    {{ 'booking.add.form.submit' | translate }}
+  </button>
+</form>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 
 using FluentAssertions;
@@ -31,7 +32,7 @@ namespace VehicleManagement.Backend.UnitTests.Controller
         {
             // ARRANGE
             _bookingDomainMock
-                .Setup(md => md.GetAllAsync(It.IsAny<CancellationToken>()))
+                .Setup(bd => bd.GetAllAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(bookings);
 
             // ACT
@@ -44,6 +45,36 @@ namespace VehicleManagement.Backend.UnitTests.Controller
             Assert.NotNull(body);
             body.Should().BeEquivalentTo(bookings);
             Assert.Equal(bookings.Count, body.Count());
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetAddBookingTestData), MemberType = typeof(BookingTestData))]
+        public async Task Add_Should_Return_New_Successfull(Booking booking, FlatBooking newBooking)
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.AddAsync(booking, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(newBooking);
+
+            // ACT
+            var result = await _bookingsController.Add(booking, It.IsAny<CancellationToken>());
+
+            // ASSERT
+            var response = Assert.IsType<ObjectResult>(result);
+
+            Assert.Equal((int)HttpStatusCode.Created, response.StatusCode);
+
+            var body = Assert.IsAssignableFrom<FlatBooking>(response.Value);
+
+            Assert.Equal(newBooking.Start, body.Start);
+            Assert.Equal(newBooking.End, body.End);
+            Assert.Equal(newBooking.EmployeeNumber, body.EmployeeNumber);
+            Assert.Equal(newBooking.FIN, body.FIN);
+
+            Assert.Equal(booking.Start, body.Start);
+            Assert.Equal(booking.End, body.End);
+            Assert.Equal(booking.EmployeeNumber, body.EmployeeNumber);
+            Assert.Equal(booking.FIN, body.FIN);
         }
     }
 }

@@ -16,7 +16,13 @@ const selectBookings = createSelector(
   (state: BookingState) => state.bookings
 );
 
+const selectnewBookingProcessing = createSelector(
+  selectBookingState,
+  (state: BookingState) => state.newBookingProcessing
+);
+
 export const BookingQuery = {
   selectBookings,
   selectBookingsLoading,
+  selectnewBookingProcessing,
 };

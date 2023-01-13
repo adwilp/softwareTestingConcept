@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import * as BookingActions from './booking.actions';
 import { FlatBooking } from '../models/flat-booking.model';
 import { BookingService } from '../booking.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class BookingEffects {
@@ -31,8 +32,40 @@ export class BookingEffects {
     );
   });
 
+  // eslint-disable-next-line @typescript-eslint/typedef
+  addBooking$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(BookingActions.addBooking),
+      switchMap((value: BookingActions.addBooking) => {
+        return this.bookingService.addBooking(value.booking).pipe(
+          map((booking: FlatBooking) => {
+            return BookingActions.addBookingSuccess({ booking: booking });
+          }),
+          catchError(() => {
+            // TODO AK: Replace with correct action
+            return of(BookingActions.addBookingSuccess({ booking: null }));
+          })
+        );
+      })
+    );
+  });
+
+  // eslint-disable-next-line @typescript-eslint/typedef
+  addBookingSuccess$ = createEffect(
+    () => {
+      return this.action$.pipe(
+        ofType(BookingActions.addBookingSuccess),
+        tap(() => {
+          this.router.navigate(['bookings']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private action$: Actions,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private router: Router
   ) {}
 }

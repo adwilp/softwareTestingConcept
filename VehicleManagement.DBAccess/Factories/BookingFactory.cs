@@ -1,19 +1,20 @@
-﻿using VehicleManagement.DataContracts.DataModels;
-using VehicleManagement.DataContracts.Exceptions;
+﻿using VehicleManagement.DataContracts.Exceptions;
 using VehicleManagement.DBAccess.Entities;
+
+using models = VehicleManagement.DataContracts.DataModels;
 
 namespace VehicleManagement.DBAccess.Factories
 {
     public class BookingFactory : IBookingFactory
     {
-        public FlatBooking Create(Booking booking)
+        public models.FlatBooking Create(Booking booking)
         {
             if (booking == null)
             {
                 throw new DataConversionException(Messages.NullObject, nameof(booking));
             }
 
-            var flatBooking = new FlatBooking()
+            var flatBooking = new models.FlatBooking()
             {
                 Id = booking.Id,
                 Start = booking.Start,
@@ -30,7 +31,7 @@ namespace VehicleManagement.DBAccess.Factories
             return flatBooking;
         }
 
-        public IEnumerable<FlatBooking> Create(IEnumerable<Booking> bookings)
+        public IEnumerable<models.FlatBooking> Create(IEnumerable<Booking> bookings)
         {
             if (bookings == null)
             {
@@ -38,6 +39,22 @@ namespace VehicleManagement.DBAccess.Factories
             }
 
             return bookings.Select(booking => Create(booking));
+        }
+
+        public Booking Create(models.Booking booking)
+        {
+            if (booking == null)
+            {
+                throw new DataConversionException(Messages.NullObject, nameof(booking));
+            }
+
+            return new Booking()
+            {
+                Start = booking.Start,
+                End = booking.End,
+                EmployeeNumber = booking.EmployeeNumber,
+                FIN = booking.FIN
+            };
         }
     }
 }

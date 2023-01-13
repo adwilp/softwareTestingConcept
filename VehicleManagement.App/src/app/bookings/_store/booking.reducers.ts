@@ -9,12 +9,14 @@ export const bookingFeatureKey = 'booking';
 export type BookingState = {
   bookings: FlatBooking[];
   bookingsLoading: boolean;
+  newBookingProcessing: boolean;
 };
 
 export function createVehicleInitialState(): BookingState {
   return {
     bookings: [],
     bookingsLoading: false,
+    newBookingProcessing: false,
   };
 }
 
@@ -31,6 +33,24 @@ const reducer: ActionReducer<BookingState> = createImmerReducer(
     (state: BookingState, { bookings }: BookingActions.getBookingsSuccess) => {
       state.bookings = bookings;
       state.bookingsLoading = false;
+      return state;
+    }
+  ),
+
+  on(BookingActions.addBooking, (state: BookingState) => {
+    state.newBookingProcessing = true;
+    return state;
+  }),
+
+  on(
+    BookingActions.addBookingSuccess,
+    (state: BookingState, { booking }: BookingActions.addBookingSuccess) => {
+      state.newBookingProcessing = false;
+
+      const bookings: FlatBooking[] = state.bookings;
+      bookings.push(booking);
+
+      state.bookings = bookings;
       return state;
     }
   )

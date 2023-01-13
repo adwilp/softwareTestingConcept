@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
+using VehicleManagement.DataContracts.Exceptions;
 using VehicleManagement.DBAccess.Entities;
 
 namespace VehicleManagement.DBAccess.Repositories
@@ -61,24 +62,35 @@ namespace VehicleManagement.DBAccess.Repositories
             return createdEntity;
         }
 
-        /// <summary>
-        /// Reloads all referenceces.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        public void ReloadAllReferenceces(TEntity entity)
+        public async Task ReloadReferences(TEntity entity, params string[] properties)
+        {
+            foreach (string property in properties)
+            {
+                await Context.Entry(entity).Reference(property).LoadAsync();
+            }
+        }
+
+        public async Task ReloadAllReferenceces(TEntity entity)
         {
             foreach (var reference in Context.Entry(entity).References)
             {
                 if (reference.CurrentValue == null)
                 {
-                    reference.Load();
+                    await reference.LoadAsync();
                 }
             }
         }
 
         public async Task SaveAsync(CancellationToken cancellationToken)
         {
-            await Context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await Context.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateException exception)
+            {
+                throw new SaveDataException(Messages.InvalidData, exception.Entries.Select(e => e.Entity));
+            }
         }
 
         protected IQueryable<TEntity> GetAllAsQueryable(Expression<Func<TEntity, bool>> filterPredicate = null, bool asNoTracking = false, params string[] includedPaths)
