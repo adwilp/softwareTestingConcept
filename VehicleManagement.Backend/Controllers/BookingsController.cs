@@ -29,5 +29,13 @@ namespace VehicleManagement.Backend.Controllers
 
             return StatusCode((int)HttpStatusCode.Created, newBooking);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateableBooking booking, CancellationToken cancellationToken)
+        {
+            var updatedBooking = await _bookingDomain.UpdateAsync(booking, cancellationToken);
+
+            return Ok(updatedBooking);
+        }
     }
 }
