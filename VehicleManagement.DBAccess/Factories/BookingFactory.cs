@@ -41,6 +41,15 @@ namespace VehicleManagement.DBAccess.Factories
             return bookings.Select(booking => Create(booking));
         }
 
+        public Booking Create(models.UpdateableBooking booking)
+        {
+            var entity = Create((models.Booking)booking);
+
+            entity.Id = booking.Id;
+
+            return entity;
+        }
+
         public Booking Create(models.Booking booking)
         {
             if (booking == null)
@@ -57,13 +66,5 @@ namespace VehicleManagement.DBAccess.Factories
             };
         }
 
-        public Booking Create(models.UpdateableBooking booking)
-        {
-            var entity = Create((models.Booking)booking);
-
-            entity.Id = booking.Id;
-
-            return entity;
-        }
     }
 }

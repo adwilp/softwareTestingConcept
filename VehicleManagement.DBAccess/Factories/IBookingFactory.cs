@@ -11,5 +11,7 @@ namespace VehicleManagement.DBAccess.Factories
         IEnumerable<models.FlatBooking> Create(IEnumerable<Booking> bookings);
 
         Booking Create(models.Booking booking);
+
+        Booking Create(models.UpdateableBooking booking);
     }
 }

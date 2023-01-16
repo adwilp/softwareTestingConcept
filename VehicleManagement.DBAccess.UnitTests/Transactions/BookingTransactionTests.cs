@@ -101,5 +101,52 @@ namespace VehicleManagement.DBAccess.UnitTests.Transactions
             // ASSERT
             _bookingRepository.Verify(br => br.ReloadReferences(It.IsAny<Booking>(), "Vehicle"), Times.Once());
         }
+
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetUpdateBookingTestData), MemberType = typeof(BookingTestData))]
+        public async Task UpdateAsync_Should_Update_And_Get_FlatBooking(models.UpdateableBooking model, Booking entity, Booking newEntity, models.FlatBooking newModel)
+        {
+            // ARRANGE
+            _bookingFactory
+                .Setup(bf => bf.Create(model))
+                .Returns(entity);
+
+            _bookingRepository
+                .Setup(br =>
+                    br.Update(entity)
+                )
+                .Returns(newEntity);
+
+            _bookingFactory
+                .Setup(vf => vf.Create(newEntity))
+                .Returns(newModel);
+
+            // ACT
+            var result = await _bookingTransaction.UpdateAsync(model, It.IsAny<CancellationToken>());
+
+            // ASSERT
+            result.Should().BeEquivalentTo(newModel);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_Should_Call_Update_From_Repo_Once()
+        {
+            // ACT
+            await _bookingTransaction.UpdateAsync(It.IsAny<models.UpdateableBooking>(), It.IsAny<CancellationToken>());
+
+            // ASSERT
+            _bookingRepository.Verify(br => br.Update(It.IsAny<Booking>()), Times.Once());
+        }
+
+        [Fact]
+        public async Task UpdateAsync_Should_Call_ReloadReferences_From_Repo()
+        {
+            // ACT
+            await _bookingTransaction.UpdateAsync(It.IsAny<models.UpdateableBooking>(), It.IsAny<CancellationToken>());
+
+            // ASSERT
+            _bookingRepository.Verify(br => br.ReloadReferences(It.IsAny<Booking>(), "Vehicle"), Times.Once());
+        }
     }
 }

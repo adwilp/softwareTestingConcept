@@ -74,7 +74,7 @@ namespace VehicleManagement.DBAccess.UnitTests.Factories
 
             // ASSERT
             Assert.Equal(entity.Start, result.Start);
-            Assert.Equal(entity.Start, result.Start);
+            Assert.Equal(entity.End, result.End);
             Assert.Equal(entity.EmployeeNumber, result.EmployeeNumber);
             Assert.Equal(entity.FIN, result.FIN);
         }
@@ -84,6 +84,31 @@ namespace VehicleManagement.DBAccess.UnitTests.Factories
         {
             // ARRANGE
             models.Booking? model = null;
+
+            // ASSERT & ACT
+            Assert.Throws<DataConversionException>(() => _bookingFactory.Create(model));
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetSingleBookingUpdateModelTestData), MemberType = typeof(BookingTestData))]
+        public void Create_From_Update_Should_Create_Entity_Booking(models.UpdateableBooking model, Booking entity)
+        {
+            // ACT
+            var result = _bookingFactory.Create(model);
+
+            // ASSERT
+            Assert.Equal(entity.Id, result.Id);
+            Assert.Equal(entity.Start, result.Start);
+            Assert.Equal(entity.End, result.End);
+            Assert.Equal(entity.EmployeeNumber, result.EmployeeNumber);
+            Assert.Equal(entity.FIN, result.FIN);
+        }
+
+        [Fact]
+        public void Create_From_Update_Should_Throw_Exception_For_Null_Model()
+        {
+            // ARRANGE
+            models.UpdateableBooking? model = null;
 
             // ASSERT & ACT
             Assert.Throws<DataConversionException>(() => _bookingFactory.Create(model));
