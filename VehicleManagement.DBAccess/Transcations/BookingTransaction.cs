@@ -32,5 +32,16 @@ namespace VehicleManagement.DBAccess.Transcations
 
             return _bookingFactory.Create(bookings);
         }
+
+        public async Task<FlatBooking> UpdateAsync(UpdateableBooking booking, CancellationToken cancellationToken)
+        {
+            var entity = _bookingFactory.Create(booking);
+
+            var updatedEntity = _bookingRepository.Update(entity);
+            await _bookingRepository.SaveAsync(cancellationToken);
+            await _bookingRepository.ReloadReferences(updatedEntity, "Vehicle");
+
+            return _bookingFactory.Create(updatedEntity);
+        }
     }
 }

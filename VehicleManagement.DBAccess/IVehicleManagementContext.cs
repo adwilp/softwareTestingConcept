@@ -14,5 +14,8 @@ namespace VehicleManagement.DBAccess
             where TEntity : class;
 
         EntityEntry Update(object entity);
+
+        EntityEntry<TEntity> Update<TEntity>(TEntity entity)
+            where TEntity : class;
     }
 }

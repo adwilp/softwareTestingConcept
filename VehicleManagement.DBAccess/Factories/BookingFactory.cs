@@ -56,5 +56,14 @@ namespace VehicleManagement.DBAccess.Factories
                 FIN = booking.FIN
             };
         }
+
+        public Booking Create(models.UpdateableBooking booking)
+        {
+            var entity = Create((models.Booking)booking);
+
+            entity.Id = booking.Id;
+
+            return entity;
+        }
     }
 }
