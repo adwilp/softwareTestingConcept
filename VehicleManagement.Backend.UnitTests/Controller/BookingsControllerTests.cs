@@ -76,5 +76,37 @@ namespace VehicleManagement.Backend.UnitTests.Controller
             Assert.Equal(booking.EmployeeNumber, body.EmployeeNumber);
             Assert.Equal(booking.FIN, body.FIN);
         }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetUpdateBookingTestData), MemberType = typeof(BookingTestData))]
+        public async Task Update_Should_Return_Updated_Successfull(UpdateableBooking booking, FlatBooking newBooking)
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.UpdateAsync(booking, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(newBooking);
+
+            // ACT
+            var result = await _bookingsController.Update(booking, It.IsAny<CancellationToken>());
+
+            // ASSERT
+            var response = Assert.IsType<OkObjectResult>(result);
+
+            Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
+
+            var body = Assert.IsAssignableFrom<FlatBooking>(response.Value);
+
+            Assert.Equal(newBooking.Id, body.Id);
+            Assert.Equal(newBooking.Start, body.Start);
+            Assert.Equal(newBooking.End, body.End);
+            Assert.Equal(newBooking.EmployeeNumber, body.EmployeeNumber);
+            Assert.Equal(newBooking.FIN, body.FIN);
+
+            Assert.Equal(booking.Id, body.Id);
+            Assert.Equal(booking.Start, body.Start);
+            Assert.Equal(booking.End, body.End);
+            Assert.Equal(booking.EmployeeNumber, body.EmployeeNumber);
+            Assert.Equal(booking.FIN, body.FIN);
+        }
     }
 }
