@@ -76,7 +76,7 @@ namespace VehicleManagement.Backend.IntegrationTests.Controller
 
         [Theory]
         [MemberData(nameof(BookingTestData.GetAddBookingTestData), MemberType = typeof(BookingTestData))]
-        public async Task Add_Should_Return_Ok_Result(Booking booking, FlatBooking newBooking)
+        public async Task Add_Should_Return_Created_Result(Booking booking, FlatBooking newBooking)
         {
             // ARRANGE
             _bookingDomainMock
@@ -121,6 +121,103 @@ namespace VehicleManagement.Backend.IntegrationTests.Controller
 
             // ACT
             var response = await _httpClient.PostAsync(_baseUrl, new Booking().ToJsonContent());
+
+            // ASSERT
+            HttpAssertions.AssertBadRequest(response);
+
+            var body = await response.GetBodyAs<ErrorResponse>();
+
+            Assert.NotNull(body);
+        }
+
+        [Fact]
+        public async Task Add_With_SaveDataException_Should_Return_BadRequest()
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.AddAsync(It.IsAny<Booking>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new SaveDataException(It.IsAny<string>(), It.IsAny<IEnumerable<object>>()));
+
+            // ACT
+            var response = await _httpClient.PostAsync(_baseUrl, new Booking().ToJsonContent());
+
+            // ASSERT
+            HttpAssertions.AssertBadRequest(response);
+
+            var body = await response.GetBodyAs<ErrorResponse>();
+
+            Assert.NotNull(body);
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetUpdateBookingTestData), MemberType = typeof(BookingTestData))]
+        public async Task Update_Should_Return_Ok_Result(UpdateableBooking booking, FlatBooking newBooking)
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(vd => vd.UpdateAsync(
+                    It.Is<UpdateableBooking>(b =>
+                        b.Id == booking.Id &&
+                        b.Start == booking.Start &&
+                        b.End == booking.End &&
+                        b.EmployeeNumber == booking.EmployeeNumber &&
+                        b.FIN == booking.FIN
+                    ),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(newBooking);
+
+            // ACT
+            var response = await _httpClient.PutAsync(_baseUrl, booking.ToJsonContent());
+
+            // ASSERT
+            HttpAssertions.AssertSuccess(response);
+
+            var body = await response.GetBodyAs<FlatBooking>();
+
+            Assert.NotNull(body);
+
+            Assert.Equal(newBooking.Id, body.Id);
+            Assert.Equal(newBooking.Start, body.Start);
+            Assert.Equal(newBooking.End, body.End);
+            Assert.Equal(newBooking.EmployeeNumber, body.EmployeeNumber);
+            Assert.Equal(newBooking.FIN, body.FIN);
+
+            Assert.Equal(booking.Id, body.Id);
+            Assert.Equal(booking.Start, body.Start);
+            Assert.Equal(booking.End, body.End);
+            Assert.Equal(booking.EmployeeNumber, body.EmployeeNumber);
+            Assert.Equal(booking.FIN, body.FIN);
+        }
+
+        [Fact]
+        public async Task Update_With_DataConversionException_Should_Return_BadRequest()
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.UpdateAsync(It.IsAny<UpdateableBooking>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new DataConversionException(It.IsAny<string>(), It.IsAny<string>()));
+
+            // ACT
+            var response = await _httpClient.PutAsync(_baseUrl, new UpdateableBooking().ToJsonContent());
+
+            // ASSERT
+            HttpAssertions.AssertBadRequest(response);
+
+            var body = await response.GetBodyAs<ErrorResponse>();
+
+            Assert.NotNull(body);
+        }
+
+        [Fact]
+        public async Task Update_With_SaveDataException_Should_Return_BadRequest()
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.UpdateAsync(It.IsAny<UpdateableBooking>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new SaveDataException(It.IsAny<string>(), It.IsAny<IEnumerable<object>>()));
+
+            // ACT
+            var response = await _httpClient.PutAsync(_baseUrl, new UpdateableBooking().ToJsonContent());
 
             // ASSERT
             HttpAssertions.AssertBadRequest(response);
