@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FlatVehicle } from 'src/app/vehicles/models/flat-vehicle.model';
@@ -12,6 +12,9 @@ import { Booking } from '../models/booking.model';
   styleUrls: ['./booking-form.component.scss'],
 })
 export class BookingFormComponent implements OnInit {
+  @Input() edit: boolean = false;
+  @Input() booking: Booking = null;
+
   @Output() submitted: EventEmitter<Booking>;
 
   bookingForm: FormGroup;

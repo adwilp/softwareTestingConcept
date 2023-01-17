@@ -1,1 +1,9 @@
-<p>edit-booking works!</p>
+<div class="header-row">
+  <h1>{{ 'booking.edit.headline' | translate }}</h1>
+</div>
+
+<app-booking-form
+  [booking]="booking"
+  [edit]="true"
+  (submitted)="bookingSubmited($event)"
+></app-booking-form>

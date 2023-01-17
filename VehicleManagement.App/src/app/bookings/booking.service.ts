@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Booking } from './models/booking.model';
 import { FlatBooking } from './models/flat-booking.model';
+import { UpdateableBooking } from './models/updateable-booking.model';
 
 @Injectable({ providedIn: 'root' })
 export class BookingService {
@@ -17,5 +18,9 @@ export class BookingService {
 
   addBooking(booking: Booking): Observable<FlatBooking> {
     return this.http.post<FlatBooking>(`${this._baseUrl}Bookings`, booking);
+  }
+
+  editBooking(booking: UpdateableBooking): Observable<FlatBooking> {
+    return this.http.put<FlatBooking>(`${this._baseUrl}Bookings`, booking);
   }
 }

@@ -33,6 +33,12 @@
       },
       "headline": "Add booking"
     },
+    "edit": {
+      "form": {
+        "submit": "Save changes"
+      },
+      "headline": "Edit booking"
+    },
     "overview": {
       "headline": "Booking overview",
       "id": "Id",

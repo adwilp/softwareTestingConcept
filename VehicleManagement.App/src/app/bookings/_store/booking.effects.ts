@@ -63,6 +63,37 @@ export class BookingEffects {
     { dispatch: false }
   );
 
+  // eslint-disable-next-line @typescript-eslint/typedef
+  editBooking$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(BookingActions.editBooking),
+      switchMap((value: BookingActions.editBooking) => {
+        return this.bookingService.editBooking(value.booking).pipe(
+          map((booking: FlatBooking) => {
+            return BookingActions.editBookingSuccess({ booking: booking });
+          }),
+          catchError(() => {
+            // TODO AK: Replace with correct action
+            return of(BookingActions.editBookingSuccess({ booking: null }));
+          })
+        );
+      })
+    );
+  });
+
+  // eslint-disable-next-line @typescript-eslint/typedef
+  editBookingSuccess$ = createEffect(
+    () => {
+      return this.action$.pipe(
+        ofType(BookingActions.editBookingSuccess),
+        tap(() => {
+          this.router.navigate(['bookings']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private action$: Actions,
     private bookingService: BookingService,
