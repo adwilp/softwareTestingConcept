@@ -41,6 +41,7 @@ import { TileComponent } from './shared/tile/tile.component';
 import { BookingEffects } from './bookings/_store/booking.effects';
 import { AddBookingComponent } from './bookings/add-booking/add-booking.component';
 import { EditBookingComponent } from './bookings/edit-booking/edit-booking.component';
+import { BookingFormComponent } from './bookings/booking-form/booking-form.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -55,6 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
     TileComponent,
     AddBookingComponent,
     EditBookingComponent,
+    BookingFormComponent,
   ],
   imports: [
     BrowserModule,
