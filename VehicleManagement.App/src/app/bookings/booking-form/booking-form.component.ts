@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FlatVehicle } from 'src/app/vehicles/models/flat-vehicle.model';
@@ -6,12 +14,21 @@ import { VehicleFacade } from 'src/app/vehicles/_store/vehicle.facade';
 import { ValidationService } from 'src/app/shared/validation.service';
 import { Booking } from '../models/booking.model';
 
+type formValue = {
+  range: {
+    start: Date;
+    end: Date;
+  };
+  employeeNumber: string;
+  fin: string;
+};
+
 @Component({
   selector: 'app-booking-form',
   templateUrl: './booking-form.component.html',
   styleUrls: ['./booking-form.component.scss'],
 })
-export class BookingFormComponent implements OnInit {
+export class BookingFormComponent implements OnInit, OnChanges {
   @Input() edit: boolean = false;
   @Input() booking: Booking = null;
 
@@ -33,6 +50,12 @@ export class BookingFormComponent implements OnInit {
   ngOnInit(): void {
     this.initBookingForm();
     this.vehicleFacade.getVehicles();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const bookingChange: Booking = changes['booking'].currentValue;
+
+    this.setBookingFormValue(bookingChange);
   }
 
   isError(field: string, error: string): boolean {
@@ -67,5 +90,18 @@ export class BookingFormComponent implements OnInit {
       employeeNumber: new FormControl(null, Validators.required),
       fin: new FormControl(null, Validators.required),
     });
+  }
+
+  private setBookingFormValue(booking: Booking): void {
+    const value: formValue = {
+      range: {
+        start: booking.start,
+        end: booking.end,
+      },
+      employeeNumber: booking.employeeNumber,
+      fin: booking.fin,
+    };
+
+    this.bookingForm.setValue(value);
   }
 }

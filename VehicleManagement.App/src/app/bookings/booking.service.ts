@@ -16,6 +16,10 @@ export class BookingService {
     return this.http.get<FlatBooking[]>(`${this._baseUrl}Bookings`);
   }
 
+  getBooking(id: number): Observable<UpdateableBooking> {
+    return this.http.get<UpdateableBooking>(`${this._baseUrl}Bookings/${id}`);
+  }
+
   addBooking(booking: Booking): Observable<FlatBooking> {
     return this.http.post<FlatBooking>(`${this._baseUrl}Bookings`, booking);
   }

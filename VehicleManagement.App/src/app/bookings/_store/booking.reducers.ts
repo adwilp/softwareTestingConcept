@@ -1,6 +1,7 @@
 import { Action, ActionReducer, on } from '@ngrx/store';
 import { createImmerReducer } from 'ngrx-immer/store';
 import { FlatBooking } from '../models/flat-booking.model';
+import { UpdateableBooking } from '../models/updateable-booking.model';
 import * as BookingActions from './booking.actions';
 
 /* eslint-disable @typescript-eslint/typedef */
@@ -11,6 +12,8 @@ export type BookingState = {
   bookingsLoading: boolean;
   newBookingProcessing: boolean;
   editBookingProcessing: boolean;
+  bookingLoading: boolean;
+  selectedBooking: UpdateableBooking;
 };
 
 export function createVehicleInitialState(): BookingState {
@@ -19,6 +22,8 @@ export function createVehicleInitialState(): BookingState {
     bookingsLoading: false,
     newBookingProcessing: false,
     editBookingProcessing: false,
+    bookingLoading: false,
+    selectedBooking: null,
   };
 }
 
@@ -67,7 +72,21 @@ const reducer: ActionReducer<BookingState> = createImmerReducer(
     state.editBookingProcessing = false;
 
     return state;
-  })
+  }),
+
+  on(BookingActions.getBooking, (state: BookingState) => {
+    state.bookingLoading = true;
+    return state;
+  }),
+
+  on(
+    BookingActions.getBookingSuccess,
+    (state: BookingState, { booking }: BookingActions.getBookingSuccess) => {
+      state.bookingLoading = false;
+      state.selectedBooking = booking;
+      return state;
+    }
+  )
 );
 
 export function bookingReducer(

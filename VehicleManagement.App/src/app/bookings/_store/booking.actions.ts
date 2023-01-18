@@ -25,6 +25,18 @@ export const addBookingSuccess = createAction(
   props<addBookingSuccess>()
 );
 
+export type getBooking = { id: number };
+export const getBooking = createAction(
+  '[Bookings] Get booking',
+  props<getBooking>()
+);
+
+export type getBookingSuccess = { booking: UpdateableBooking };
+export const getBookingSuccess = createAction(
+  '[Bookings] Get booking - Success',
+  props<getBookingSuccess>()
+);
+
 export type editBooking = { booking: UpdateableBooking };
 export const editBooking = createAction(
   '[Bookings] Edit booking',
