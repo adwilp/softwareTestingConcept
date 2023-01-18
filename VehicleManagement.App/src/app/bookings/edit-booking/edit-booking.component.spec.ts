@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import {
   createComponentFactory,
   mockProvider,
@@ -17,7 +18,7 @@ describe('EditBookingComponent', () => {
       component: EditBookingComponent,
       shallow: true,
       declarations: [MockPipe(TranslatePipe)],
-      providers: [mockProvider(BookingFacade)],
+      providers: [mockProvider(BookingFacade), mockProvider(ActivatedRoute)],
     });
 
   beforeEach(async () => {

@@ -21,14 +21,14 @@ export class EditBookingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.pipe(take(1)).subscribe((params: Params) => {
+    this.activatedRoute.params?.pipe(take(1)).subscribe((params: Params) => {
       this.bookingFacade.getBooking(params['id']);
     });
   }
 
   bookingSubmited(booking: Booking): void {
     this.bookingFacade.booking$
-      .pipe(take(1))
+      ?.pipe(take(1))
       .subscribe((selectedBooking: UpdateableBooking) => {
         const update: UpdateableBooking = {
           ...booking,
