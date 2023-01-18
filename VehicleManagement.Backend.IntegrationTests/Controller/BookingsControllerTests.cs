@@ -226,5 +226,69 @@ namespace VehicleManagement.Backend.IntegrationTests.Controller
 
             Assert.NotNull(body);
         }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetBookingTestData), MemberType = typeof(BookingTestData))]
+        public async Task Get_Should_Return_Ok_Result(int id, UpdateableBooking booking)
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(vd => vd.GetAsync(id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(booking);
+
+            // ACT
+            var response = await _httpClient.GetAsync($"{_baseUrl}/{id}");
+
+            // ASSERT
+            HttpAssertions.AssertSuccess(response);
+
+            var body = await response.GetBodyAs<UpdateableBooking>();
+
+            Assert.NotNull(body);
+
+            Assert.Equal(booking.Id, body.Id);
+            Assert.Equal(booking.Start, body.Start);
+            Assert.Equal(booking.End, body.End);
+            Assert.Equal(booking.EmployeeNumber, body.EmployeeNumber);
+            Assert.Equal(booking.FIN, body.FIN);
+        }
+
+        [Fact]
+        public async Task Get_With_DataConversionException_Should_Return_BadRequest()
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.GetAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new DataConversionException(It.IsAny<string>(), It.IsAny<string>()));
+
+            // ACT
+            var response = await _httpClient.GetAsync($"{_baseUrl}/{It.IsAny<int>()}");
+
+            // ASSERT
+            HttpAssertions.AssertBadRequest(response);
+
+            var body = await response.GetBodyAs<ErrorResponse>();
+
+            Assert.NotNull(body);
+        }
+
+        [Fact]
+        public async Task Get_With_EntityNotFoundException_Should_Return_NotFound()
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.GetAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new EntityNotFoundException(It.IsAny<string>(), It.IsAny<object>()));
+
+            // ACT
+            var response = await _httpClient.GetAsync($"{_baseUrl}/{It.IsAny<int>()}");
+
+            // ASSERT
+            HttpAssertions.AssertNotFound(response);
+
+            var body = await response.GetBodyAs<ErrorResponse>();
+
+            Assert.NotNull(body);
+        }
     }
 }

@@ -14,6 +14,11 @@ namespace VehicleManagement.Backend.IntegrationTests.Utilities
             Assert.True(response.StatusCode == HttpStatusCode.BadRequest, ErrorMessage(response.StatusCode));
         }
 
+        public static void AssertNotFound(HttpResponseMessage response)
+        {
+            Assert.True(response.StatusCode == HttpStatusCode.NotFound, ErrorMessage(response.StatusCode));
+        }
+
         private static string ErrorMessage(HttpStatusCode code)
         {
             return $"Actual status code: {code}";
