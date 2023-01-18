@@ -23,7 +23,7 @@ namespace VehicleManagement.Backend.Exceptions
             }
             catch (Exception error)
             {
-                IEnumerable<object>? data = null;
+                object? data = null;
                 var response = context.Response;
                 response.ContentType = "application/json";
 
@@ -35,6 +35,10 @@ namespace VehicleManagement.Backend.Exceptions
                     case SaveDataException:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         data = ((SaveDataException)error).InvalidData;
+                        break;
+                    case EntityNotFoundException:
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        data = ((EntityNotFoundException)error).RequestedData;
                         break;
                     default:
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;

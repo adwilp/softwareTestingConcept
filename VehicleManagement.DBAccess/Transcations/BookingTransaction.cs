@@ -1,4 +1,5 @@
 ﻿using VehicleManagement.DataContracts.DataModels;
+using VehicleManagement.DataContracts.Exceptions;
 using VehicleManagement.DBAccess.Factories;
 using VehicleManagement.DBAccess.Repositories;
 
@@ -31,6 +32,18 @@ namespace VehicleManagement.DBAccess.Transcations
             var bookings = await _bookingRepository.GetAllAsync(cancellationToken, asNoTracking: true, includedPaths: "Vehicle");
 
             return _bookingFactory.Create(bookings);
+        }
+
+        public async Task<UpdateableBooking> GetAsync(int id, CancellationToken cancellationToken)
+        {
+            var booking = await _bookingRepository.GetAsync(cancellationToken, b => b.Id == id, true);
+
+            if (booking == null)
+            {
+                throw new EntityNotFoundException(Messages.NotFound, id);
+            }
+
+            return _bookingFactory.CreateFull(booking);
         }
 
         public async Task<FlatBooking> UpdateAsync(UpdateableBooking booking, CancellationToken cancellationToken)

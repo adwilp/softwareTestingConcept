@@ -7,6 +7,23 @@ namespace VehicleManagement.DBAccess.Factories
 {
     public class BookingFactory : IBookingFactory
     {
+        public models.UpdateableBooking CreateFull(Booking booking)
+        {
+            if (booking == null)
+            {
+                throw new DataConversionException(Messages.NullObject, nameof(booking));
+            }
+
+            return new models.UpdateableBooking()
+            {
+                Id = booking.Id,
+                Start = booking.Start,
+                End = booking.End,
+                EmployeeNumber = booking.EmployeeNumber,
+                FIN = booking.FIN
+            };
+        }
+
         public models.FlatBooking Create(Booking booking)
         {
             if (booking == null)
@@ -14,7 +31,7 @@ namespace VehicleManagement.DBAccess.Factories
                 throw new DataConversionException(Messages.NullObject, nameof(booking));
             }
 
-            var flatBooking = new models.FlatBooking()
+            models.FlatBooking flatBooking = new models.FlatBooking()
             {
                 Id = booking.Id,
                 Start = booking.Start,

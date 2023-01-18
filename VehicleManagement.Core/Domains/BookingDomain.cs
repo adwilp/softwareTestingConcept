@@ -22,6 +22,11 @@ namespace VehicleManagement.Core.Domains
             return await _bookingService.GetAllAsync(cancellationToken);
         }
 
+        public async Task<UpdateableBooking> GetAsync(int id, CancellationToken cancellationToken)
+        {
+            return await _bookingService.GetAsync(id, cancellationToken);
+        }
+
         public async Task<FlatBooking> UpdateAsync(UpdateableBooking booking, CancellationToken cancellationToken)
         {
             return await _bookingService.UpdateAsync(booking, cancellationToken);
