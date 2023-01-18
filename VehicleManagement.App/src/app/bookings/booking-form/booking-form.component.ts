@@ -1,13 +1,12 @@
 import {
   Component,
   OnInit,
-  OnChanges,
   Input,
   Output,
   EventEmitter,
-  SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FlatVehicle } from 'src/app/vehicles/models/flat-vehicle.model';
 import { VehicleFacade } from 'src/app/vehicles/_store/vehicle.facade';
@@ -28,12 +27,13 @@ type formValue = {
   templateUrl: './booking-form.component.html',
   styleUrls: ['./booking-form.component.scss'],
 })
-export class BookingFormComponent implements OnInit, OnChanges {
+export class BookingFormComponent implements OnInit, OnDestroy {
   @Input() edit: boolean = false;
-  @Input() booking: Booking = null;
+  @Input() booking: Observable<Booking> = null;
 
   @Output() submitted: EventEmitter<Booking>;
 
+  subscription: Subscription;
   bookingForm: FormGroup;
 
   get vehicles$(): Observable<FlatVehicle[]> {
@@ -50,12 +50,14 @@ export class BookingFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.initBookingForm();
     this.vehicleFacade.getVehicles();
+
+    this.subscription = this.booking?.subscribe((booking: Booking) => {
+      this.setBookingFormValue(booking);
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const bookingChange: Booking = changes['booking'].currentValue;
-
-    this.setBookingFormValue(bookingChange);
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   isError(field: string, error: string): boolean {
@@ -95,11 +97,11 @@ export class BookingFormComponent implements OnInit, OnChanges {
   private setBookingFormValue(booking: Booking): void {
     const value: formValue = {
       range: {
-        start: booking.start,
-        end: booking.end,
+        start: booking?.start,
+        end: booking?.end,
       },
-      employeeNumber: booking.employeeNumber,
-      fin: booking.fin,
+      employeeNumber: booking?.employeeNumber,
+      fin: booking?.fin,
     };
 
     this.bookingForm.setValue(value);

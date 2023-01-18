@@ -27,11 +27,15 @@ export class EditBookingComponent implements OnInit {
   }
 
   bookingSubmited(booking: Booking): void {
-    const update: UpdateableBooking = {
-      ...booking,
-      id: 1,
-    };
+    this.bookingFacade.booking$
+      .pipe(take(1))
+      .subscribe((selectedBooking: UpdateableBooking) => {
+        const update: UpdateableBooking = {
+          ...booking,
+          id: selectedBooking.id,
+        };
 
-    this.bookingFacade.editBooking(update);
+        this.bookingFacade.editBooking(update);
+      });
   }
 }
