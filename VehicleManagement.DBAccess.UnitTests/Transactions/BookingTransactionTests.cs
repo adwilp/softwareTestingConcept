@@ -6,6 +6,7 @@ using FluentAssertions;
 
 using Moq;
 
+using VehicleManagement.DataContracts.Exceptions;
 using VehicleManagement.DBAccess.Entities;
 using VehicleManagement.DBAccess.Factories;
 using VehicleManagement.DBAccess.Repositories;
@@ -102,7 +103,6 @@ namespace VehicleManagement.DBAccess.UnitTests.Transactions
             _bookingRepository.Verify(br => br.ReloadReferences(It.IsAny<Booking>(), "Vehicle"), Times.Once());
         }
 
-
         [Theory]
         [MemberData(nameof(BookingTestData.GetUpdateBookingTestData), MemberType = typeof(BookingTestData))]
         public async Task UpdateAsync_Should_Update_And_Get_FlatBooking(models.UpdateableBooking model, Booking entity, Booking newEntity, models.FlatBooking newModel)
@@ -147,6 +147,59 @@ namespace VehicleManagement.DBAccess.UnitTests.Transactions
 
             // ASSERT
             _bookingRepository.Verify(br => br.ReloadReferences(It.IsAny<Booking>(), "Vehicle"), Times.Once());
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetAsyncSingleBookingTestData), MemberType = typeof(BookingTestData))]
+        public async Task GetAsync_Should_Get_UpdateableBooking(Booking entity, models.UpdateableBooking model)
+        {
+            // ARRANGE
+            _bookingRepository
+                .Setup(br =>
+                    br.GetAsync(It.IsAny<CancellationToken>(), It.IsAny<Expression<Func<Booking, bool>>>(), true)
+                )
+                .ReturnsAsync(entity);
+
+            _bookingFactory
+                .Setup(vf => vf.CreateFull(entity))
+                .Returns(model);
+
+            // ACT
+            var result = await _bookingTransaction.GetAsync(It.IsAny<int>(), It.IsAny<CancellationToken>());
+
+            // ASSERT
+            result.Should().BeEquivalentTo(model);
+        }
+
+        [Fact]
+        public async Task GetAsync_Should_Call_GetAsync_From_Repo_Once()
+        {
+            // ARRANGE
+            _bookingRepository
+                .Setup(br =>
+                    br.GetAsync(It.IsAny<CancellationToken>(), It.IsAny<Expression<Func<Booking, bool>>>(), true)
+                )
+                .ReturnsAsync(new Booking());
+
+            // ACT
+            await _bookingTransaction.GetAsync(It.IsAny<int>(), It.IsAny<CancellationToken>());
+
+            // ASSERT
+            _bookingRepository.Verify(br => br.GetAsync(It.IsAny<CancellationToken>(), It.IsAny<Expression<Func<Booking, bool>>>(), true));
+        }
+
+        [Fact]
+        public async Task GetAsync_Should_Throw_EntityNotFoundException_For_Null_Entity()
+        {
+            // ARRANGE
+            _bookingRepository
+                .Setup(br =>
+                    br.GetAsync(It.IsAny<CancellationToken>(), It.IsAny<Expression<Func<Booking, bool>>>(), It.IsAny<bool>())
+                )
+                .ReturnsAsync((Booking?)null);
+
+            // Act & ASSERT
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _bookingTransaction.GetAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
         }
     }
 }

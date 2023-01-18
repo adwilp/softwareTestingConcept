@@ -113,5 +113,30 @@ namespace VehicleManagement.DBAccess.UnitTests.Factories
             // ASSERT & ACT
             Assert.Throws<DataConversionException>(() => _bookingFactory.Create(model));
         }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetSingleBookingUpdateModelTestData), MemberType = typeof(BookingTestData))]
+        public void CreateFull_Should_Create_UpdateableBooking(models.UpdateableBooking model, Booking entity)
+        {
+            // ACT
+            var result = _bookingFactory.Create(entity);
+
+            // ASSERT
+            Assert.Equal(model.Id, result.Id);
+            Assert.Equal(model.Start, result.Start);
+            Assert.Equal(model.End, result.End);
+            Assert.Equal(model.EmployeeNumber, result.EmployeeNumber);
+            Assert.Equal(model.FIN, result.FIN);
+        }
+
+        [Fact]
+        public void CreateFulle_Should_Throw_Exception_For_Null_Entity()
+        {
+            // ARRANGE
+            Booking? entity = null;
+
+            // ASSERT & ACT
+            Assert.Throws<DataConversionException>(() => _bookingFactory.CreateFull(entity));
+        }
     }
 }
