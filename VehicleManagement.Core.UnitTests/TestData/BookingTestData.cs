@@ -124,5 +124,33 @@ namespace VehicleManagement.Core.UnitTests.TestData
                 },
             };
         }
+
+        public static IEnumerable<object[]> GetBookingTestData()
+        {
+            yield return new object[]
+            {
+                1,
+                new UpdateableBooking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 14, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 11, 00, 00),
+                    EmployeeNumber = "98732",
+                    FIN = "WAU1234567890"
+                },
+            };
+
+            yield return new object[]
+            {
+                20,
+                new UpdateableBooking()
+                {
+                    Id = 20,
+                    Start = new System.DateTime(2022, 12, 14, 10, 43, 50),
+                    EmployeeNumber = "98732",
+                    FIN = "WAU1234567890"
+                },
+            };
+        }
     }
 }
