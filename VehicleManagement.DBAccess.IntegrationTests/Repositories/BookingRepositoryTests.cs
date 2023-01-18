@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading;
 
+using FluentAssertions;
+
 using Moq;
 
 using VehicleManagement.DataContracts.Exceptions;
@@ -167,6 +169,17 @@ namespace VehicleManagement.DBAccess.IntegrationTests.Repositories
             Assert.Equal(booking.End, invalidBooking.End);
             Assert.Equal(booking.EmployeeNumber, invalidBooking.EmployeeNumber);
             Assert.Equal(booking.FIN, invalidBooking.FIN);
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetTestData), MemberType = typeof(BookingTestData))]
+        public async Task GetASync_Should_Get_Correct_Booking(int id, Booking? booking)
+        {
+            // ACT
+            var entity = await _repository.GetAsync(It.IsAny<CancellationToken>(), b => b.Id == id, true);
+
+            // ASSERT
+            entity.Should().BeEquivalentTo(booking);
         }
     }
 }

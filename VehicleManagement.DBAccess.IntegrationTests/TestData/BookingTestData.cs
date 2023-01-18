@@ -145,5 +145,40 @@ namespace VehicleManagement.DBAccess.IntegrationTests.TestData
                 },
             };
         }
+
+        public static IEnumerable<object[]> GetTestData()
+        {
+            yield return new object[]
+            {
+                1,
+                new Booking()
+                {
+                    Id = 1,
+                    Start = new DateTime(2022, 12, 14, 10, 50, 12),
+                    End = new DateTime(2022, 12, 16, 10, 00, 00),
+                    EmployeeNumber = "12345",
+                    FIN = "SB164ABN1PE082986"
+                }
+            };
+
+            yield return new object[]
+            {
+                3,
+                new Booking()
+                {
+                    Id = 3,
+                    Start = new DateTime(2022, 12, 14, 10, 50, 12),
+                    End = new DateTime(2022, 12, 16, 10, 00, 00),
+                    EmployeeNumber = "54321",
+                    FIN = "SB164ABN1PE082096"
+                }
+            };
+
+            yield return new object[]
+            {
+                5,
+                null
+            };
+        }
     }
 }
