@@ -11,10 +11,13 @@ import { ValidationService } from 'src/app/shared/validation.service';
 import { VehicleFacade } from 'src/app/vehicles/_store/vehicle.facade';
 import { Booking } from '../models/booking.model';
 import { BookingFormComponent } from './booking-form.component';
+import { Subject } from 'rxjs';
 import Spy = jasmine.Spy;
+import { booking } from '../_store/booking.test-data';
 
 describe('BookingFormComponent', () => {
   let spectator: Spectator<BookingFormComponent>;
+  let bookingSubject: Subject<Booking>;
 
   const createBookingFormComponent: SpectatorFactory<BookingFormComponent> =
     createComponentFactory({
@@ -25,7 +28,12 @@ describe('BookingFormComponent', () => {
     });
 
   beforeEach(async () => {
-    spectator = createBookingFormComponent();
+    bookingSubject = new Subject<Booking>();
+    spectator = createBookingFormComponent({
+      props: {
+        booking: bookingSubject.asObservable(),
+      },
+    });
   });
 
   it('should create', () => {
@@ -114,5 +122,17 @@ describe('BookingFormComponent', () => {
 
     // ASSERT
     expect(emitSubmited).toHaveBeenCalledOnceWith(booking);
+  });
+
+  it('initializes form with submitted booking on init', () => {
+    // ARRANGE
+    const setValue: Spy = spyOn(spectator.component.bookingForm, 'setValue');
+
+    // ACT
+    bookingSubject.next(booking);
+    bookingSubject.complete();
+
+    // ASSERT
+    expect(setValue).toHaveBeenCalled();
   });
 });

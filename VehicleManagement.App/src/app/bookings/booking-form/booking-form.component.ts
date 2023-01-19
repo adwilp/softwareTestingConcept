@@ -51,6 +51,15 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     this.initBookingForm();
     this.vehicleFacade.getVehicles();
 
+    this.bookingForm.setValue({
+      range: {
+        start: new Date(),
+        end: new Date(),
+      },
+      employeeNumber: '',
+      fin: '',
+    });
+
     this.subscription = this.booking?.subscribe((booking: Booking) => {
       this.setBookingFormValue(booking);
     });
