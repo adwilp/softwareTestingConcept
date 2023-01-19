@@ -180,5 +180,24 @@ namespace VehicleManagement.DBAccess.IntegrationTests.TestData
                 null
             };
         }
+
+        public static IEnumerable<object[]> GetDeleteData()
+        {
+            yield return new object[]
+            {
+                new Booking()
+                {
+                    Id = 1
+                }
+            };
+
+            yield return new object[]
+            {
+                new Booking()
+                {
+                    Id = 3
+                }
+            };
+        }
     }
 }

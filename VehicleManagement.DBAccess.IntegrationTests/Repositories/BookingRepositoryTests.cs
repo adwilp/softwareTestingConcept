@@ -181,5 +181,48 @@ namespace VehicleManagement.DBAccess.IntegrationTests.Repositories
             // ASSERT
             entity.Should().BeEquivalentTo(booking);
         }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetDeleteData), MemberType = typeof(BookingTestData))]
+        public async Task Delete_Should_Delete_Correct_Booking(Booking booking)
+        {
+            // ACT
+            _repository.Delete(booking);
+            await _repository.SaveAsync(It.IsAny<CancellationToken>());
+
+            // ASSERT
+            var deletedEntity = await _repository.GetAsync(It.IsAny<CancellationToken>(), b => b.Id == booking.Id, true);
+            var resultList = await _repository.GetAllAsync(It.IsAny<CancellationToken>());
+
+            Assert.Null(deletedEntity);
+            Assert.Equal(3, resultList.ToList().Count);
+        }
+
+        [Fact]
+        public async Task Delete_Should_Throw_SaveDataException_On_Save_Error()
+        {
+            // ARRANGE
+            var booking = new Booking()
+            {
+                Id = 12
+            };
+
+            // ACT
+            _repository.Delete(booking);
+
+            var exception = await Assert.ThrowsAsync<SaveDataException>(() => _repository.SaveAsync(It.IsAny<CancellationToken>()));
+
+            Booking invalidBooking = (Booking)exception.InvalidData.First();
+
+
+            // ASSERT
+            Assert.NotNull(invalidBooking);
+            Assert.Equal(booking.Id, invalidBooking.Id);
+            Assert.Equal(booking.Start, invalidBooking.Start);
+            Assert.Equal(booking.End, invalidBooking.End);
+            Assert.Equal(booking.EmployeeNumber, invalidBooking.EmployeeNumber);
+            Assert.Equal(booking.FIN, invalidBooking.FIN);
+
+        }
     }
 }
