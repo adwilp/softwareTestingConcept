@@ -48,3 +48,13 @@ export const editBookingSuccess = createAction(
   '[Bookings] Edit booking - Success',
   props<editBookingSuccess>()
 );
+
+export type deleteBooking = { id: number };
+export const deleteBooking = createAction(
+  '[Bookings] Delete booking',
+  props<deleteBooking>()
+);
+
+export const deleteBookingSuccess = createAction(
+  '[Bookings] Delete booking - Success'
+);

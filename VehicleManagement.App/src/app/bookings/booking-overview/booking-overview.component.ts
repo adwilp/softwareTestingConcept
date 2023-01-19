@@ -39,4 +39,8 @@ export class BookingOverviewComponent implements OnInit {
   navigateToEditBooking(booking: FlatBooking): void {
     this.router.navigate(['bookings', 'edit', booking.id]);
   }
+
+  deleteBooking(booking: FlatBooking): void {
+    this.bookingFacade.deleteBooking(booking.id);
+  }
 }

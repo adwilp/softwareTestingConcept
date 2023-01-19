@@ -119,6 +119,30 @@ export class BookingEffects {
     { dispatch: false }
   );
 
+  // eslint-disable-next-line @typescript-eslint/typedef
+  deleteBooking$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(BookingActions.deleteBooking),
+      switchMap((value: BookingActions.deleteBooking) => {
+        return this.bookingService.deleteBooking(value.id).pipe(
+          map(() => {
+            return BookingActions.deleteBookingSuccess();
+          })
+        );
+      })
+    );
+  });
+
+  //eslint-disable-next-line @typescript-eslint/typedef
+  deleteBookingSuccess$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(BookingActions.deleteBookingSuccess),
+      map(() => {
+        return BookingActions.getBookings();
+      })
+    );
+  });
+
   constructor(
     private action$: Actions,
     private bookingService: BookingService,

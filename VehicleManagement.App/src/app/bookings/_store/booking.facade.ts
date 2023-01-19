@@ -38,4 +38,8 @@ export class BookingFacade {
   getBooking(id: number): void {
     this.store.dispatch(BookingActions.getBooking({ id: id }));
   }
+
+  deleteBooking(id: number): void {
+    this.store.dispatch(BookingActions.deleteBooking({ id: id }));
+  }
 }
