@@ -44,5 +44,14 @@ namespace VehicleManagement.Backend.Controllers
 
             return Ok(updatedBooking);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+        {
+            await _bookingDomain.DeleteAsync(id, cancellationToken);
+
+            return NoContent();
+        }
     }
 }
