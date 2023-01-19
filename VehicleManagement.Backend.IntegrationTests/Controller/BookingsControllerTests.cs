@@ -290,5 +290,43 @@ namespace VehicleManagement.Backend.IntegrationTests.Controller
 
             Assert.NotNull(body);
         }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetDeleteTestData), MemberType = typeof(BookingTestData))]
+        public async Task Delete_Should_Return_Ok_Result(int id)
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(vd => vd.GetAsync(id, It.IsAny<CancellationToken>()));
+
+            // ACT
+            var response = await _httpClient.DeleteAsync($"{_baseUrl}/{id}");
+
+            // ASSERT
+            HttpAssertions.AssertSuccess(response);
+
+            var body = await response.GetBodyAs<object?>();
+
+            Assert.Null(body);
+        }
+
+        [Fact]
+        public async Task Delete_With_SaveDataException_Should_Return_BadRequest()
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new SaveDataException(It.IsAny<string>(), It.IsAny<IEnumerable<object>>()));
+
+            // ACT
+            var response = await _httpClient.DeleteAsync($"{_baseUrl}/{It.IsAny<int>()}");
+
+            // ASSERT
+            HttpAssertions.AssertBadRequest(response);
+
+            var body = await response.GetBodyAs<ErrorResponse>();
+
+            Assert.NotNull(body);
+        }
     }
 }
