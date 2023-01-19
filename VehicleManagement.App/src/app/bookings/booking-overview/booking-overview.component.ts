@@ -11,7 +11,15 @@ import { Router } from '@angular/router';
 })
 export class BookingOverviewComponent implements OnInit {
   get displayedColumns(): string[] {
-    return ['id', 'start', 'end', 'employeeNumber', 'fin', 'licensePlate'];
+    return [
+      'id',
+      'start',
+      'end',
+      'employeeNumber',
+      'fin',
+      'licensePlate',
+      'action',
+    ];
   }
 
   get vehicles$(): Observable<FlatBooking[]> {
@@ -26,5 +34,9 @@ export class BookingOverviewComponent implements OnInit {
 
   navigateToAddBooking(): void {
     this.router.navigate(['bookings', 'add']);
+  }
+
+  navigateToEditBooking(booking: FlatBooking): void {
+    this.router.navigate(['bookings', 'edit', booking.id]);
   }
 }

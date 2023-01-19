@@ -9,5 +9,8 @@ export const testState: AppState = {
     bookings: [],
     bookingsLoading: true,
     newBookingProcessing: false,
+    editBookingProcessing: false,
+    bookingLoading: false,
+    selectedBooking: null,
   },
 };

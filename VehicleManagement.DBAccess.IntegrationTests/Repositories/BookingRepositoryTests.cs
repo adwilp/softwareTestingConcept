@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading;
 
+using FluentAssertions;
+
 using Moq;
 
 using VehicleManagement.DataContracts.Exceptions;
@@ -123,6 +125,61 @@ namespace VehicleManagement.DBAccess.IntegrationTests.Repositories
             Assert.Equal(booking.Vehicle.Color, result.Vehicle.Color);
             Assert.Equal(booking.Vehicle.Mileage, result.Vehicle.Mileage);
             Assert.Equal(booking.Vehicle.ManufacturerId, result.Vehicle.ManufacturerId);
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetUpdateTestData), MemberType = typeof(BookingTestData))]
+        public async Task Update_Should_Add_And_Return(Booking booking, Booking newBooking)
+        {
+            // ACT
+            var result = _repository.Update(booking);
+            await _repository.SaveAsync(It.IsAny<CancellationToken>());
+
+            var queryResult = await _repository.GetAsync(It.IsAny<CancellationToken>(), b => b.Id == newBooking.Id);
+
+            // ASSERT
+            Assert.Equal(newBooking.Id, result.Id);
+            Assert.Equal(newBooking.Start, result.Start);
+            Assert.Equal(newBooking.End, result.End);
+            Assert.Equal(newBooking.EmployeeNumber, result.EmployeeNumber);
+            Assert.Equal(newBooking.FIN, result.FIN);
+
+            Assert.Equal(newBooking.Id, queryResult.Id);
+            Assert.Equal(newBooking.Start, queryResult.Start);
+            Assert.Equal(newBooking.End, queryResult.End);
+            Assert.Equal(newBooking.EmployeeNumber, queryResult.EmployeeNumber);
+            Assert.Equal(newBooking.FIN, queryResult.FIN);
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetFailUpdateTestData), MemberType = typeof(BookingTestData))]
+        public async Task Update_Should_Throw_SaveDataException_On_Save_Error(Booking booking)
+        {
+            // ACT
+            _repository.Update(booking);
+
+            // ACT & ASSERT
+            var exception = await Assert.ThrowsAsync<SaveDataException>(() => _repository.SaveAsync(It.IsAny<CancellationToken>()));
+
+            Booking invalidBooking = (Booking)exception.InvalidData.First();
+
+            Assert.NotNull(invalidBooking);
+            Assert.Equal(booking.Id, invalidBooking.Id);
+            Assert.Equal(booking.Start, invalidBooking.Start);
+            Assert.Equal(booking.End, invalidBooking.End);
+            Assert.Equal(booking.EmployeeNumber, invalidBooking.EmployeeNumber);
+            Assert.Equal(booking.FIN, invalidBooking.FIN);
+        }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetTestData), MemberType = typeof(BookingTestData))]
+        public async Task GetASync_Should_Get_Correct_Booking(int id, Booking? booking)
+        {
+            // ACT
+            var entity = await _repository.GetAsync(It.IsAny<CancellationToken>(), b => b.Id == id, true);
+
+            // ASSERT
+            entity.Should().BeEquivalentTo(booking);
         }
     }
 }

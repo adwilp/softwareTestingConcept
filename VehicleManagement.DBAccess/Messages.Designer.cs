@@ -70,6 +70,15 @@ namespace VehicleManagement.DBAccess {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The entity could not be found!.
+        /// </summary>
+        internal static string NotFound {
+            get {
+                return ResourceManager.GetString("NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The passed object value is null!.
         /// </summary>
         internal static string NullObject {

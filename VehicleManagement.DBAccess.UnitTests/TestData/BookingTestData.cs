@@ -100,6 +100,35 @@ namespace VehicleManagement.DBAccess.UnitTests.TestData
             };
         }
 
+        public static IEnumerable<object[]> GetSingleBookingUpdateModelTestData()
+        {
+            yield return new object[]
+            {
+                new models.UpdateableBooking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 15, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "WO1234567890"
+                },
+                new Booking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 15, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "WO1234567890"
+                }
+            };
+
+            yield return new object[]
+            {
+                new models.UpdateableBooking(),
+                new Booking()
+            };
+        }
+
         public static IEnumerable<object[]> GetBookingsTestData()
         {
             yield return new object[]
@@ -213,6 +242,73 @@ namespace VehicleManagement.DBAccess.UnitTests.TestData
                     EmployeeNumber = "12345",
                     FIN = "WO1234567890",
                     LicensePlate = "VEC-GR-123"
+                }
+            };
+        }
+
+        public static IEnumerable<object[]> GetUpdateBookingTestData()
+        {
+            yield return new object[]
+            {
+                new models.UpdateableBooking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 15, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "WO1234567890"
+                },
+                new Booking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 15, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "WO1234567890"
+                },
+                new Booking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 15, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "WO1234567890",
+                    Vehicle = new Vehicle()
+                    {
+                        LicensePlate = "VEC-GR-123"
+                    }
+                },
+                new models.FlatBooking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 15, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "WO1234567890",
+                    LicensePlate = "VEC-GR-123"
+                }
+            };
+        }
+
+        public static IEnumerable<object[]> GetAsyncSingleBookingTestData()
+        {
+            yield return new object[]
+            {
+                new Booking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 15, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "WO1234567890"
+                },
+                new models.UpdateableBooking()
+                {
+                    Id = 1,
+                    Start = new System.DateTime(2022, 12, 15, 10, 43, 50),
+                    End = new System.DateTime(2022, 12, 16, 10, 0, 0),
+                    EmployeeNumber = "12345",
+                    FIN = "WO1234567890"
                 }
             };
         }

@@ -7,7 +7,7 @@ namespace VehicleManagement.Backend.Exceptions
     {
         public string? Message { get; }
 
-        public IEnumerable<object>? Data { get; }
+        public object? Data { get; }
 
         public ErrorResponse(string? message)
         {
@@ -15,7 +15,7 @@ namespace VehicleManagement.Backend.Exceptions
         }
 
         [JsonConstructor]
-        public ErrorResponse(string? message, IEnumerable<object>? data) : this(message)
+        public ErrorResponse(string? message, object? data) : this(message)
         {
             Data = data;
         }

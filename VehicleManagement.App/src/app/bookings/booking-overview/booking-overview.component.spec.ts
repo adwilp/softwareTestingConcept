@@ -10,6 +10,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { MockPipe } from 'ng-mocks';
 import { BookingFacade } from '../_store/booking.facade';
+import { flatBookings } from '../_store/booking.test-data';
 import { BookingOverviewComponent } from './booking-overview.component';
 import Spy = jasmine.Spy;
 
@@ -68,6 +69,17 @@ describe('BookingOverviewComponent', () => {
 
       // ASSERT
       expect(router.navigate).toHaveBeenCalledWith(['bookings', 'add']);
+    });
+
+    it('calls router navigate on navigateToEditBooking', () => {
+      // ACT
+      spectator.component.navigateToEditBooking({
+        ...flatBookings[0],
+        id: 12,
+      });
+
+      // ASSERT
+      expect(router.navigate).toHaveBeenCalledWith(['bookings', 'edit', 12]);
     });
   });
 });
