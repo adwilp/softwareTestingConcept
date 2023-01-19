@@ -56,5 +56,11 @@ namespace VehicleManagement.DBAccess.Transcations
 
             return _bookingFactory.Create(updatedEntity);
         }
+
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            _bookingRepository.Delete(new Entities.Booking() { Id = id });
+            await _bookingRepository.SaveAsync(cancellationToken);
+        }
     }
 }

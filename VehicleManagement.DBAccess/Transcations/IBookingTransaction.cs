@@ -11,5 +11,7 @@ namespace VehicleManagement.DBAccess.Transcations
         Task<FlatBooking> AddAsync(Booking booking, CancellationToken cancellationToken);
 
         Task<FlatBooking> UpdateAsync(UpdateableBooking booking, CancellationToken cancellationToken);
+
+        Task DeleteAsync(int id, CancellationToken cancellationToken);
     }
 }

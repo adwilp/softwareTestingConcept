@@ -64,9 +64,14 @@ namespace VehicleManagement.DBAccess.Repositories
 
         public TEntity Update(TEntity entity)
         {
-            TEntity updatedEntity = Context.Update<TEntity>(entity).Entity;
+            TEntity updatedEntity = Context.Update(entity).Entity;
 
             return updatedEntity;
+        }
+
+        public void Delete(TEntity entity)
+        {
+            Context.Remove(entity);
         }
 
         public async Task ReloadReferences(TEntity entity, params string[] properties)
