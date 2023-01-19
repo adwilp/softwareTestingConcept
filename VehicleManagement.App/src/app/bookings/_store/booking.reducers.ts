@@ -16,7 +16,7 @@ export type BookingState = {
   selectedBooking: UpdateableBooking;
 };
 
-export function createVehicleInitialState(): BookingState {
+export function createBookingInitialState(): BookingState {
   return {
     bookings: [],
     bookingsLoading: false,
@@ -28,7 +28,7 @@ export function createVehicleInitialState(): BookingState {
 }
 
 const reducer: ActionReducer<BookingState> = createImmerReducer(
-  createVehicleInitialState(),
+  createBookingInitialState(),
 
   on(BookingActions.getBookings, (state: BookingState) => {
     state.bookingsLoading = true;
