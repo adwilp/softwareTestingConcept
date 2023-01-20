@@ -3,7 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { VehicleService } from '../vehicle.service';
 import { catchError, map, of, switchMap } from 'rxjs';
 import * as VehicleActions from './vehicle.actions';
+import * as AppActions from '../../_store/app-actions';
 import { FlatVehicle } from '../models/flat-vehicle.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class VehicleEffects {
@@ -18,11 +20,11 @@ export class VehicleEffects {
               vehicles: vehicles,
             });
           }),
-          catchError(() => {
-            //TODO AK: Replace with correct action
+          catchError((error: HttpErrorResponse) => {
             return of(
-              VehicleActions.getVehiclesSuccess({
-                vehicles: null,
+              AppActions.appError({
+                message: 'Error loading all vehicles!',
+                error: error,
               })
             );
           })
