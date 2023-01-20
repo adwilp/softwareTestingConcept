@@ -6,15 +6,27 @@ using VehicleManagement.DataContracts.Exceptions;
 
 namespace VehicleManagement.Backend.Exceptions
 {
+    /// <summary>
+    /// Middleware to handle all exceptions.
+    /// </summary>
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ErrorHandlerMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The next.</param>
         public ErrorHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
+        /// <summary>
+        /// Invokes the specified context.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>An awaitable task.</returns>
         public async Task Invoke(HttpContext context)
         {
             try
