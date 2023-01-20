@@ -13,6 +13,9 @@ namespace VehicleManagement.DBAccess
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity)
             where TEntity : class;
 
+        EntityEntry<TEntity> Remove<TEntity>(TEntity entity)
+            where TEntity : class;
+
         EntityEntry Update(object entity);
 
         EntityEntry<TEntity> Update<TEntity>(TEntity entity)

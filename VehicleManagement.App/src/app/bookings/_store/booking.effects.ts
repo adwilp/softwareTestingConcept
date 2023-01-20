@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import * as BookingActions from './booking.actions';
+import * as AppActions from '../../_store/app-actions';
 import { FlatBooking } from '../models/flat-booking.model';
 import { BookingService } from '../booking.service';
 import { Router } from '@angular/router';
 import { UpdateableBooking } from '../models/updateable-booking.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class BookingEffects {
@@ -20,11 +22,11 @@ export class BookingEffects {
               bookings: bookings,
             });
           }),
-          catchError(() => {
-            //TODO AK: Replace with correct action
+          catchError((error: HttpErrorResponse) => {
             return of(
-              BookingActions.getBookingsSuccess({
-                bookings: null,
+              AppActions.appError({
+                message: 'Error loading all bookings!',
+                error: error,
               })
             );
           })
@@ -42,9 +44,13 @@ export class BookingEffects {
           map((booking: FlatBooking) => {
             return BookingActions.addBookingSuccess({ booking: booking });
           }),
-          catchError(() => {
-            // TODO AK: Replace with correct action
-            return of(BookingActions.addBookingSuccess({ booking: null }));
+          catchError((error: HttpErrorResponse) => {
+            return of(
+              AppActions.appError({
+                message: 'Error adding booking!',
+                error: error,
+              })
+            );
           })
         );
       })
@@ -75,11 +81,11 @@ export class BookingEffects {
               booking: booking,
             });
           }),
-          catchError(() => {
-            //TODO AK: Replace with correct action
+          catchError((error: HttpErrorResponse) => {
             return of(
-              BookingActions.getBookingSuccess({
-                booking: null,
+              AppActions.appError({
+                message: 'Error loading selected booking!',
+                error: error,
               })
             );
           })
@@ -97,9 +103,13 @@ export class BookingEffects {
           map((booking: FlatBooking) => {
             return BookingActions.editBookingSuccess({ booking: booking });
           }),
-          catchError(() => {
-            // TODO AK: Replace with correct action
-            return of(BookingActions.editBookingSuccess({ booking: null }));
+          catchError((error: HttpErrorResponse) => {
+            return of(
+              AppActions.appError({
+                message: 'Error editing booking!',
+                error: error,
+              })
+            );
           })
         );
       })
@@ -118,6 +128,38 @@ export class BookingEffects {
     },
     { dispatch: false }
   );
+
+  // eslint-disable-next-line @typescript-eslint/typedef
+  deleteBooking$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(BookingActions.deleteBooking),
+      switchMap((value: BookingActions.deleteBooking) => {
+        return this.bookingService.deleteBooking(value.id).pipe(
+          map(() => {
+            return BookingActions.deleteBookingSuccess();
+          }),
+          catchError((error: HttpErrorResponse) => {
+            return of(
+              AppActions.appError({
+                message: 'Error deleting booking!',
+                error: error,
+              })
+            );
+          })
+        );
+      })
+    );
+  });
+
+  //eslint-disable-next-line @typescript-eslint/typedef
+  deleteBookingSuccess$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(BookingActions.deleteBookingSuccess),
+      map(() => {
+        return BookingActions.getBookings();
+      })
+    );
+  });
 
   constructor(
     private action$: Actions,

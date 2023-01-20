@@ -150,5 +150,18 @@ namespace VehicleManagement.Backend.IntegrationTests.TestData
                 },
             };
         }
+
+        public static IEnumerable<object[]> GetDeleteTestData()
+        {
+            yield return new object[]
+            {
+                1
+            };
+
+            yield return new object[]
+            {
+                3
+            };
+        }
     }
 }

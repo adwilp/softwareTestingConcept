@@ -149,5 +149,15 @@ namespace VehicleManagement.Core.UnitTests.Services
             // ASSERT
             _bookingTransactionMock.Verify(bt => bt.GetAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Once());
         }
+
+        [Fact]
+        public async Task DeleteAsync_Should_Call_Transaction_Once()
+        {
+            // ACT
+            await _bookingService.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>());
+
+            // ASSERT
+            _bookingTransactionMock.Verify(bt => bt.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Once());
+        }
     }
 }

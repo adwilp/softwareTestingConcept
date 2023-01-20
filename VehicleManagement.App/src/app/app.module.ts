@@ -42,6 +42,7 @@ import { BookingEffects } from './bookings/_store/booking.effects';
 import { AddBookingComponent } from './bookings/add-booking/add-booking.component';
 import { EditBookingComponent } from './bookings/edit-booking/edit-booking.component';
 import { BookingFormComponent } from './bookings/booking-form/booking-form.component';
+import { AppEffects } from './_store/app.effects';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -62,7 +63,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    EffectsModule.forRoot([VehicleEffects, BookingEffects]),
+    EffectsModule.forRoot([AppEffects, VehicleEffects, BookingEffects]),
     StoreModule.forRoot(fromApp.AppReducer),
     LetModule,
     TranslateModule.forRoot({

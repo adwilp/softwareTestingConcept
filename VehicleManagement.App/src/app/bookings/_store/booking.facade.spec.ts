@@ -121,4 +121,17 @@ describe('BookingFacade', () => {
     // ASSERT
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
+
+  it('should dispatch deleteBooking action', () => {
+    // ARRANGE
+    const expectedAction: TypedAction<'[Bookings] Delete booking'> =
+      BookingActions.deleteBooking({ id: updateableBooking.id });
+    spyOn(store, 'dispatch');
+
+    // ACT
+    facade.deleteBooking(updateableBooking.id);
+
+    // ASSERT
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
 });

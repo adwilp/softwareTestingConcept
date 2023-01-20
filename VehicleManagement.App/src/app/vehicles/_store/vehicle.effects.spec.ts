@@ -6,6 +6,7 @@ import { vehicleReducer } from './vehicle.reducers';
 import { VehicleService } from '../vehicle.service';
 import { MockProviders } from 'ng-mocks';
 import * as VehicleActions from './vehicle.actions';
+import * as AppActions from '../../_store/app-actions';
 import Spy = jasmine.Spy;
 import { HttpErrorResponse } from '@angular/common/http';
 import { flatVehicles } from './vehicle.test-data';
@@ -14,6 +15,9 @@ import { TypedAction } from '@ngrx/store/src/models';
 describe('VehicleEffects', () => {
   type getVehiclesSuccessAction = VehicleActions.getVehiclesSuccess &
     TypedAction<'[Vehicles] Get vehicles - Success'>;
+
+  type appErrorAction = AppActions.appError &
+    TypedAction<'[App] Error occured'>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let actionsMock$: Observable<any>;
@@ -77,18 +81,20 @@ describe('VehicleEffects', () => {
       });
     });
 
-    it('returns a stream with null on http error', () => {
+    it('returns a stream with appError on http error', () => {
       // ARRANGE
-      let currentOutcome: getVehiclesSuccessAction | undefined;
+      let currentOutcome: appErrorAction | undefined;
       const error: HttpErrorResponse = new HttpErrorResponse({});
-      const outcome: getVehiclesSuccessAction =
-        VehicleActions.getVehiclesSuccess({ vehicles: null });
+      const outcome: appErrorAction = AppActions.appError({
+        message: 'Error loading all vehicles!',
+        error: error,
+      });
       vehicleSpy.and.callFake(() => {
         return throwError(() => error);
       });
 
       // ACT
-      effects.getVehicles$.subscribe((action: getVehiclesSuccessAction) => {
+      effects.getVehicles$.subscribe((action: appErrorAction) => {
         currentOutcome = action;
       });
 
@@ -99,7 +105,8 @@ describe('VehicleEffects', () => {
 
       expect(currentOutcome).toEqual({
         type: outcome.type,
-        vehicles: outcome.vehicles,
+        error: outcome.error,
+        message: outcome.message,
       });
     });
   });

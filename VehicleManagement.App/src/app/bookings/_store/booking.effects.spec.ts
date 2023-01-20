@@ -6,6 +6,7 @@ import { bookingReducer } from './booking.reducers';
 import { BookingService } from '../booking.service';
 import { MockProviders } from 'ng-mocks';
 import * as BookingActions from './booking.actions';
+import * as AppActions from '../../_store/app-actions';
 import Spy = jasmine.Spy;
 import { HttpErrorResponse } from '@angular/common/http';
 import { flatBookings, booking, updateableBooking } from './booking.test-data';
@@ -13,6 +14,11 @@ import { TypedAction } from '@ngrx/store/src/models';
 import { Router } from '@angular/router';
 
 describe('BookingEffects', () => {
+  type getBookingsAction = TypedAction<'[Bookings] Get bookings'>;
+
+  type appErrorAction = AppActions.appError &
+    TypedAction<'[App] Error occured'>;
+
   type getBookingsSuccessAction = BookingActions.getBookingsSuccess &
     TypedAction<'[Bookings] Get bookings - Success'>;
 
@@ -24,6 +30,9 @@ describe('BookingEffects', () => {
 
   type editBookingSuccessAction = BookingActions.editBookingSuccess &
     TypedAction<'[Bookings] Edit booking - Success'>;
+
+  type deleteBookingSuccessAction =
+    TypedAction<'[Bookings] Delete booking - Success'>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let actionsMock$: Observable<any>;
@@ -89,18 +98,20 @@ describe('BookingEffects', () => {
       });
     });
 
-    it('returns a stream with null on http error', () => {
+    it('returns a stream with app error action on http error', () => {
       // ARRANGE
-      let currentOutcome: getBookingsSuccessAction | undefined;
+      let currentOutcome: appErrorAction | undefined;
       const error: HttpErrorResponse = new HttpErrorResponse({});
-      const outcome: getBookingsSuccessAction =
-        BookingActions.getBookingsSuccess({ bookings: null });
+      const outcome: appErrorAction = AppActions.appError({
+        message: 'Error loading all bookings!',
+        error: error,
+      });
       bookingSpy.and.callFake(() => {
         return throwError(() => error);
       });
 
       // ACT
-      effects.getBookings$.subscribe((action: getBookingsSuccessAction) => {
+      effects.getBookings$.subscribe((action: appErrorAction) => {
         currentOutcome = action;
       });
 
@@ -111,7 +122,8 @@ describe('BookingEffects', () => {
 
       expect(currentOutcome).toEqual({
         type: outcome.type,
-        bookings: outcome.bookings,
+        message: outcome.message,
+        error: outcome.error,
       });
     });
   });
@@ -163,23 +175,22 @@ describe('BookingEffects', () => {
       });
     });
 
-    it('returns a stream with null on http error', () => {
+    it('returns a stream with app error action on http error', () => {
       // ARRANGE
-      let currentOutcome: getBookingSuccessAction | undefined;
+      let currentOutcome: appErrorAction | undefined;
       const error: HttpErrorResponse = new HttpErrorResponse({});
-      const outcome: getBookingSuccessAction = BookingActions.getBookingSuccess(
-        { booking: null }
-      );
+      const outcome: appErrorAction = AppActions.appError({
+        message: 'Error loading selected booking!',
+        error: error,
+      });
       bookingSpy.and.callFake(() => {
         return throwError(() => error);
       });
 
       // ACT
-      effects.getSelectedBooking$.subscribe(
-        (action: getBookingSuccessAction) => {
-          currentOutcome = action;
-        }
-      );
+      effects.getSelectedBooking$.subscribe((action: appErrorAction) => {
+        currentOutcome = action;
+      });
 
       // ASSERT
       if (!currentOutcome) {
@@ -188,7 +199,8 @@ describe('BookingEffects', () => {
 
       expect(currentOutcome).toEqual({
         type: outcome.type,
-        booking: outcome.booking,
+        message: outcome.message,
+        error: outcome.error,
       });
     });
   });
@@ -238,19 +250,20 @@ describe('BookingEffects', () => {
       });
     });
 
-    it('returns a stream with null on http error', () => {
+    it('returns a stream with app error action on http error', () => {
       // ARRANGE
-      let currentOutcome: addBookingSuccessAction | undefined;
+      let currentOutcome: appErrorAction | undefined;
       const error: HttpErrorResponse = new HttpErrorResponse({});
-      const outcome: addBookingSuccessAction = BookingActions.addBookingSuccess(
-        { booking: null }
-      );
+      const outcome: appErrorAction = AppActions.appError({
+        message: 'Error adding booking!',
+        error: error,
+      });
       bookingServiceSpy.and.callFake(() => {
         return throwError(() => error);
       });
 
       // ACT
-      effects.addBooking$.subscribe((action: addBookingSuccessAction) => {
+      effects.addBooking$.subscribe((action: appErrorAction) => {
         currentOutcome = action;
       });
 
@@ -261,7 +274,8 @@ describe('BookingEffects', () => {
 
       expect(currentOutcome).toEqual({
         type: outcome.type,
-        booking: outcome.booking,
+        message: outcome.message,
+        error: outcome.error,
       });
     });
   });
@@ -285,7 +299,7 @@ describe('BookingEffects', () => {
     });
   });
 
-  describe('addBooking$', () => {
+  describe('editBooking$', () => {
     let bookingServiceSpy: Spy;
 
     beforeEach(() => {
@@ -333,18 +347,20 @@ describe('BookingEffects', () => {
       });
     });
 
-    it('returns a stream with null on http error', () => {
+    it('returns a stream with app error action on http error', () => {
       // ARRANGE
-      let currentOutcome: editBookingSuccessAction | undefined;
+      let currentOutcome: appErrorAction | undefined;
       const error: HttpErrorResponse = new HttpErrorResponse({});
-      const outcome: editBookingSuccessAction =
-        BookingActions.editBookingSuccess({ booking: null });
+      const outcome: appErrorAction = AppActions.appError({
+        message: 'Error editing booking!',
+        error: error,
+      });
       bookingServiceSpy.and.callFake(() => {
         return throwError(() => error);
       });
 
       // ACT
-      effects.editBooking$.subscribe((action: editBookingSuccessAction) => {
+      effects.editBooking$.subscribe((action: appErrorAction) => {
         currentOutcome = action;
       });
 
@@ -355,12 +371,13 @@ describe('BookingEffects', () => {
 
       expect(currentOutcome).toEqual({
         type: outcome.type,
-        booking: outcome.booking,
+        message: outcome.message,
+        error: outcome.error,
       });
     });
   });
 
-  describe('addBookingSuccess$', () => {
+  describe('editBookingSuccess$', () => {
     let routerSpy: Spy;
 
     beforeEach(() => {
@@ -376,6 +393,98 @@ describe('BookingEffects', () => {
 
       // ASSERT
       expect(routerSpy).toHaveBeenCalledOnceWith(['bookings']);
+    });
+  });
+
+  describe('deleteBooking$', () => {
+    let bookingServiceSpy: Spy;
+
+    beforeEach(() => {
+      actionsMock$ = of(BookingActions.deleteBooking({ id: 12 }));
+      bookingServiceSpy = spyOn(bookingService, 'deleteBooking');
+    });
+
+    it('calls editBooking once', () => {
+      // ARRANGE
+      bookingServiceSpy.and.returnValue(of());
+
+      // ACT
+      effects.deleteBooking$.subscribe();
+
+      // ASSERT
+      expect(bookingServiceSpy).toHaveBeenCalledOnceWith(12);
+    });
+
+    it('returns a stream', () => {
+      // ARRANGE
+      let currentOutcome: deleteBookingSuccessAction | undefined;
+      const outcome: deleteBookingSuccessAction =
+        BookingActions.deleteBookingSuccess();
+      bookingServiceSpy.and.returnValue(of(flatBookings[0]));
+
+      // ACT
+      effects.deleteBooking$.subscribe((action: deleteBookingSuccessAction) => {
+        currentOutcome = action;
+      });
+
+      // ASSERT
+      if (!currentOutcome) {
+        fail('currentOutcome must not be undefined!');
+      }
+
+      expect(currentOutcome).toEqual({
+        type: outcome.type,
+      });
+    });
+
+    it('returns a stream with app error action http error', () => {
+      // ARRANGE
+      let currentOutcome: appErrorAction | undefined;
+      const error: HttpErrorResponse = new HttpErrorResponse({});
+      const outcome: appErrorAction = AppActions.appError({
+        message: 'Error deleting booking!',
+        error: error,
+      });
+      bookingServiceSpy.and.callFake(() => {
+        return throwError(() => error);
+      });
+
+      // ACT
+      effects.deleteBooking$.subscribe((action: appErrorAction) => {
+        currentOutcome = action;
+      });
+
+      // ASSERT
+      if (!currentOutcome) {
+        fail('currentOutcome must not be undefined!');
+      }
+
+      expect(currentOutcome).toEqual({
+        type: outcome.type,
+        message: outcome.message,
+        error: outcome.error,
+      });
+    });
+  });
+
+  describe('deleteBookingSuccess$', () => {
+    beforeEach(() => {
+      actionsMock$ = of(BookingActions.deleteBookingSuccess());
+    });
+
+    it('returns getBookings action', () => {
+      let currentOutcome: getBookingsAction | undefined;
+      const outcome: getBookingsAction = BookingActions.getBookings();
+
+      // ACT
+      effects.deleteBookingSuccess$.subscribe((action: getBookingsAction) => {
+        currentOutcome = action;
+      });
+
+      // ASSERT
+      expect(currentOutcome).toEqual({
+        type: outcome.type,
+      });
     });
   });
 });

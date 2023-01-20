@@ -27,4 +27,8 @@ export class BookingService {
   editBooking(booking: UpdateableBooking): Observable<FlatBooking> {
     return this.http.put<FlatBooking>(`${this._baseUrl}Bookings`, booking);
   }
+
+  deleteBooking(id: number): Observable<void> {
+    return this.http.delete<void>(`${this._baseUrl}Bookings/${id}`);
+  }
 }

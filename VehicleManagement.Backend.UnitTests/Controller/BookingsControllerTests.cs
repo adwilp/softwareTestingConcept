@@ -134,5 +134,22 @@ namespace VehicleManagement.Backend.UnitTests.Controller
             Assert.Equal(booking.EmployeeNumber, body.EmployeeNumber);
             Assert.Equal(booking.FIN, body.FIN);
         }
+
+        [Theory]
+        [MemberData(nameof(BookingTestData.GetDeleteTestData), MemberType = typeof(BookingTestData))]
+        public async Task Delete_Should_Return_NoContent(int id)
+        {
+            // ARRANGE
+            _bookingDomainMock
+                .Setup(bd => bd.DeleteAsync(id, It.IsAny<CancellationToken>()));
+
+            // ACT
+            var result = await _bookingsController.Delete(id, It.IsAny<CancellationToken>());
+
+            // ASSERT
+            var response = Assert.IsType<NoContentResult>(result);
+
+            Assert.Equal((int)HttpStatusCode.NoContent, response.StatusCode);
+        }
     }
 }

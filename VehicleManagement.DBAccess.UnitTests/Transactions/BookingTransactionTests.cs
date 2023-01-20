@@ -201,5 +201,25 @@ namespace VehicleManagement.DBAccess.UnitTests.Transactions
             // Act & ASSERT
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _bookingTransaction.GetAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()));
         }
+
+        [Fact]
+        public async Task DeleteAsync_Should_Call_Delete_From_Repo_Once()
+        {
+            // ACT
+            await _bookingTransaction.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>());
+
+            // ASSERT
+            _bookingRepository.Verify(br => br.Delete(It.IsAny<Booking>()), Times.Once());
+        }
+
+        [Fact]
+        public async Task DeleteAsync_Should_Call_SaveAsync_From_Repo_Once()
+        {
+            // ACT
+            await _bookingTransaction.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>());
+
+            // ASSERT
+            _bookingRepository.Verify(br => br.SaveAsync(It.IsAny<CancellationToken>()), Times.Once());
+        }
     }
 }

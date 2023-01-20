@@ -31,5 +31,10 @@ namespace VehicleManagement.Core.Domains
         {
             return await _bookingService.UpdateAsync(booking, cancellationToken);
         }
+
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            await _bookingService.DeleteAsync(id, cancellationToken);
+        }
     }
 }
