@@ -258,4 +258,60 @@ describe('BookingService', () => {
     expect(currentError.status).toBe(status);
     expect(currentError.statusText).toBe(statusText);
   });
+
+  it('deletes booking', () => {
+    // ARRANGE
+    let deleted: boolean = false;
+    bookingService.deleteBooking(1).subscribe(() => {
+      deleted = true;
+    });
+
+    // ACT
+    const request: TestRequest = controller.expectOne({
+      method: 'DELETE',
+      url: `${baseUrl}Bookings/${1}`,
+    });
+    request.flush(null);
+    controller.verify();
+
+    // ASSERT
+    expect(deleted).toEqual(true);
+  });
+
+  it('passes through all errors on delete', () => {
+    // ARRANGE
+    const status: number = 500;
+    const statusText: string = 'Server error';
+    const progressEvent: ProgressEvent = new ProgressEvent('API Error');
+
+    let currentError: HttpErrorResponse | undefined;
+
+    bookingService.deleteBooking(1).subscribe(
+      () => {
+        fail('next handler must not be called!');
+      },
+      (error: HttpErrorResponse) => {
+        currentError = error;
+      },
+      () => {
+        fail('complete handler must not be called!');
+      }
+    );
+
+    // ACT
+    const request: TestRequest = controller.expectOne({
+      method: 'DELETE',
+      url: `${baseUrl}Bookings/${1}`,
+    });
+    request.error(progressEvent, { status, statusText });
+
+    // ASSERT
+    if (!currentError) {
+      fail('error response must not be undefined!');
+    }
+
+    expect(currentError.error).toBe(progressEvent);
+    expect(currentError.status).toBe(status);
+    expect(currentError.statusText).toBe(statusText);
+  });
 });

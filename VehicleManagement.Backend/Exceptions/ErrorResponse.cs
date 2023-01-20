@@ -8,8 +8,20 @@ namespace VehicleManagement.Backend.Exceptions
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class ErrorResponse
     {
+        /// <summary>
+        /// Gets the message.
+        /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
         public string? Message { get; }
 
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
+        /// <value>
+        /// The data.
+        /// </value>
         public object? Data { get; }
 
         /// <summary>

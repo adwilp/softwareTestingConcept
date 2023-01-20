@@ -39,6 +39,14 @@ describe('BookingOverviewComponent', () => {
     expect(facade.getBookings).toHaveBeenCalled();
   });
 
+  it('calls delete on facade on deleteBooking', () => {
+    const facade: SpyObject<BookingFacade> = spectator.inject(BookingFacade);
+
+    spectator.component.deleteBooking(flatBookings[0]);
+
+    expect(facade.deleteBooking).toHaveBeenCalledOnceWith(flatBookings[0].id);
+  });
+
   describe('UI interactions', () => {
     it('calls navigateToAddBooking on add button click', () => {
       // ARRANGE

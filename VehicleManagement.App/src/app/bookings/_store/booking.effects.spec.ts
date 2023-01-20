@@ -13,6 +13,8 @@ import { TypedAction } from '@ngrx/store/src/models';
 import { Router } from '@angular/router';
 
 describe('BookingEffects', () => {
+  type getBookingsAction = TypedAction<'[Bookings] Get bookings'>;
+
   type getBookingsSuccessAction = BookingActions.getBookingsSuccess &
     TypedAction<'[Bookings] Get bookings - Success'>;
 
@@ -24,6 +26,9 @@ describe('BookingEffects', () => {
 
   type editBookingSuccessAction = BookingActions.editBookingSuccess &
     TypedAction<'[Bookings] Edit booking - Success'>;
+
+  type deleteBookingSuccessAction =
+    TypedAction<'[Bookings] Delete booking - Success'>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let actionsMock$: Observable<any>;
@@ -285,7 +290,7 @@ describe('BookingEffects', () => {
     });
   });
 
-  describe('addBooking$', () => {
+  describe('editBooking$', () => {
     let bookingServiceSpy: Spy;
 
     beforeEach(() => {
@@ -360,7 +365,7 @@ describe('BookingEffects', () => {
     });
   });
 
-  describe('addBookingSuccess$', () => {
+  describe('editBookingSuccess$', () => {
     let routerSpy: Spy;
 
     beforeEach(() => {
@@ -376,6 +381,69 @@ describe('BookingEffects', () => {
 
       // ASSERT
       expect(routerSpy).toHaveBeenCalledOnceWith(['bookings']);
+    });
+  });
+
+  describe('deleteBooking$', () => {
+    let bookingServiceSpy: Spy;
+
+    beforeEach(() => {
+      actionsMock$ = of(BookingActions.deleteBooking({ id: 12 }));
+      bookingServiceSpy = spyOn(bookingService, 'deleteBooking');
+    });
+
+    it('calls editBooking once', () => {
+      // ARRANGE
+      bookingServiceSpy.and.returnValue(of());
+
+      // ACT
+      effects.deleteBooking$.subscribe();
+
+      // ASSERT
+      expect(bookingServiceSpy).toHaveBeenCalledOnceWith(12);
+    });
+
+    it('returns a stream', () => {
+      // ARRANGE
+      let currentOutcome: deleteBookingSuccessAction | undefined;
+      const outcome: deleteBookingSuccessAction =
+        BookingActions.deleteBookingSuccess();
+      bookingServiceSpy.and.returnValue(of(flatBookings[0]));
+
+      // ACT
+      effects.deleteBooking$.subscribe((action: deleteBookingSuccessAction) => {
+        currentOutcome = action;
+      });
+
+      // ASSERT
+      if (!currentOutcome) {
+        fail('currentOutcome must not be undefined!');
+      }
+
+      expect(currentOutcome).toEqual({
+        type: outcome.type,
+      });
+    });
+  });
+
+  describe('deleteBookingSuccess$', () => {
+    beforeEach(() => {
+      actionsMock$ = of(BookingActions.deleteBookingSuccess());
+    });
+
+    it('returns getBookings action', () => {
+      let currentOutcome: getBookingsAction | undefined;
+      const outcome: getBookingsAction = BookingActions.getBookings();
+
+      // ACT
+      effects.deleteBookingSuccess$.subscribe((action: getBookingsAction) => {
+        currentOutcome = action;
+      });
+
+      // ASSERT
+      expect(currentOutcome).toEqual({
+        type: outcome.type,
+      });
     });
   });
 });
